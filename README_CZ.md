@@ -9,6 +9,15 @@
 > **Upozornění o autorství AI:**  
 > Veškerý kód, skripty, webové rozhraní Pip-Boy, validační pravidla i překladové procedury v tomto repozitáři byly **vytvořeny a vygenerovány výhradně pomocí umělé inteligence (AI)** v režimu párového programování s AI asistentem. Projekt je předán komunitě jako volně dostupný open-source materiál.
 
+> [!WARNING]
+> **Důležité upozornění: Celý systém je experimentální, nedotažený a obsahuje chyby**  
+> Tento toolkit vznikal postupně jako experimentální poloautomatický pipeline vyvíjený za běhu. **Není v žádném případě 100% dokonalý ani bezchybný:**
+> - **AI halucinace a stylistické výkyvy:** Ačkoliv validátor hlídá známé neduhy (zkratky, rody, azbuku), AI modely občas vygenerují nepřesné obraty, gramatické chyby nebo přehlédnou jemný kontext dialogu.
+> - **Nedokončená lidská revize:** Přeložené části neprošly kompletní lidskou korekturou. V databázi zůstávají stovky otevřených QA varování.
+> - **Pracovní stav skriptů:** Některé pomocné skripty byly laděny na míru lokálnímu prostředí autora na Windows a mají charakter nedokončených pracovních nástrojů.
+> 
+> Všechny nástroje i data berte prosím jako otevřený experimentální základ pro další práci a inspiraci, nikoliv jako hotový komerční produkt.
+
 ---
 
 ## 💡 O co v projektu šlo a jak systém funguje

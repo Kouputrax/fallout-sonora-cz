@@ -9,6 +9,15 @@
 > **AI Authorship Disclosure:**  
 > The entire codebase, Pip-Boy web interface, validation rule engine, and translation pipelines in this repository were **generated and developed exclusively using AI** (pair programming via AI coding assistant). It is released to the community as a free open-source resource for modders and translators.
 
+> [!WARNING]
+> **Disclaimer: The system is imperfect, experimental, and unfinished**  
+> This entire toolkit was built iteratively as an experimental semi-automated pipeline. **It is by no means 100% polished, flawless, or bug-free:**
+> - **AI Inaccuracies & Hallucinations:** While the QA validator catches known issues (abbreviations, Cyrillic leaks, grammatical gender hints), LLMs still occasionally hallucinate, introduce awkward phrasing, or misinterpret dialogue nuances.
+> - **Unfinished Proofreading:** The translated lines have not undergone exhaustive human review. Hundreds of flagged QA warnings remain in the database.
+> - **Development Scripts:** Some helper scripts were tailored to the author's local Windows setup and are in a scratch/work-in-progress state.
+> 
+> Please treat these tools and datasets as an experimental foundation and source of inspiration, not as a finished commercial product.
+
 ---
 
 ## 💡 How the System Works
