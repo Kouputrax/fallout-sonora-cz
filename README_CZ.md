@@ -1,10 +1,13 @@
 # Fallout: Sonora CZ – AI Lokalizační Pipeline & Pip-Boy GUI
 
+[English version of documentation](README.md)
+
 > [!NOTE]
 > **Stav projektu: Otevřený komunitní archiv / Nedokončený (Work-in-Progress)**  
 > Tento projekt vznikl jako poloautomatický překladový a validační nástroj pro totální konverzi **Fallout: Sonora**. Projekt byl pozastaven poté, co skupina **RetroGameplay CZ** vydala kompletní českou lokalizaci na portálu [Lokalizace.net](https://lokalizace.net).
 > 
-> Celý kód, slovníčky, validační pravidla i grafické rozhraní jsou zde volně k dispozici překladatelské komunitě — ať už k automatické kontrole a ladění existujícího překladu Sonory, nebo pro adaptaci na jakýkoliv jiný velký mod pro Fallout 1 a 2 (např. *Olympus 2207*, *Fallout: Nevada* atd.).
+> **Upozornění o autorství AI:**  
+> Veškerý kód, skripty, webové rozhraní Pip-Boy, validační pravidla i překladové procedury v tomto repozitáři byly **vytvořeny a vygenerovány výhradně pomocí umělé inteligence (AI)** v režimu párového programování s AI asistentem. Projekt je předán komunitě jako volně dostupný open-source materiál.
 
 ---
 
@@ -69,7 +72,7 @@ Kontroluje text na desítky specifických chyb, které AI generuje:
 | **Pip-Boy GUI & Lokální Server** | ✅ 100% | Funkční vyhledávání, filtry, editor, kontext i ovládání pipeline |
 | **Glosáře a validační pravidla** | ✅ 100% | Kompletní pravidla synchronizovaná mezi serverem, pipeline i GUI |
 | **Automatický opravný běh (Repair)** | ✅ 100% | Schopen autonomně opravovat detekované QA nesrovnalosti |
-| **Celkový překlad Sonory** | ⚠️ ~12% | V databázi `sonora_translated.jsonl` je přeloženo cca 13 500 řádků z 116 384 |
+| **Celkový překlad Sonory** | ⚠️ ~12% | V databázi `sonora_translated.jsonl` je přeloženo cca 13 520 řádků z 116 384 |
 | **Manuální revize textů** | ⚠️ Nedokončeno | Zůstává cca 325 hlášených QA varování k manuálnímu posouzení |
 
 ---
@@ -114,7 +117,8 @@ Kontroluje text na desítky specifických chyb, které AI generuje:
 │   ├── translation_server.py          # Lokální REST HTTP server pro GUI
 │   ├── translate_blocks.py            # Blokový překladač s Translation Memory
 │   └── ...                            # Pomocné a vyhodnocovací skripty
-├── README.md                          # Tato dokumentace
+├── README.md                          # Anglická dokumentace
+├── README_CZ.md                       # Česká dokumentace (tento soubor)
 ├── requirements.txt                   # Závislosti (requests apod.)
 └── start_server.bat                   # Spouštěč pro Windows
 ```

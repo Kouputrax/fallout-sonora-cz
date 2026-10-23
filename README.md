@@ -1,127 +1,129 @@
-# Fallout: Sonora CZ – AI Lokalizační Pipeline & Pip-Boy GUI
+# Fallout: Sonora CZ – AI Localization Pipeline & Pip-Boy GUI
+
+[Česká verze dokumentace (Czech version)](README_CZ.md)
 
 > [!NOTE]
-> **Stav projektu: Otevřený komunitní archiv / Nedokončený (Work-in-Progress)**  
-> Tento projekt vznikl jako poloautomatický překladový a validační nástroj pro totální konverzi **Fallout: Sonora**. Projekt byl pozastaven poté, co skupina **RetroGameplay CZ** vydala kompletní českou lokalizaci na portálu [Lokalizace.net](https://lokalizace.net).
+> **Project Status: Open Community Archive / Work-in-Progress**  
+> This project was developed as a semi-automated localization, quality assurance, and repair toolkit for the total conversion mod **Fallout: Sonora**. Active development was archived after the **RetroGameplay CZ** team released a full Czech localization on [Lokalizace.net](https://lokalizace.net).
 > 
-> Celý kód, slovníčky, validační pravidla i grafické rozhraní jsou zde volně k dispozici překladatelské komunitě — ať už k automatické kontrole a ladění existujícího překladu Sonory, nebo pro adaptaci na jakýkoliv jiný velký mod pro Fallout 1 a 2 (např. *Olympus 2207*, *Fallout: Nevada* atd.).
+> **AI Authorship Disclosure:**  
+> The entire codebase, Pip-Boy web interface, validation rule engine, and translation pipelines in this repository were **generated and developed exclusively using AI** (pair programming via AI coding assistant). It is released to the community as a free open-source resource for modders and translators.
 
 ---
 
-## 💡 O co v projektu šlo a jak systém funguje
+## 💡 How the System Works
 
-Překlad her na enginu Falloutu 2 je extrémně náročný: Sonora obsahuje přes **116 000 řádků textu** rozesetých v desítkách `.msg` souborů. Běžné strojové překladače selhávají na gramatických rodech (v angličtině chybí rod, který je nutné dovodit z ruštiny), ničí herní formátování, kazí zavedenou terminologii a počešťují španělské atmosférotvorné výrazy.
+Translating games built on the classic Fallout 2 engine is uniquely challenging: *Fallout: Sonora* contains over **116,000 lines of text** across hundreds of `.msg` files. Generic machine translation fails due to lack of grammatical gender in English (which must be inferred from the Russian source), syntax corruption in dialogue scripts, broken mechanics abbreviations, and loss of atmospheric Mexican/Spanish slang.
 
-Tento toolkit proto kombinuje **AI modely (Claude 3 Haiku, Qwen 235B)**, **Translation Memory**, **přísná QA pravidla** a **lokální webové rozhraní stylizované do Pip-Boye**.
+This toolkit combines **AI models (Claude 3 Haiku, Qwen 235B via OpenRouter / Ollama)**, **Translation Memory**, **strict QA regex validators**, and a **lightweight local Pip-Boy web GUI**.
 
 ```mermaid
 flowchart TD
-    A[".msg soubory (EN + RU)"] --> B["Export do JSONL databáze"]
-    B --> C["Segmentace na bloky (NPC / Lokace)"]
-    C --> D{"Je věta v paměti překladů?"}
-    D -- "Ano (TM)" --> E["Automatické doplnění českého textu"]
-    D -- "Ne (Nová věta)" --> F["Injekce glosáře Fallout 1/2 + RU rodu"]
-    E --> G["AI Překlad (Claude Haiku / Qwen)"]
+    A[".msg source files (EN + RU)"] --> B["Export to JSONL database"]
+    B --> C["Segmentation into dialogue blocks (NPC / Location)"]
+    C --> D{"Is line in Translation Memory?"}
+    D -- "Yes (TM)" --> E["Auto-propagate existing Czech translation"]
+    D -- "No (New line)" --> F["Inject Fallout 1/2 glossary + RU gender context"]
+    E --> G["AI Translation (Claude Haiku / Qwen)"]
     F --> G
-    G --> H["Tvrdý QA Validátor (detekce chyb)"]
-    H --> I{"Obsahuje chybu?"}
-    I -- "Ano" --> J["Opravný běh (Qwen 235B Repair Prompt)"]
-    I -- "Ne / Po opravě" --> K["Uložení do sonora_translated.jsonl"]
-    K --> L["Pip-Boy GUI (Manuální kontrola)"]
-    L --> M["Import zpět do in-game .msg souborů"]
+    G --> H["Strict QA Validator (rule checks)"]
+    H --> I{"Are issues detected?"}
+    I -- "Yes" --> J["Automated Repair Run (Qwen 235B Repair Prompt)"]
+    I -- "No / Post-repair" --> K["Save to sonora_translated.jsonl"]
+    K --> L["Pip-Boy GUI (Review & Manual Edits)"]
+    L --> M["Import back into in-game .msg files"]
 ```
 
 ---
 
-## 🛠️ Klíčové komponenty systému
+## 🛠️ Key System Components
 
-### 1. Pip-Boy Webové rozhraní (`translation_server.py` + `05_scripts/gui/index.html`)
-* **Čistý Python server:** Běží na portu 8000 přes standardní `http.server` (žádné složité závislosti jako Flask nebo Node.js).
-* **Filtrování a vyhledávání:** Filtrování podle lokací (AC, FC, DC...), kategorií (dialogy, NPC, scenery, předměty, perky...), stavu překladu i přítomnosti QA chyb.
-* **Živý editor:** Zobrazuje EN originál, RU referenci s **barevným rozlišením rodu (♂ modře / ♀ růžově)**, kontext okolního rozhovoru postavy a interaktivní našeptávač z glosářů na jedno kliknutí.
-* **Konzole a ovládání pipeline:** Spouštění překladů, opravných běhů i exportů přímo z prohlížeče se sledováním průběhu v reálném čase.
+### 1. Pip-Boy Web GUI (`translation_server.py` + `05_scripts/gui/index.html`)
+* **Pure Python Backend:** Runs locally on port 8000 using Python's built-in `http.server` (zero external dependencies like Node or heavy frameworks).
+* **Location & Category Filtering:** Quickly filter rows by location (AC, FC, DC, RC...), file category (dialogue, NPC, scenery, items, combat, perks), or QA error status.
+* **Interactive Editor:** Displays the EN source, RU reference with **color-coded grammatical gender (♂ Blue / ♀ Pink)**, dialogue context, and one-click term suggestions from the glossaries.
+* **Live Pipeline Console:** Launch translations, batch repairs, or game file exports directly from the browser with real-time logs and auto-reloading.
 
-### 2. Glosáře a styl (`03_glossary/`)
-* **Provázání s Fallout 1 a 2:** Desítky TSV souborů se sjednocenými pojmy předmětů, perků, dovedností a lokací.
-* **Chráněné pojmy (Protected Terms):** Ochrana vlastních jmen a mechanik (např. *Vault City*, *New Reno*, postava *Cesareo* nesmí být překládána jako *Caesar* apod.).
-* **Pravidlo pro španělštinu:** Zachování španělského nádechu v Sonoře (*amigo, compañero, señor, No hablo inglés* se nepřekládají do češtiny).
+### 2. Glossaries & Style Rules (`03_glossary/`)
+* **Fallout 1 & 2 Canonical Alignment:** Pre-aligned term bases for items, perks, skills, and locations from classic Czech Fallout localizations.
+* **Protected Terms:** Preserves character names and mod terminology (*Vault City*, *New Reno*, preventing *Cesareo* from being translated into *Caesar*).
+* **Spanish Flavor Preservation:** Strict rules preventing AI from translating Sonora's Mexican slang (*amigo, compañero, señor, No hablo inglés* stay Spanish).
 
-### 3. Tvrdý QA Validátor (`check_row_issues`)
-Kontroluje text na desítky specifických chyb, které AI generuje:
-* **Zbytky azbuky a anglicismy:** Odhalí nechtěná ruská písmena nebo nepřeložená slova.
-* **Správné Fallout zkratky:** Hlídá používání klasických zkratek: **AP** (ne *AB/AK*), **HP** (ne *BZ*), **XP** (ne *ZB*), **AC** (ne *OČ*).
-* **Styl tykání/vykání:** Zakazuje neosobní vykání hráči (*Vidíte* ➔ *Vidíš*).
-* **Nezaměňování jazyků:** Zamezuje chybám typu *Spanish* přeloženo jako *česky*.
-* **Zachování VELKÝCH PÍSMEN (CAPS):** Pokud má originál varování celá velkými písmeny (*DANGER*, *WARNING*), hlídá velká písmena i v češtině.
+### 3. Hard QA Validator (`check_row_issues`)
+Automatically scans translated lines for typical AI translation artifacts:
+* **Cyrillic Leaks & Anglicisms:** Catches unintended Russian characters or untranslated English remnants.
+* **Mechanics Abbreviations:** Enforces canonical Fallout stats: **AP** (Action Points, not *AB/AK*), **HP** (Hit Points, not *BZ*), **XP** (not *ZB*), and **AC** (Armor Class, not *OČ*).
+* **Player Addressing:** Strictly enforces informal second-person singular (*Vidíš* instead of formal *Vidíte*).
+* **CAPS Preservation:** If the English source uses ALL CAPS warnings (*DANGER*, *WARNING*, *STOP*), the Czech translation must retain capital letters.
 
-### 4. Automatický opravný běh (Repair Loop)
-* Vezme pouze řádky, na kterých selhal validátor.
-* Pošle je silnějšímu modelu (např. `qwen/qwen3-235b-a22b-2507`) spolu s přesným výčtem toho, co je špatně.
-* Úspěšně opravené řádky označí příznakem `"repaired": true`.
+### 4. Automated AI Repair Loop (`repair_cmd`)
+* Filters out rows with failed QA checks.
+* Sends them in batches to a stronger model (e.g. `qwen/qwen3-235b-a22b-2507`) with explicit repair instructions and violation notes.
+* Successfully repaired lines are tagged with `"repaired": true`.
 
 ---
 
-## ⚠️ Co je hotové a co zůstalo nedokončené
+## ⚠️ Completed Features vs. Work-in-Progress State
 
-| Funkcionalita | Stav | Poznámka |
+| Component | Status | Notes |
 | :--- | :---: | :--- |
-| **Export a import .msg souborů** | ✅ 100% | Plně funkční obousměrný převod bez poškození formátu hry |
-| **Pip-Boy GUI & Lokální Server** | ✅ 100% | Funkční vyhledávání, filtry, editor, kontext i ovládání pipeline |
-| **Glosáře a validační pravidla** | ✅ 100% | Kompletní pravidla synchronizovaná mezi serverem, pipeline i GUI |
-| **Automatický opravný běh (Repair)** | ✅ 100% | Schopen autonomně opravovat detekované QA nesrovnalosti |
-| **Celkový překlad Sonory** | ⚠️ ~12% | V databázi `sonora_translated.jsonl` je přeloženo cca 13 500 řádků z 116 384 |
-| **Manuální revize textů** | ⚠️ Nedokončeno | Zůstává cca 325 hlášených QA varování k manuálnímu posouzení |
+| **.msg Exporter & Importer** | ✅ 100% Complete | Flawless two-way conversion without corrupting game syntax |
+| **Pip-Boy GUI & Local Server** | ✅ 100% Complete | Full search, filtering, live editor, and pipeline controls |
+| **Glossary & QA Rules Engine** | ✅ 100% Complete | Synchronized across server, CLI pipeline, and browser UI |
+| **Automated AI Repair Loop** | ✅ 100% Complete | Reliably fixes formatting and terminology bugs |
+| **Full Sonora Translation** | ⚠️ ~12% Done | ~13,520 of 116,384 rows have draft translations in `sonora_translated.jsonl` |
+| **Manual Human Proofreading** | ⚠️ Incomplete | ~325 QA warnings remain flagged for review |
 
 ---
 
-## 🚀 Jak systém zprovoznit (Rychlý start)
+## 🚀 Quick Start Guide
 
-### Požadavky
-* Python 3.10 nebo novější (testováno na Python 3.14 na Windows).
-* Volitelně API klíč na [OpenRouter](https://openrouter.ai/) (pro Claude 3 Haiku nebo Qwen modely). Lze použít i lokální Ollamu.
+### Prerequisites
+* Python 3.10 or newer (tested on Python 3.14 on Windows).
+* Optional: [OpenRouter API Key](https://openrouter.ai/) for Claude / Qwen models (or a local Ollama instance).
 
-### Spuštění webového rozhraní
-1. Naklonujte nebo stáhněte tento repozitář:
+### Running the Web GUI
+1. Clone the repository:
    ```bash
    git clone https://github.com/Kouputrax/fallout-sonora-cz.git
    cd fallout-sonora-cz
    ```
-2. Nainstalujte základní knihovny:
+2. Install minimal dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Spusťte server:
-   * Ve Windows poklepáním na `start_server.bat` (nebo příkazem `python 05_scripts/translation_server.py`).
-4. Otevřete v prohlížeči:
+3. Start the server:
+   * On Windows, double-click `start_server.bat` (or run `python 05_scripts/translation_server.py`).
+4. Open in your browser:
    **[http://localhost:8000](http://localhost:8000)**
-
-5. V nastavení GUI (ikona ⚙️ vpravo nahoře) můžete zadat svůj OpenRouter API klíč a zvolit modely.
+5. Click the ⚙️ Settings icon in the top-right to configure your API key or model.
 
 ---
 
-## 📂 Struktura repozitáře
+## 📂 Repository Structure
 
 ```text
 ├── 02_work/
 │   └── translated/
-│       └── sonora_translated.jsonl    # Hlavní databáze (116 384 řádků, ~41 MB)
-├── 03_glossary/                       # TSV slovníčky z Fallout 1 & 2 a stylistiky
-├── 04_prompts/                        # Systémové prompty pro AI překladač
+│       └── sonora_translated.jsonl    # Main translation database (116,384 rows, ~41 MB)
+├── 03_glossary/                       # TSV glossaries from Fallout 1/2 and style guides
+├── 04_prompts/                        # System prompts for translation and repair
 ├── 05_scripts/
 │   ├── gui/
-│   │   └── index.html                 # Kompletní frontend Pip-Boy GUI
-│   ├── sonora_msg_pipeline.py         # Jádro CLI nástroje (export, translate, validate, repair, import)
-│   ├── translation_server.py          # Lokální REST HTTP server pro GUI
-│   ├── translate_blocks.py            # Blokový překladač s Translation Memory
-│   └── ...                            # Pomocné a vyhodnocovací skripty
-├── README.md                          # Tato dokumentace
-├── requirements.txt                   # Závislosti (requests apod.)
-└── start_server.bat                   # Spouštěč pro Windows
+│   │   └── index.html                 # Complete Pip-Boy web interface
+│   ├── sonora_msg_pipeline.py         # Main CLI tool (export, translate, validate, repair, import)
+│   ├── translation_server.py          # Lightweight REST HTTP server
+│   ├── translate_blocks.py            # Dialogue block segmenter with Translation Memory
+│   └── ...                            # Benchmark and utility scripts
+├── README.md                          # English documentation (this file)
+├── README_CZ.md                       # Czech documentation
+├── requirements.txt                   # Minimal dependencies
+└── start_server.bat                   # One-click Windows launcher
 ```
 
 ---
 
-## 🤝 Poděkování a licence
-* Vývojářům modu **Fallout: Sonora** (Nevada Band) za fantastickou hru.
-* Skupině **RetroGameplay CZ** za dokončení a vydání plné české lokalizace na [Lokalizace.net](https://lokalizace.net).
-* Kód a nástroje v tomto repozitáři jsou volně k dispozici pod licencí MIT / Public Domain komunitě fanoušků klasického Falloutu.
+## 🤝 Credits & Acknowledgments
+* **Nevada Band Studio** for creating the amazing *Fallout: Sonora* mod.
+* **RetroGameplay CZ** for completing and releasing the full Czech translation on [Lokalizace.net](https://lokalizace.net).
+* Released under the MIT / Public Domain license for the classic Fallout modding community.
