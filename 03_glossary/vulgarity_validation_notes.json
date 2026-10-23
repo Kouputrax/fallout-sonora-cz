@@ -1,0 +1,12 @@
+{
+  "do_not_overuse_extreme_vulgarity": true,
+  "flag_gendered_extreme_terms": [
+    "coura",
+    "kunda",
+    "kurva",
+    "devka",
+    "mrcha"
+  ],
+  "flag_if_source_not_abusive": true,
+  "notes": "Use this later for local QA: extreme/gendered terms should be REVIEW unless source contains matching abusive cue."
+}

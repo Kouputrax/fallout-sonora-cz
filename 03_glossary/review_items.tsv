@@ -1,0 +1,636 @@
+﻿category	priority	source_en	target_cs_locked	file	id	ru_context	decision	notes
+item	high	!Do not use		game/game/pro_item.msg	3900	!Не использовать	todo	
+item	high	!Reserve book		game/game/pro_item.msg	7300	!Книга-резерв	todo	
+item	high	"""Deep Throat"""		game/game/pro_item.msg	48600	"""Глубокая глотка"""	todo	
+item	high	.22 Caliber		game/game/pro_item.msg	300	Патрон .22	todo	
+item	high	.22 pistol		game/game/pro_item.msg	18100	Пистолет .22	todo	
+item	high	.22 Submachine Gun		game/game/pro_item.msg	15200	Пистолет-пулемет .22	todo	
+item	high	.308 Caliber		game/game/pro_item.msg	1000	Патрон .308	todo	
+item	high	.44 Caliber		game/game/pro_item.msg	700	Патрон .44	todo	
+item	high	.50 Caliber		game/game/pro_item.msg	800	Патрон .50	todo	
+item	high	.50 Pistol		game/game/pro_item.msg	15600	Пистолет .50	todo	
+item	high	10mm		game/game/pro_item.msg	500	Патрон 10 мм	todo	
+item	high	10mm NSP		game/game/pro_item.msg	600	Патрон 10 мм NSP	todo	
+item	high	10mm pistol		game/game/pro_item.msg	15300	Пистолет 10 мм	todo	
+item	high	10mm SMG		game/game/pro_item.msg	15400	Пистолет-пулемет 10 мм	todo	
+item	high	12 ga. Shotgun Bullet		game/game/pro_item.msg	1200	Патрон 12 кал. пулевой	todo	
+item	high	12 ga. Shotgun Shells		game/game/pro_item.msg	1100	Патрон 12 калибра	todo	
+item	high	12 Gauge Flare Gun		game/game/pro_item.msg	49700	Ракетница 12 калибра	todo	
+item	high	4 gauge flare round for flare pistol.		game/game/pro_item.msg	1401	Осветительный патрон 4 калибра для сигнального пистолета.	todo	
+item	high	40mm Grenade		game/game/pro_item.msg	1300	Граната 40 мм	todo	
+item	high	40mm Grenade Launcher		game/game/pro_item.msg	16700	Гранатомет 40 мм	todo	
+item	high	5mm		game/game/pro_item.msg	900	Патрон 5 мм	todo	
+item	high	9mm		game/game/pro_item.msg	400	Патрон 9 мм	todo	
+item	high	A badge that ended up in the wrong hands.		game/game/pro_item.msg	38701	Этот значок в свое время оказался в руках не тех людей.	todo	
+item	high	A bag of chemicals for the Blue Shields.		game/game/pro_item.msg	38901	Пакет с химикатами для Синих Щитов.	todo	
+item	high	A black, heavy, pre-war leather jacket.		game/game/pro_item.msg	2501	Плотная кожаная куртка довоенного производства.	todo	
+item	high	A box filled to the brim with prized Nuka-Cola caps-a fortune for the average citizen.		game/game/pro_item.msg	38101	Ящик, доверху наполненный ценнейшими крышками от ядер-колы. Это целое состояние для рядового горожанина.	todo	
+item	high	A box of items bound for another city.		game/game/pro_item.msg	20001	Ящик с вещами для пересылки в другой город.	todo	
+item	high	A can of pre-war beer. Locally produced. Effects: -1 PE.		game/game/pro_item.msg	12001	Банка довоенного пива. Местное производство. Эффекты: -1 ВС.	todo	
+item	high	A caravan wagon converted from the wrecked remains of an ancient automobile.		game/game/pro_item.msg	21901	Караванная повозка, переделанная из корпуса древнего автомобиля.	todo	
+item	high	A chemical of unknown purpose from the Followers' lab.		game/game/pro_item.msg	36801	Какой-то химикат из лаборатории Последователей.	todo	
+item	high	A contract between the Rangers and Eugene Simon for his enlistment.		game/game/pro_item.msg	39201	Контракт между рейнджерами и Юджином Саймоном о принятии последнего на службу.	todo	
+item	high	A control chip for the water purification computer system. Used in Vault-Tec vaults.		game/game/pro_item.msg	46901	"Контрольный чип компьютерной системы водоочистки. Используется в убежищах компании ""Волт-Тек""."	todo	
+item	high	A cooked iguana, roasted in its own skin. Effects: +2 hit points.		game/game/pro_item.msg	6001	Пустынная игуана, зажаренная прямо с кожей на огне. Невкусно и малопитательно. К тому же у вас нет уверенности, что она обитала в экологически чистой среде. Эффекты: +2 здоровье.	todo	
+item	high	A creepy totem collected by the Reavers from various pieces of trash.		game/game/pro_item.msg	33501	Жуткий тотем, собранный потрошителями из различного хлама.	todo	
+item	high	A creepy totem constructed by the Reavers from various pieces of trash.		game/game/pro_item.msg	33801	Жуткий тотем, собранный потрошителями из различного хлама.	todo	
+item	high	A critical part from a printing press.		game/game/pro_item.msg	47001	Деталь от печатного станка.	todo	
+item	high	A crown made from wires and light bulbs. It would look bizarre on someone's head.		game/game/pro_item.msg	36101	Венок, собранный из проводов и лампочек. На голове это выглядит странно.	todo	
+item	high	A cylinder containing an extremely flammable liquid fuel for flamethrowers.		game/game/pro_item.msg	18501	Емкость с легковоспламеняемым жидким топливом.	todo	
+item	high	A death audio recording of Sergeant McBain.		game/game/pro_item.msg	35401	Предсмертная аудиозапись сержанта Макбейна.	todo	
+item	high	A dose of strong acid.		game/game/pro_item.msg	11601	Порция сильной кислоты.	todo	
+item	high	A dusty but well-preserved Arizona flag.		game/game/pro_item.msg	44201	Пыльный, но на удивление хорошо сохранившийся флаг Аризоны.	todo	
+item	high	A family heirloom pendant passed down through the female side of your family.		game/game/pro_item.msg	36701	Этот кулон - фамильная ценность. Он передавался по женской линии вашей семьи.	todo	
+item	high	A figurine of a long-extinct animal, roughly carved from real wood.		game/game/pro_item.msg	38201	Фигурка давно вымершего животного. Грубо вырезана из настоящего дерева.	todo	
+item	high	A finely crafted clay pot.		game/game/pro_item.msg	22201	Искусно сделанный глиняный горшок.	todo	
+item	high	A generic table. Holds stuff off the ground.		game/game/pro_item.msg	27301	Обыкновенный стол.	todo	
+item	high	A generic table. If you've seen one, you've seen them all.		game/game/pro_item.msg	27201	Обыкновенный стол. Если вы когда-нибудь видели один стол, считайте, что видели их все.	todo	
+item	high	A heavy machine gun designed to be fired from the side of a sea vessel. Min ST: 7.		game/game/pro_item.msg	11801	Станковый пулемет, предназначенный для стрельбы с борта морского судна. Мин. сила: 7.	todo	
+item	high	"A hermetically sealed unbreakable glass jar. The label reads: ""Medical Biogel."""		game/game/pro_item.msg	48001	"Герметичная банка из небьющегося стекла. На этикетке написано: ""Медицинский биогель""."	todo	
+item	high	A high-level electronic access card for a ZAX emergency terminal.		game/game/pro_item.msg	41701	Электронная карта доступа высшего уровня для аварийного терминала ZAX.	todo	
+item	high	A high-precision artificial crystal for a military-grade laser pistol.		game/game/pro_item.msg	45301	Высокоточный искусственный кристалл для лазерного пистолета военного образца.	todo	
+item	high	A highly durable shipping crate.		game/game/pro_item.msg	25201	Весьма надежный транспортировочный ящик.	todo	
+item	high	A hip flask for storing water or some other liquid. It is marked with a large number '24'.		game/game/pro_item.msg	44101	Сосуд для хранения воды или какой-либо другой жидкости. Эта фляга отличается от других большой цифрой 24.	todo	
+item	high	A holotape containing an official letter from Vault-Tec.		game/game/pro_item.msg	35701	"Голозапись официального письма компании ""Волт-Тек""."	todo	
+item	high	A holotape containing field notes compiled by the missionary commander to San Brahmin.		game/game/pro_item.msg	35601	Голозапись полевых заметок, составленных командиром миссионеров в Сан-Брамин.	todo	
+item	high	A holotape containing the diary of an inhabitant of Vault 27.		game/game/pro_item.msg	35101	Голозапись дневника одного из обитателей убежища 27.	todo	
+item	high	A holotape of a letter from the Petro-Chico oil platform.		game/game/pro_item.msg	35801	"Голозапись письма с нефтяной платформы ""Петро-Чико""."	todo	
+item	high	A home-made flammable grenade. Min ST: 4.		game/game/pro_item.msg	15901	Бутылка с горючей жидкостью. Такое не часто увидишь в современном мире. Мин. сила: 4.	todo	
+item	high	A homemade single-shot firearm.		game/game/pro_item.msg	49601	Самодельное однозарядное ружье.	todo	
+item	high	A homemade weapon that emits an electric current upon contact with a victim. Min ST: 3.		game/game/pro_item.msg	48301	Самодельное оружие, испускающее электрический ток при контакте с жертвой. Мин. сила: 3.	todo	
+item	high	A homemade weapon that emits an electric current upon contact with the victim. Min ST: 3.		game/game/pro_item.msg	11901	Самодельное оружие, испускающее электрический ток при контакте с жертвой. Мин. сила: 3.	todo	
+item	high	A jerrycan with a mixture of toxic substances.		game/game/pro_item.msg	37401	Контейнер со смесью ядовитых веществ.	todo	
+item	high	A key that once belonged to Aaron, Lord of Phoenix, seemingly for a special lock.		game/game/pro_item.msg	42101	Этот ключ некогда принадлежал Аарону - Властелину Феникса. Похоже, им открывается какой-то особенный замок.	todo	
+item	high	A key that opens the barn door at the Corn Plantations.		game/game/pro_item.msg	42701	Этот ключ открывает ворота ангара на плантациях Виллы.	todo	
+item	high	A key that opens the inventory warehouse in the Flagstaff Uranium Mine.		game/game/pro_item.msg	42501	Этот ключ открывает склад инвентаря в урановой шахте Флагпула.	todo	
+item	high	A kitchen knife used for butchering meat.		game/game/pro_item.msg	49301	Кухонный нож для разделки мяса.	todo	
+item	high	A large box of Mexican-made pyrotechnics.		game/game/pro_item.msg	36001	Большая коробка с пиротехникой мексиканского производства.	todo	
+item	high	A large collection of chemical tools and substances.		game/game/pro_item.msg	37801	Большой набор химических инструментов и веществ.	todo	
+item	high	A large energy storage unit. Common power source for small vehicles and some equipment.		game/game/pro_item.msg	3801	Единица хранения большого количества энергии. Это обычный источник питания для малого транспортного средства и некоторого оборудования.	todo	
+item	high	A large hammer with big handle. Very popular with the muscular crowd. Min ST: 6.		game/game/pro_item.msg	14501	Большой молот с массивной рукоятью. Популярное оружие среди мускулистых типов. Мин. сила: 6.	todo	
+item	high	A large knife with a double-edged blade. Still surprisingly spicy. Min ST: 1.		game/game/pro_item.msg	13401	Крупный нож с обоюдоострым лезвием. Все еще на удивление острый. Мин. сила: 1.	todo	
+item	high	A locker.		game/game/pro_item.msg	28901	Персональный контейнер для хранения вещей.	todo	
+item	high	A magnetic key that opens doors to the Super Mutant Mobile Fortress.		game/game/pro_item.msg	36301	Этот магнитный ключ открывает двери в мобильной крепости супермутантов.	todo	
+item	high	A marked map of the city and its surroundings. A valuable find for the novice scavenger.		game/game/pro_item.msg	44401	Исписанная метками карта города и его окрестностей. Ценная находка для начинающего мусорщика.	todo	
+item	high	A Medal for Valor at the Battle of Anchorage, 2077-a significant event.		game/game/pro_item.msg	43701	Медаль за отвагу в битве при Анкоридже, 2077 год. Видимо, это было большое событие.	todo	
+item	high	A medium sized energy production unit. Self-contained fusion plant.		game/game/pro_item.msg	201	Средняя по величине автономная единица хранения энергии.	todo	
+item	high	A metal storage box built into the wall.		game/game/pro_item.msg	27901	Встроенный в стену металлический ящик для хранения вещей.	todo	
+item	high	A military or police baton. Heavy wood. Min ST: 3.		game/game/pro_item.msg	14001	Несмертельное оружие ближнего боя из резины и стали, ранее применявшееся силами правопорядка. Мин. сила: 3.	todo	
+item	high	A monster's head, terrifying even in death.		game/game/pro_item.msg	42901	Голова чудовища. Даже в мертвом виде этот предмет смотрится устрашающе.	todo	
+item	high	A music box mechanism. Wind the lever to hear a long-forgotten melody.		game/game/pro_item.msg	43401	Судя по всему, это механизм от музыкальной шкатулки. Плавным поворотом маленького рычажка вы заводите пружину и слушаете давно забытую мелодию.	todo	
+item	high	A mutagen sprayer operated by a primitive spring mechanism.		game/game/pro_item.msg	37701	Распылитель мутагена. Действует от примитивного механизма на пружине.	todo	
+item	high	A package full of raw chemical materials meant for a pusher in Phoenix.		game/game/pro_item.msg	38801	Пакет с химическим сырьём для пушера в Фениксе.	todo	
+item	high	A pair of homemade sandals made from old tires. Better than nothing.		game/game/pro_item.msg	10001	Пара самодельных сандалий, сделанных из старых покрышек. Лучше, чем ничего.	todo	
+item	high	A part for generating holographic images.		game/game/pro_item.msg	46801	Деталь для генерации голографического изображения.	todo	
+item	high	A part from an Autodoc, providing quick and accurate medical data analysis.		game/game/pro_item.msg	47101	Деталь от автодока, обеспечивающая быстрый и точный анализ медицинских данных.	todo	
+item	high	A pendant marking marital bonds. You found it on the Casa Nueva plantations.		game/game/pro_item.msg	49201	Кулон, свидетельствующий о брачных узах. Найден вами на плантациях Каса-Нуэва.	todo	
+item	high	A photo of a mushroom cloud over smoking ruins. The back reads: Mexicali, 2077.		game/game/pro_item.msg	44001	На снимке видно грибовидное облако позади дымящихся полуразрушенных домов. На обороте надпись: Мехикали, 2077.	todo	
+item	high	A pile of trash that once served the Jackals as a totem.		game/game/pro_item.msg	31801	Куча мусора, которая когда-то служила Шакалам в качестве тотема.	todo	
+item	high	A police taser. It shocks the target with electricity. Min ST: 4.		game/game/pro_item.msg	48401	Полицейский тазер. Поражает цель электричеством. Мин. сила: 4.	todo	
+item	high	A porcelain sink that long ago ceased to function.		game/game/pro_item.msg	26701	Фарфоровая раковина, которая давно уже потеряла свою способность функционировать.	todo	
+item	high	A pornographic film that has become a cult classic. You certainly won't watch it.		game/game/pro_item.msg	48601	Классический фильм, ставший культовым. Смотреть его вы, конечно, не будете.	todo	
+item	high	A razor tipped polearm. The shaft is wooden, and the tip is worked steel. Min ST: 4.		game/game/pro_item.msg	13701	Самодельное остроконечное оружие. На деревянное древко насажено лезвие от старого ножа. Мин. сила: 4.	todo	
+item	high	A refrigerator with wheels for easy transport.		game/game/pro_item.msg	27101	Холодильник с колесиками для удобства транспортировки.	todo	
+item	high	A refrigerator. Out of coolant.		game/game/pro_item.msg	24101	Это холодильник. Система охлаждения не работает.	todo	
+item	high	A rusty but still usable handle. They don't make 'em like they used to.		game/game/pro_item.msg	40401	Ржавая, но все еще пригодная к использованию рукоять. Раньше умели такие делать.	todo	
+item	high	A sacred book from the Divine Brahmin Shrine, its meaning likely unknown to the tribe.		game/game/pro_item.msg	43901	Священная книга из святилища Божественного Брамина. Сомнительно, чтобы кто-либо из племени понимал ее смысл.	todo	
+item	high	A self-contained suit of advanced technology armor. This copy is partially damaged.		game/game/pro_item.msg	3401	Высокотехнологичная автономная броня T51b. Этот экземпляр отчасти поврежден.	todo	
+item	high	A set of dirty keys that open doors in the Jackal tribe's dens.		game/game/pro_item.msg	42301	Эта связка грязных ключей открывает двери в норах племени Шакалов.	todo	
+item	high	A set of wooden shelves.		game/game/pro_item.msg	23201	Деревянная полка с разнообразными предметами на ней.	todo	
+item	high	A sharp-bladed cutting and stabbing weapon. Min ST: 1.		game/game/pro_item.msg	13201	Острое колюще-режущее оружие. Мин. сила: 1.	todo	
+item	high	A silver butane lighter, in good condition.		game/game/pro_item.msg	8401	Серебряная газовая зажигалка. В хорошем состоянии.	todo	
+item	high	A simple vessel made of clay. Such things are valued in many settlements.		game/game/pro_item.msg	10101	Простой сосуд, изготовленный из глины. Такие вещи ценятся во многих поселениях.	todo	
+item	high	A small heap of various trash.		game/game/pro_item.msg	19701	Небольшая куча с различным мусором.	todo	
+item	high	A small key found in Quartz, likely for a small lock.		game/game/pro_item.msg	42401	Небольшой ключ, найденными вами в Кварце. Вероятно, открывает какой-то небольшой замок.	todo	
+item	high	A small safe bolted to a metal table.		game/game/pro_item.msg	22901	Небольшой сейф, прикрепленный болтами к металлическому столу.	todo	
+item	high	A small, self-contained unit of energy storage.		game/game/pro_item.msg	101	Небольшая автономная единица хранения энергии.	todo	
+item	high	A staple of the modern diet. Contains some small foreign debris.		game/game/pro_item.msg	9501	Ценный диетический продукт современного производства. Содержит некоторое количество мелкого мусора.	todo	
+item	high	A strong, thick line. About 45 feet in length.		game/game/pro_item.msg	8301	Прочная толстая веревка. Примерно 40 футов в длину.	todo	
+item	high	A sturdy wall safe.		game/game/pro_item.msg	24801	Очень прочный стенной сейф.	todo	
+item	high	A surprisingly well-preserved 65-watt lamp, once used in car headlights.		game/game/pro_item.msg	43201	На удивление хорошо сохранившаяся лампа мощностью 65 Ватт. Раньше такие часто использовали в автомобильных фарах.	todo	
+item	high	A trash can. You can barely read the label: Keep your city streets clean!		game/game/pro_item.msg	24001	"Это бак для мусора. Вы едва можете разобрать надпись на нем: ""Сохраняй улицы своего города в чистоте!"""	todo	
+item	high	A vending machine for selling machine oil. There is very little oil left.		game/game/pro_item.msg	47901	Автомат для продажи машинного масла. Масла осталось совсем чуть-чуть.	todo	
+item	high	A vending machine for selling medicines and medical supplies. The selection is limited.		game/game/pro_item.msg	47701	Автомат для продажи медикаментов и медицинских принадлежностей. Ассортимент невелик.	todo	
+item	high	A vending machine for selling nuclear batteries. The selection is limited.		game/game/pro_item.msg	47401	Автомат для продажи ядерных батареек. Ассортимент невелик.	todo	
+item	high	A vending machine for selling various drinks. The selection is limited.		game/game/pro_item.msg	47801	Автомат для продажи различных напитков. Ассортимент невелик.	todo	
+item	high	A very old but still functional welding machine.		game/game/pro_item.msg	40601	Очень старый, но все еще рабочий сварочный аппарат.	todo	
+item	high	A wooden box filled with various items.		game/game/pro_item.msg	22401	Деревянный ящик, наполненный разными вещами.	todo	
+item	high	A wooden box. To look inside, you'll need to pry apart the boards.		game/game/pro_item.msg	20401	Сколоченный деревянный ящик. Чтобы заглянуть внутрь, придется разобрать доски.	todo	
+item	high	A wooden chest.		game/game/pro_item.msg	23001	Самодельный деревянный сундук.	todo	
+item	high	A wooden table with multiple drawers.		game/game/pro_item.msg	24401	Обыкновенный деревянный стол со множеством ящиков.	todo	
+item	high	A wooden table with multiple drawers. Working here is risky.		game/game/pro_item.msg	24601	Деревянный стол со множеством ящиков. Работать за таким столом - это большой риск.	todo	
+item	high	A working tool designed for emergency disabling of electrical equipment.		game/game/pro_item.msg	46001	Рабочий инструмент, предназначенный для экстренного вывода из строя электрического оборудования.	todo	
+item	high	A worn-out Old Motel room key.		game/game/pro_item.msg	42201	Изношенный ключ от номера в Старом Мотеле.	todo	
+item	high	Aaron's Key		game/game/pro_item.msg	42100	Ключ Аарона	todo	
+item	high	Access Card		game/game/pro_item.msg	41600	Карта доступа	todo	
+item	high	Access card for the Bonita power plant. Access level - highest.		game/game/pro_item.msg	45801	Карта доступа от электростанции Бонита. Уровень доступа - высший.	todo	
+item	high	Access card for the Bonita power plant. Access level - restricted.		game/game/pro_item.msg	45701	Карта доступа от электростанции Бонита. Уровень доступа - ограниченный.	todo	
+item	high	According to the advertisement, this machine dispenses Mentats.		game/game/pro_item.msg	34801	Судя по рекламе, этот автомат выдает ментаты.	todo	
+item	high	Acid Spit		game/game/pro_item.msg	11600	Плевок кислотой	todo	
+item	high	Advisor's Report		game/game/pro_item.msg	39400	Донесение Советника	todo	
+item	high	Agave Syrup		game/game/pro_item.msg	12100	Сироп	todo	
+item	high	Ammo Box		game/game/pro_item.msg	19200	Армейский ящик	todo	
+item	high	Ammunition for hand grenade launcher.		game/game/pro_item.msg	1301	Боеприпас для ручного гранатомета.	todo	
+item	high	Ammunition. .22 Caliber. Small-caliber unitary rimfire round.		game/game/pro_item.msg	301	Малокалиберный унитарный патрон кольцевого воспламенения.	todo	
+item	high	Ammunition. .308 Caliber. Rifle round of an old but reliable caliber.		game/game/pro_item.msg	1001	Винтовочный патрон старого, но надежного калибра.	todo	
+item	high	Ammunition. .44 Caliber.		game/game/pro_item.msg	701	Револьверный патрон повышенной мощности.	todo	
+item	high	Ammunition. .50 Caliber. A round for particularly cool pistols and revolvers.		game/game/pro_item.msg	801	Крупнокалиберный патрон для особенно крутых пистолетов и револьверов.	todo	
+item	high	Ammunition. Caliber: 10mm.		game/game/pro_item.msg	501	Пистолетный патрон широко распространенного калибра.	todo	
+item	high	Ammunition. Caliber: 10mm. Nanostructured Projectile bullets.		game/game/pro_item.msg	601	Пистолетный патрон с рассеченной пулей из наноструктурированного металла.	todo	
+item	high	Ammunition. Caliber: 5mm.		game/game/pro_item.msg	901	Патрон для автоматического оружия.	todo	
+item	high	Ammunition. Caliber: 9mm.		game/game/pro_item.msg	401	Пистолетный патрон древнего калибра.	todo	
+item	high	An access card to some rooms on the Brotherhood of Steel destroyer.		game/game/pro_item.msg	41201	Карта доступа в некоторые помещения на эсминце Братства Стали.	todo	
+item	high	An access card to the torpedo bay control terminal.		game/game/pro_item.msg	41301	Карта доступа к терминалу управления торпедным отсеком.	todo	
+item	high	An ancient but still functional radio from Wattz Electronics.		game/game/pro_item.msg	36401	Древний, но еще действующий радиоприемник от компании Уоттс Электроникс.	todo	
+item	high	An ancient musical instrument.		game/game/pro_item.msg	44901	Древний музыкальный инструмент.	todo	
+item	high	An antique atomic clock, five minutes slow but still ticking.		game/game/pro_item.msg	43501	Старинные атомные часы. Отстают на пять минут, но все еще работают.	todo	
+item	high	An authentic law enforcement badge, marked with signs of great age.		game/game/pro_item.msg	43801	Подлинный значок защитника правопорядка. Судя по маркировке, он очень старый.	todo	
+item	high	An earth-stained holotape, inscribed with reports from a Vault 27 expedition.		game/game/pro_item.msg	35201	Испачканный землей голодиск. Судя по надписи, содержит отчеты экспедиции из убежища 27.	todo	
+item	high	An electronic access card for the dam control panel.		game/game/pro_item.msg	41601	Электронная карта доступа для пульта управления дамбой.	todo	
+item	high	An electronic access card from Vault 25, with limited access.		game/game/pro_item.msg	41801	Электронная карта доступа из убежища 25. Уровень допуска - ограниченный.	todo	
+item	high	An electronic access card from Vault 25, with the highest clearance.		game/game/pro_item.msg	41901	Электронная карта доступа из убежища 25. Уровень допуска - высший.	todo	
+item	high	An electronic access card from Vault 27.		game/game/pro_item.msg	42001	Электронная карта доступа из убежища 27.	todo	
+item	high	An elegant antique table for those with high standards. Luxurious chair included.		game/game/pro_item.msg	32801	Изящный старинный стол для людей с высокими требованиями. Роскошное кресло прилагается.	todo	
+item	high	An implant removed from the body of a deceased Tinsmith.		game/game/pro_item.msg	38601	Имплантат, извлеченный из тела покойного жестянщика.	todo	
+item	high	An odorless crystalline substance of unknown composition.		game/game/pro_item.msg	37201	Кристаллическое вещество без запаха. Сложно сказать, из чего оно состоит.	todo	
+item	high	An old camping hatchet. Suitable for combat. Min ST: 3.		game/game/pro_item.msg	19001	Старый походный топорик. Может использоваться в бою. Мин. сила: 3.	todo	
+item	high	An old holodisk, devoid of any inscriptions or notes.		game/game/pro_item.msg	35301	Старый голодиск, лишенный внешних надписей и пометок.	todo	
+item	high	An old ventilation system, clogged with years of dust and neglect.		game/game/pro_item.msg	33401	Старая вентиляционная система. За многие годы в ней собралось много пыли.	todo	
+item	high	An old, damaged civilian model gas mask. It may still serve you for a while.		game/game/pro_item.msg	7701	Старый испорченный противогаз гражданской модели. Возможно, он еще прослужит вам некоторое время.	todo	
+item	high	An old-style ice chest. The hinges are in good working condition.		game/game/pro_item.msg	24201	Старинный портативный холодильник. Механизм все еще в рабочем состоянии.	todo	
+item	high	An ordinary chest of drawers, with a faint odor of someone else's laundry.		game/game/pro_item.msg	25501	Обыкновенный комод, пропахший чужим бельем.	todo	
+item	high	An unusual fungus that forms in toxic puddles, inedible for humans.		game/game/pro_item.msg	40201	Необычный грибок, сформировавшийся в токсичных лужах. Несъедобен для человека.	todo	
+item	high	An update for one of the ZAX 1.1 routines.		game/game/pro_item.msg	40701	Обновление для одной из подпрограмм ZAX 1.1.	todo	
+item	high	Ancient Badge		game/game/pro_item.msg	45100	Древний значок	todo	
+item	high	Ancient Relic		game/game/pro_item.msg	43400	Древняя реликвия	todo	
+item	high	Anne Brandley's notebook and other belongings.		game/game/pro_item.msg	36501	Записная книжка и другие вещи Эн Брендли.	todo	
+item	high	Another enigmatic chemical from the Followers' lab.		game/game/pro_item.msg	36901	Какой-то химикат из лаборатории Последователей.	todo	
+item	high	Another severed head of a Los Panchos boss.		game/game/pro_item.msg	39801	Эта голова когда-то висела на плечах атамана Лос Панчос.	todo	
+item	high	Antidote		game/game/pro_item.msg	4900	Противоядие	todo	
+item	high	Antique armored shelves. Very reliable.		game/game/pro_item.msg	32101	Старинный бронированный шкаф. Очень надежный.	todo	
+item	high	Army box for storing and transporting ammunition.		game/game/pro_item.msg	30101	Армейский ящик для хранения и транспортировки боеприпасов.	todo	
+item	high	Army box for storing and transporting weapons.		game/game/pro_item.msg	29901	Армейский ящик для хранения и транспортировки оружия.	todo	
+item	high	Army transport container with radiation shielding.		game/game/pro_item.msg	31101	Транспортировочный армейский ящик с защитой от радиации.	todo	
+item	high	Assault Rifle		game/game/pro_item.msg	16100	Штурмовая винтовка	todo	
+item	high	Assault Shotgun		game/game/pro_item.msg	16600	Штурмовой дробовик	todo	
+item	high	Atomic Cutter		game/game/pro_item.msg	13600	Силовая отвертка	todo	
+item	high	Backpack		game/game/pro_item.msg	31400	Рюкзак	todo	
+item	high	Bar Vending Machine		game/game/pro_item.msg	47800	Торгомат-бар	todo	
+item	high	Barn Key		game/game/pro_item.msg	42700	Ангарный ключ	todo	
+item	high	Battery Vending Machine		game/game/pro_item.msg	47400	Торгомат с батарейками	todo	
+item	high	Battle Hatchet		game/game/pro_item.msg	19000	Боевой топорик	todo	
+item	high	Bemis Glasses		game/game/pro_item.msg	38500	Очки Бимиса	todo	
+item	high	Ben's Head		game/game/pro_item.msg	39600	Голова Бена	todo	
+item	high	Bike Bags		game/game/pro_item.msg	45600	Сумки для байка	todo	
+item	high	Biogel		game/game/pro_item.msg	48000	Биогель	todo	
+item	high	Blaster		game/game/pro_item.msg	18700	Бластер	todo	
+item	high	Boarded-up Box		game/game/pro_item.msg	20400	Заколоченный ящик	todo	
+item	high	Bones		game/game/pro_item.msg	21800	Кости	todo	
+item	high	Bonita Access Card		game/game/pro_item.msg	45700	Карта доступа Бонита	todo	
+item	high	Book about San Diego		game/game/pro_item.msg	47600	Книга о Сан-Диего	todo	
+item	high	Book of Bemis		game/game/pro_item.msg	33100	Книга Бимиса	todo	
+item	high	Border Service Codes		game/game/pro_item.msg	46600	Коды пограничной службы	todo	
+item	high	Bottle caps		game/game/pro_item.msg	4100	Крышки от бутылок	todo	
+item	high	Box		game/game/pro_item.msg	22400	Ящик	todo	
+item	high	Box Of Noodles		game/game/pro_item.msg	6300	Довоенная лапша	todo	
+item	high	Box with Caps		game/game/pro_item.msg	38100	Ящик с крышками	todo	
+item	high	Brahmin		game/game/pro_item.msg	36200	Брамин	todo	
+item	high	Brahmin Herder's Battle Shield		game/game/pro_item.msg	10300	Боевой щит скотоводов	todo	
+item	high	Brahmin Sausages		game/game/pro_item.msg	6600	Браминьи потроха	todo	
+item	high	Brandley's Personal Effects		game/game/pro_item.msg	36500	Личные вещи Брендли	todo	
+item	high	Brass Knuckles		game/game/pro_item.msg	12600	Кастет	todo	
+item	high	Broken Shotgun		game/game/pro_item.msg	49500	Сломанный дробовик	todo	
+item	high	Brotherhood Armor		game/game/pro_item.msg	3300	Боевая броня Братства	todo	
+item	high	Buffout		game/game/pro_item.msg	8700	Баффаут	todo	
+item	high	Butchering Table		game/game/pro_item.msg	33300	Разделочный стол	todo	
+item	high	Cashier		game/game/pro_item.msg	33600	Касса	todo	
+item	high	Casino Chips		game/game/pro_item.msg	4300	Фишки казино	todo	
+item	high	Cathedral Radio Codes		game/game/pro_item.msg	41500	Коды радиостанции	todo	
+item	high	Cattle Prod		game/game/pro_item.msg	14200	Погонялка	todo	
+item	high	Ceramics		game/game/pro_item.msg	10100	Керамика	todo	
+item	high	Ceremonial Crown		game/game/pro_item.msg	36100	Церемониальный венок	todo	
+item	high	Chemistry Set		game/game/pro_item.msg	37800	Химический набор	todo	
+item	high	Chest		game/game/pro_item.msg	23000	Сундук	todo	
+item	high	Chest of Drawers		game/game/pro_item.msg	25500	Комод	todo	
+item	high	Chestplate		game/game/pro_item.msg	5700	Нагрудный щиток	todo	
+item	high	Chips		game/game/pro_item.msg	7100	Чипсы	todo	
+item	high	Chucho's Head		game/game/pro_item.msg	39800	Голова Чучо	todo	
+item	high	Circuit Board		game/game/pro_item.msg	47000	Печатная плата	todo	
+item	high	Claws		game/game/pro_item.msg	12800	Когти	todo	
+item	high	Cleaning Agent		game/game/pro_item.msg	9600	Чистящее средство	todo	
+item	high	Cleaver		game/game/pro_item.msg	49300	Нож-топорик	todo	
+item	high	Club		game/game/pro_item.msg	14000	Дубинка	todo	
+item	high	Coffee		game/game/pro_item.msg	9900	Кофе	todo	
+item	high	Coffee Table		game/game/pro_item.msg	45900	Кофейный столик	todo	
+item	high	Coffee table with tempting leftovers.		game/game/pro_item.msg	24701	Кофейный столик с соблазнительными остатками еды.	todo	
+item	high	Colt Rangemaster semi-automatic rifle. Outdated but reliable. Min ST: 5.		game/game/pro_item.msg	15701	Полуавтоматическая винтовка Кольт Рейнджмастер. Устаревшая, но надежная. Мин. сила: 5.	todo	
+item	high	Combat Armor		game/game/pro_item.msg	3200	Боевая броня	todo	
+item	high	Combat Knife		game/game/pro_item.msg	13300	Боевой нож	todo	
+item	high	Combat Leather Jacket		game/game/pro_item.msg	2600	Бронекуртка	todo	
+item	high	Combat Revolver		game/game/pro_item.msg	15000	Боевой револьвер	todo	
+item	high	Combat Rifle		game/game/pro_item.msg	15800	Боевая винтовка	todo	
+item	high	Combat Shotgun		game/game/pro_item.msg	16500	Боевой дробовик	todo	
+item	high	Container		game/game/pro_item.msg	31100	Контейнер	todo	
+item	high	Copper Pipe		game/game/pro_item.msg	44900	Медная труба	todo	
+item	high	Cornmeal		game/game/pro_item.msg	9500	Маисовая мука	todo	
+item	high	Coronado Pass		game/game/pro_item.msg	49000	Пропуск Коронадо	todo	
+item	high	Coronado Security Codes		game/game/pro_item.msg	48200	Коды безопасности Коронадо	todo	
+item	high	Crate		game/game/pro_item.msg	25200	Ящик	todo	
+item	high	Crate of Bottles		game/game/pro_item.msg	25400	Ящик с бутылками	todo	
+item	high	Crates		game/game/pro_item.msg	25000	Ящики	todo	
+item	high	Crowbar		game/game/pro_item.msg	14100	Гвоздодер	todo	
+item	high	Damaged Combat Armor. Some parts have been replaced with makeshift items.		game/game/pro_item.msg	11701	Испорченная боевая броня. Некоторые ее части заменены подручными предметами.	todo	
+item	high	Data from Hermosillo		game/game/pro_item.msg	47500	Данные из Эрмосильо	todo	
+item	high	Decoder		game/game/pro_item.msg	7500	Декодер	todo	
+item	high	Destroyed Totem		game/game/pro_item.msg	31800	Разрушенный тотем	todo	
+item	high	Diagnostic Board		game/game/pro_item.msg	47100	Диагностическая плата	todo	
+item	high	Dispatcher Module		game/game/pro_item.msg	46400	Диспетчерский модуль	todo	
+item	high	Dixon's Machine Gun		game/game/pro_item.msg	11800	Пулемет Диксона	todo	
+item	high	DKS-501 rifle, converted to .308 caliber. An excellent long-range firearm. Min ST: 6.		game/game/pro_item.msg	16001	Винтовка DKS-501, преобразованная под калибр 0,308. Отличное огнестрельное оружие дальнего действия. Мин. сила: 6.	todo	
+item	high	Do not use (Big Book of Science).		game/game/pro_item.msg	7301	Не использовать (Большая книга науки).	todo	
+item	high	Do not use (Electronics).		game/game/pro_item.msg	7601	Не использовать (Электроника).	todo	
+item	high	Do not use (First Aid, First Aid Book).		game/game/pro_item.msg	8001	Не использовать (Первая помощь, Книга по первой помощи).	todo	
+item	high	Do not use (Scout's Handbook).		game/game/pro_item.msg	8601	Не использовать (Настольная книга скаута).	todo	
+item	high	Do not use (Weapons and Ammo).		game/game/pro_item.msg	10201	Не использовать (Оружие и боеприпасы).	todo	
+item	high	Doctor's Bag		game/game/pro_item.msg	5000	Докторский чемоданчик	todo	
+item	high	Dog Grave		game/game/pro_item.msg	19500	Собачья могила	todo	
+item	high	Donation Box		game/game/pro_item.msg	32700	Ящик для пожертвований	todo	
+item	high	Donovan's Body		game/game/pro_item.msg	45000	Тело Донована	todo	
+item	high	Dry powder for removing dirt. It's even capable of washing away centuries old muck.		game/game/pro_item.msg	9601	Окаменевший порошок для удаления нечистот. Отмывает даже грязь вековой давности.	todo	
+item	high	Ed's Bones		game/game/pro_item.msg	34700	Кости Эда	todo	
+item	high	Electric Spear		game/game/pro_item.msg	13900	Электрокопье	todo	
+item	high	Electronic access card for the doors on the Petro-Chico oil rig.		game/game/pro_item.msg	44601	"Электронная карта доступа от дверей на нефтяной платформе ""Петро-Чико""."	todo	
+item	high	Electronic Parts		game/game/pro_item.msg	8900	Детали электроники	todo	
+item	high	Empty Hypodermic		game/game/pro_item.msg	11200	Пустой шприц	todo	
+item	high	Eugene's Contract		game/game/pro_item.msg	39200	Контракт Юджина	todo	
+item	high	Expedition Report		game/game/pro_item.msg	35200	Отчет экспедиции	todo	
+item	high	Eydie's Head		game/game/pro_item.msg	39900	Голова Эйди	todo	
+item	high	Faber's Passwords		game/game/pro_item.msg	39100	Пароли Фабера	todo	
+item	high	Family Heirlooms		game/game/pro_item.msg	42800	Семейные реликвии	todo	
+item	high	Fire Locker		game/game/pro_item.msg	32900	Пожарный шкафчик	todo	
+item	high	Fire-roasted cockroach with a pinch of sea salt. Mmm, how crunchy! Effects: +2 hit points.		game/game/pro_item.msg	7001	Зажаренный на огне таракан с щепоткой морской соли. М-м, как хрустит! Эффекты: +2 здоровье.	todo	
+item	high	Fisherman Tag		game/game/pro_item.msg	44500	Жетон пескадора	todo	
+item	high	Flamer		game/game/pro_item.msg	18400	Огнемет	todo	
+item	high	Flamethrower fuel		game/game/pro_item.msg	18500	Топливо для огнемета	todo	
+item	high	Flammable Mixture		game/game/pro_item.msg	9000	Горючая смесь	todo	
+item	high	Flare		game/game/pro_item.msg	7900	Вспышка	todo	
+item	high	Flare Pistol		game/game/pro_item.msg	15100	Ракетница	todo	
+item	high	Flare Round		game/game/pro_item.msg	1400	Сигнальный патрон	todo	
+item	high	Food Processor		game/game/pro_item.msg	48700	Пищевой процессор	todo	
+item	high	Footlocker		game/game/pro_item.msg	28300	Сундучок	todo	
+item	high	Founder's Notes		game/game/pro_item.msg	35000	Записи Основателя	todo	
+item	high	Freshly Dug Earth		game/game/pro_item.msg	19600	Свежевскопанная земля	todo	
+item	high	Fridge		game/game/pro_item.msg	24100	Холодильник	todo	
+item	high	Fried Cockroach		game/game/pro_item.msg	7000	Жареный таракан	todo	
+item	high	Fuel Cell Battery		game/game/pro_item.msg	3800	Ядерный блок	todo	
+item	high	Fuel Controller		game/game/pro_item.msg	47200	Топливный контроллер	todo	
+item	high	Fuses		game/game/pro_item.msg	41100	Взрыватели	todo	
+item	high	Gas Mask		game/game/pro_item.msg	7700	Противогаз	todo	
+item	high	Gatling laser		game/game/pro_item.msg	18800	Гатлинг-лазер	todo	
+item	high	Geiger Counter		game/game/pro_item.msg	5200	Счетчик Гейгера	todo	
+item	high	Generator Fusion Cell		game/game/pro_item.msg	41000	Энергоячейка для генератора	todo	
+item	high	George Crook' Notes		game/game/pro_item.msg	35600	Записи Джорджа Крука	todo	
+item	high	Ghoul Combat Armor		game/game/pro_item.msg	11700	Боевая броня гулей	todo	
+item	high	Gil McCord's Head		game/game/pro_item.msg	40000	Голова Гила МакКорда	todo	
+item	high	Glowing Mushroom		game/game/pro_item.msg	40200	Светящийся гриб	todo	
+item	high	Grave		game/game/pro_item.msg	21100	Могила	todo	
+item	high	Green Substance		game/game/pro_item.msg	36800	Зеленое вещество	todo	
+item	high	Grenade (Frag)		game/game/pro_item.msg	2000	Осколочная граната	todo	
+item	high	Grenade (Nuclear)		game/game/pro_item.msg	2300	Ядерная граната	todo	
+item	high	Grenade (Plasma)		game/game/pro_item.msg	2100	Плазменная граната	todo	
+item	high	Grenade (Pulse)		game/game/pro_item.msg	2200	Импульсная граната	todo	
+item	high	Guitar Strings		game/game/pro_item.msg	44800	Струны для гитары	todo	
+item	high	Gustavo's Holodisk		game/game/pro_item.msg	46200	Голодиск Густаво	todo	
+item	high	Halogen Lamp		game/game/pro_item.msg	43200	Галогенная лампа	todo	
+item	high	Hammer		game/game/pro_item.msg	14600	Молот	todo	
+item	high	Hand grenade launcher for 40mm shells. Developed by Rockwell. Min ST: 6.		game/game/pro_item.msg	16701	"Ручной гранатомет под снаряды 40 мм. Разработан компанией ""Роквелл"". Мин. сила: 6."	todo	
+item	high	Here lies the body of your ancestor.		game/game/pro_item.msg	34401	Здесь покоится тело вашего предка.	todo	
+item	high	Hernando's Head		game/game/pro_item.msg	39700	Голова Эрнандо	todo	
+item	high	High tech armor, made out of advanced defensive polymers.		game/game/pro_item.msg	3201	Высокотехнологичная броня, изготовленная из улучшенных защитных полимеров.	todo	
+item	high	High tech pre-war armor with the insignia of the New Mexican Republic.		game/game/pro_item.msg	10401	Высокотехнологичная довоенная броня с отличительными знаками Новой Мексиканской Республики.	todo	
+item	high	High-Tech Gadget		game/game/pro_item.msg	40300	Деталь	todo	
+item	high	Hip Flask		game/game/pro_item.msg	10500	Походная фляжка	todo	
+item	high	Hiram's Letter		game/game/pro_item.msg	39300	Письмо Хирама	todo	
+item	high	Hold Access Card		game/game/pro_item.msg	41200	Карта доступа в трюм	todo	
+item	high	Holiday Fireworks		game/game/pro_item.msg	36000	Праздничный салют	todo	
+item	high	Holodisk with a game for very fast computers.		game/game/pro_item.msg	44301	Голодиск с игрой для о-очень быстрых компьютеров.	todo	
+item	high	Holographic Emitter		game/game/pro_item.msg	46800	Голографический эмиттер	todo	
+item	high	Homemade Beer		game/game/pro_item.msg	12400	Домашнее пиво	todo	
+item	high	Homemade device for catching desert lizards.		game/game/pro_item.msg	5601	Самодельное приспособление для ловли пустынных ящериц.	todo	
+item	high	Homemade device for trapping desert lizards.		game/game/pro_item.msg	19401	Самодельное приспособление для ловли пустынных ящериц.	todo	
+item	high	Hotel Manager Program		game/game/pro_item.msg	48500	Программа администратора	todo	
+item	high	Howitzer Parts		game/game/pro_item.msg	48900	Детали от гаубицы	todo	
+item	high	Howitzer Shell		game/game/pro_item.msg	48800	Снаряд для гаубицы	todo	
+item	high	Hunting Rifle		game/game/pro_item.msg	15700	Охотничья винтовка	todo	
+item	high	I don't really want to dig into this pile of nasty stuff.		game/game/pro_item.msg	31701	В этой куче пакости совсем не хочется копаться.	todo	
+item	high	Ice Chest		game/game/pro_item.msg	24200	Ледник	todo	
+item	high	Ice Pile		game/game/pro_item.msg	34500	Ледяная куча	todo	
+item	high	Iguana Trap		game/game/pro_item.msg	5600	Ловушка на игуан	todo	
+item	high	Iguana-on-a-stick		game/game/pro_item.msg	6000	Игуана-на-палочке	todo	
+item	high	Insecticide		game/game/pro_item.msg	37400	Инсектицид	todo	
+item	high	"Inspecting this old weapon, you shout ""Viva Tejada!"" and rush into battle. Min ST: 6."		game/game/pro_item.msg	18601	"Вы бережно осматриваете это старое оружие, затем с криком ""Вива Техада!"" бросаетесь в атаку. Мин. сила: 6."	todo	
+item	high	Irradiated Key		game/game/pro_item.msg	42400	Облученный ключ	todo	
+item	high	Irradiated Nuka Cola		game/game/pro_item.msg	10700	Облученная ядер-кола	todo	
+item	high	It's a rock. The Granite-Inc. model is an upgraded version. Min ST: 1.		game/game/pro_item.msg	1801	Это обыкновенный камень, похожий на гранит. Однако его форма достаточно удобна для боевого применения (усиление удара или метание). Мин. сила: 1.	todo	
+item	high	Jackal Storeroom Keys		game/game/pro_item.msg	42300	Ключи Шакалов	todo	
+item	high	Jerky		game/game/pro_item.msg	6200	Вяленое мясо	todo	
+item	high	Jug		game/game/pro_item.msg	22100	Кувшин	todo	
+item	high	Jumpsuit		game/game/pro_item.msg	2400	Комбинезон	todo	
+item	high	Knife		game/game/pro_item.msg	13200	Нож	todo	
+item	high	Knight's Dog Tag		game/game/pro_item.msg	11300	Жетон рыцаря	todo	
+item	high	Koa		game/game/pro_item.msg	17400	Коа	todo	
+item	high	Lab Notes		game/game/pro_item.msg	37300	Лабораторные записи	todo	
+item	high	Large jar for storing crops or water.		game/game/pro_item.msg	22101	Большой кувшин для хранения урожая или воды.	todo	
+item	high	Large wooden shelves with dusty items.		game/game/pro_item.msg	23401	Большой деревянный стеллаж, на полках которого лежат пыльные вещи.	todo	
+item	high	Larvae		game/game/pro_item.msg	6500	Личинки	todo	
+item	high	Laser Emitter		game/game/pro_item.msg	16800	Лазерное оружие	todo	
+item	high	Laser Emitter (Improved)		game/game/pro_item.msg	49800	Лазерное оружие (улуч.)	todo	
+item	high	Laser Pistol		game/game/pro_item.msg	16900	Лазерный пистолет	todo	
+item	high	Laser Rifle		game/game/pro_item.msg	17000	Лазерная винтовка	todo	
+item	high	Leather Armor		game/game/pro_item.msg	2700	Кожаная броня	todo	
+item	high	Leather Jacket		game/game/pro_item.msg	2500	Кожаная куртка	todo	
+item	high	Letter from Vault-Tec		game/game/pro_item.msg	35700	"Письмо из ""Волт-Тек"""	todo	
+item	high	Letter to Shore		game/game/pro_item.msg	35800	Письмо на берег	todo	
+item	high	Library Holodisk		game/game/pro_item.msg	37100	Библиотечный голодиск	todo	
+item	high	Light Machine Gun		game/game/pro_item.msg	16200	Ручной пулемет	todo	
+item	high	Lighter		game/game/pro_item.msg	8400	Зажигалка	todo	
+item	high	Lock Picks		game/game/pro_item.msg	7400	Отмычка	todo	
+item	high	Locker		game/game/pro_item.msg	27900	Шкафчик	todo	
+item	high	Looks like a wood-burning alcohol still.		game/game/pro_item.msg	31301	Судя по всему, это самогонный аппарат, работающий на дровах.	todo	
+item	high	Lost Package		game/game/pro_item.msg	36600	Утерянная посылка	todo	
+item	high	Lost Pistol		game/game/pro_item.msg	38400	Утерянный пистолет	todo	
+item	high	Luckily for you, the raiders left these items behind.		game/game/pro_item.msg	32501	К вашему счастью налетчики забыли эти вещи перед уходом.	todo	
+item	high	Luther's Journal		game/game/pro_item.msg	35900	Записи Лютера	todo	
+item	high	Luxury Key		game/game/pro_item.msg	41400	Ключ от люкса	todo	
+item	high	Machine Oil Dispenser		game/game/pro_item.msg	47900	Дозатор машинного масла	todo	
+item	high	Madre's Pendant		game/game/pro_item.msg	36700	Кулон мадре	todo	
+item	high	Magnetic Key		game/game/pro_item.msg	36300	Магнитный ключ	todo	
+item	high	Map Fragment		game/game/pro_item.msg	44700	Фрагмент карты	todo	
+item	high	Marauder's Body		game/game/pro_item.msg	34300	Тело мародера	todo	
+item	high	Mayor's Holodisk		game/game/pro_item.msg	35500	Голодиск мэра	todo	
+item	high	McBain's Entry		game/game/pro_item.msg	35400	Запись Макбейна	todo	
+item	high	Medicine Vending Machine		game/game/pro_item.msg	47700	Торгомат с лекарствами	todo	
+item	high	Melee assault weapon. The bullpup design makes it small and easy to handle. Min ST: 6.		game/game/pro_item.msg	16601	"Штурмовое оружие ближнего боя. Конструкция ""буллпап"" обеспечивает небольшой размер и легкость в обращении. Мин. сила: 6."	todo	
+item	high	Mentats		game/game/pro_item.msg	5300	Ментаты	todo	
+item	high	Mentats Vending Machine		game/game/pro_item.msg	34800	Торгомат с ментатами	todo	
+item	high	Mercenary Body		game/game/pro_item.msg	31900	Тело наемника	todo	
+item	high	Metal Armor		game/game/pro_item.msg	3000	Металлическая броня	todo	
+item	high	Metal Shelves		game/game/pro_item.msg	32100	Металлический шкаф	todo	
+item	high	Mexican Power Armor		game/game/pro_item.msg	11500	Силовая броня Мексики	todo	
+item	high	Mexican SMG		game/game/pro_item.msg	15500	Мексиканский ПП	todo	
+item	high	Micro Fusion Cell		game/game/pro_item.msg	200	Микроядерная батарея	todo	
+item	high	Microchips		game/game/pro_item.msg	48100	Микросхемы	todo	
+item	high	Military pass for the Coronado Naval Base. Color: blue.		game/game/pro_item.msg	49001	"Военный пропуск на базе ВМС ""Коронадо"". Цвет синий."	todo	
+item	high	Military pass for the Coronado Naval Base. Color: red.		game/game/pro_item.msg	49101	"Военный пропуск на базе ВМС ""Коронадо"". Цвет красный."	todo	
+item	high	Minigun		game/game/pro_item.msg	16300	Миниган	todo	
+item	high	Mission to Quartz		game/game/pro_item.msg	35300	Миссия в Кварце	todo	
+item	high	Modified 4 gauge flare pistol round.		game/game/pro_item.msg	1501	Модифицированный патрон 4 калибра для сигнального пистолета.	todo	
+item	high	Modified Flare Round		game/game/pro_item.msg	1500	Сигнальный патрон	todo	
+item	high	Molotov Cocktail		game/game/pro_item.msg	15900	Огненная бомба	todo	
+item	high	Monster Skull		game/game/pro_item.msg	42900	Череп монстра	todo	
+item	high	Mop		game/game/pro_item.msg	18000	Моп	todo	
+item	high	Motion Sensor		game/game/pro_item.msg	5900	Сенсор движения	todo	
+item	high	Motorcycle Key		game/game/pro_item.msg	43000	Ключ от мотоцикла	todo	
+item	high	MRE		game/game/pro_item.msg	6800	ИРП	todo	
+item	high	Mutagen		game/game/pro_item.msg	37700	Мутаген	todo	
+item	high	Mutant Body		game/game/pro_item.msg	33700	Мутант	todo	
+item	high	Mutfruit		game/game/pro_item.msg	6100	Мутафрукт	todo	
+item	high	Mycelium		game/game/pro_item.msg	32600	Грибница	todo	
+item	high	Necklace		game/game/pro_item.msg	43100	Ожерелье	todo	
+item	high	Neurochip		game/game/pro_item.msg	38600	Нейрочип	todo	
+item	high	Newspaper machine		game/game/pro_item.msg	32400	Газетный автомат	todo	
+item	high	NMR Combat Armor		game/game/pro_item.msg	10400	Боевая броня НМР	todo	
+item	high	Nuclear Battery		game/game/pro_item.msg	100	Ядерная батарейка	todo	
+item	high	Nuclear bomb fuses. Without them, it's impossible to activate the detonator.		game/game/pro_item.msg	41101	Взрыватели ядерной бомбы. Без них невозможно привести детонатор в действие.	todo	
+item	high	Nuclear War Survival Guide. Prepared by Vault-Tec for residents of the Vault Network.		game/game/pro_item.msg	52301	Руководство по выживанию после ядерной войны. Подготовлено компанией Vault-Tec для резидентов сети убежищ.	todo	
+item	high	Nuka-Cola		game/game/pro_item.msg	10600	Ядер-кола	todo	
+item	high	Nuka-Cola Machine		game/game/pro_item.msg	31500	Автомат с ядер-колой	todo	
+item	high	Old Revolver		game/game/pro_item.msg	14800	Старый револьвер	todo	
+item	high	One of the few beers produced post-war. Effects: -1 PE.		game/game/pro_item.msg	12401	Один из немногочисленных сортов пива послевоенного производства. Эффекты: -1 ВС.	todo	
+item	high	One of the pieces of some kind of handwritten map.		game/game/pro_item.msg	44701	Одна из частей какой-то рукописной карты.	todo	
+item	high	Original: Doctor's case.		game/game/pro_item.msg	9101	В оригинале - Докторский чемоданчик.	todo	
+item	high	Original: Dynamite.		game/game/pro_item.msg	5101	В оригинале - Динамит.	todo	
+item	high	Original: First aid kit for a military paramedic.		game/game/pro_item.msg	40801	В оригинале - Аптечка первой помощи военфельдшера.	todo	
+item	high	Original: First Aid Kit.		game/game/pro_item.msg	4701	В оригинале - Аптечка первой помощи.	todo	
+item	high	Original: Paramedic Bag.		game/game/pro_item.msg	40901	В оригинале - Сумка парамедика.	todo	
+item	high	Original: Shiloh.		game/game/pro_item.msg	38301	В оригинале - Шило.	todo	
+item	high	Original: Sun Scorcher.		game/game/pro_item.msg	39001	В оригинале - Солнечный скорчер.	todo	
+item	high	Originally - Jesse's Container. Used by the engine in the barter system.		game/game/pro_item.msg	46701	В оригинале - Контейнер Джесси. Используется движком в системе бартера.	todo	
+item	high	Originally - Small Energy Cell.		game/game/pro_item.msg	3901	В оригинале - Микроядерная батарея.	todo	
+item	high	Originally: Antidote for the screw.		game/game/pro_item.msg	26001	В оригинале - Противоядие от винта.	todo	
+item	high	Originally: Vint.		game/game/pro_item.msg	25901	В оригинале - Винт.	todo	
+item	high	Overseer's Post		game/game/pro_item.msg	32000	Пост смотрителя	todo	
+item	high	Packages destined for other cities are stored here.		game/game/pro_item.msg	19901	Здесь хранятся посылки в другие города.	todo	
+item	high	Packages from other cities are stored here.		game/game/pro_item.msg	19801	Здесь хранятся посылки из других городов.	todo	
+item	high	Packages to Flagstaff		game/game/pro_item.msg	20000	Посылка в Флагпул	todo	
+item	high	Packages to Phoenix		game/game/pro_item.msg	20100	Посылка в Феникс	todo	
+item	high	Packages to Two-Sun		game/game/pro_item.msg	20200	Посылка в Ту-Сан	todo	
+item	high	Part of the local tribes' accoutrements. Includes a wooden shield and leather cape.		game/game/pro_item.msg	10301	Часть амуниции местных племен. Включает щит из дерева и кожаную накидку.	todo	
+item	high	Phoenix Map		game/game/pro_item.msg	44400	Карта Феникса	todo	
+item	high	Pip-Boy Booster		game/game/pro_item.msg	51600	Усилитель Пип-Боя	todo	
+item	high	Plasma Pistol		game/game/pro_item.msg	17100	Плазменный пистолет	todo	
+item	high	Plasma Rifle		game/game/pro_item.msg	17200	Плазменная винтовка	todo	
+item	high	Plastic Explosives		game/game/pro_item.msg	8500	Взрывчатка	todo	
+item	high	Pneumatic Fist		game/game/pro_item.msg	12900	Пневмокулак	todo	
+item	high	Pneumatic Spear		game/game/pro_item.msg	13800	Пневмокопье	todo	
+item	high	Pocket Trash		game/game/pro_item.msg	4500	Карманный мусор	todo	
+item	high	Police Revolver		game/game/pro_item.msg	14900	Полицейский револьвер	todo	
+item	high	Pool Table		game/game/pro_item.msg	33200	Бильярдный стол	todo	
+item	high	Pot		game/game/pro_item.msg	22200	Горшок	todo	
+item	high	Pot of Waste		game/game/pro_item.msg	31700	Горшок с отходами	todo	
+item	high	Power Armor Helmet		game/game/pro_item.msg	37900	Шлем силовой брони	todo	
+item	high	Power Armor Processor		game/game/pro_item.msg	38000	Процессор силовой брони	todo	
+item	high	Power Fist		game/game/pro_item.msg	13100	Силовой кулак	todo	
+item	high	Pre-War Beer		game/game/pro_item.msg	12000	Довоенное пиво	todo	
+item	high	Pre-war Book		game/game/pro_item.msg	9400	Уцелевшая книга	todo	
+item	high	Pre-war money		game/game/pro_item.msg	4200	Довоенные деньги	todo	
+item	high	Pre-war Whiskey		game/game/pro_item.msg	12300	Довоенный виски	todo	
+item	high	Prisoner's Corpse		game/game/pro_item.msg	31600	Труп заключенного	todo	
+item	high	Psycho		game/game/pro_item.msg	11000	Психо	todo	
+item	high	Pulse Generator		game/game/pro_item.msg	46000	Импульсный генератор	todo	
+item	high	Punch Knife		game/game/pro_item.msg	13400	Ударный нож	todo	
+item	high	Purified Water		game/game/pro_item.msg	10800	Очищенная вода	todo	
+item	high	Purple Substance		game/game/pro_item.msg	36900	Фиолетовое вещество	todo	
+item	high	Rad-Ash		game/game/pro_item.msg	11100	Рад-осадки	todo	
+item	high	Rad-X		game/game/pro_item.msg	10900	Рад-X	todo	
+item	high	RadAway		game/game/pro_item.msg	4800	Антирадин	todo	
+item	high	Radiator Gun		game/game/pro_item.msg	17300	Излучатель	todo	
+item	high	Radio		game/game/pro_item.msg	36400	Радиоприёмник	todo	
+item	high	Raider Map		game/game/pro_item.msg	37500	Карта рейдеров	todo	
+item	high	Raider's Stuff		game/game/pro_item.msg	32500	Вещи налетчиков	todo	
+item	high	Rail Gun		game/game/pro_item.msg	18300	Рельсовая пушка	todo	
+item	high	Ranger Badge		game/game/pro_item.msg	38700	Значок рейнджера	todo	
+item	high	Ranger Duster		game/game/pro_item.msg	3700	Пыльник рейнджера	todo	
+item	high	Rat Soup		game/game/pro_item.msg	6700	Cуп из крысы	todo	
+item	high	Receiving Crates		game/game/pro_item.msg	19800	Прием посылок	todo	
+item	high	Red Substance		game/game/pro_item.msg	37000	Красное вещество	todo	
+item	high	Reinforced 4 gauge flare pistol round.		game/game/pro_item.msg	1601	Усиленный патрон 4 калибра для сигнального пистолета.	todo	
+item	high	Reinforced Cattle Prod		game/game/pro_item.msg	14300	Усиленная погонялка	todo	
+item	high	Reinforced Flare Round		game/game/pro_item.msg	1600	Сигнальный патрон	todo	
+item	high	Reinforced Shock Spear		game/game/pro_item.msg	48300	Усиленное шоковое копье	todo	
+item	high	Ripper		game/game/pro_item.msg	13500	Потрошитель	todo	
+item	high	Road Armor		game/game/pro_item.msg	3600	Дорожная броня	todo	
+item	high	Robes		game/game/pro_item.msg	2800	Мантия	todo	
+item	high	Robes with Body Armor		game/game/pro_item.msg	2900	Мантия с бронежилетом	todo	
+item	high	Robot Remains		game/game/pro_item.msg	34900	Останки робота	todo	
+item	high	Rock		game/game/pro_item.msg	1800	Камень	todo	
+item	high	Rogue Scavenger Jacket		game/game/pro_item.msg	7200	Амуниция черных старателей	todo	
+item	high	Rope		game/game/pro_item.msg	8300	Веревка	todo	
+item	high	Rotten Dish		game/game/pro_item.msg	6900	Протухшее блюдо	todo	
+item	high	Rubber Boots		game/game/pro_item.msg	8100	Сапоги	todo	
+item	high	Rusty Key		game/game/pro_item.msg	42500	Ржавый ключ	todo	
+item	high	Safe		game/game/pro_item.msg	22900	Сейф	todo	
+item	high	Sarcophagus		game/game/pro_item.msg	34400	Саркофаг	todo	
+item	high	Scarecrow		game/game/pro_item.msg	34200	Пугало	todo	
+item	high	Scoped Hunting Rifle		game/game/pro_item.msg	17600	Охотничья винтовка	todo	
+item	high	Scorpion Tail		game/game/pro_item.msg	9200	Ядовитая железа	todo	
+item	high	Scrap Metal		game/game/pro_item.msg	8800	Металлолом	todo	
+item	high	Secure and reliable shipping crates.		game/game/pro_item.msg	25101	Несколько надежных транспортировочных ящиков.	todo	
+item	high	Sending Crates		game/game/pro_item.msg	19900	Отправка посылки	todo	
+item	high	Sergeant's Remains		game/game/pro_item.msg	32300	Останки сержанта	todo	
+item	high	Several human bones.		game/game/pro_item.msg	21801	Несколько человеческих костей.	todo	
+item	high	Several passwords are written here. They might be useful in the Flagstaff colony.		game/game/pro_item.msg	39101	Здесь записано несколько паролей. Они могут оказаться полезными в колонии Флагпула.	todo	
+item	high	Several sturdy shipping crates.		game/game/pro_item.msg	25001	Несколько надежных транспортировочных ящиков.	todo	
+item	high	Seсor Gustavo asked to secretly deliver this holodisk to the mayor in Old Town.		game/game/pro_item.msg	46201	Этот голодиск сеньор Густаво просил тайно отнести мэру в Старый Город.	todo	
+item	high	Shelves		game/game/pro_item.msg	23200	Полки	todo	
+item	high	Shock Glove		game/game/pro_item.msg	13000	Шоковая перчатка	todo	
+item	high	Shock Spear		game/game/pro_item.msg	11900	Шоковое копье	todo	
+item	high	Shockproof metal ammo box.		game/game/pro_item.msg	19201	Ударостойкий металлический ящик для боеприпасов.	todo	
+item	high	Shotgun		game/game/pro_item.msg	16400	Дробовик	todo	
+item	high	Shotgun shell loaded with a large bullet.		game/game/pro_item.msg	1201	Патрон для дробовика, снаряженный крупной пулей.	todo	
+item	high	Shovel		game/game/pro_item.msg	8200	Лопата	todo	
+item	high	Signal Booster		game/game/pro_item.msg	40500	Усилитель сигнала	todo	
+item	high	Sink		game/game/pro_item.msg	26700	Раковина	todo	
+item	high	Sledgehammer		game/game/pro_item.msg	14500	Кувалда	todo	
+item	high	Small Dusty Box Of Some Sort		game/game/pro_item.msg	6400	Телеужин	todo	
+item	high	Sniper Rifle		game/game/pro_item.msg	16000	Снайперская винтовка	todo	
+item	high	Soldier's Dog Tag		game/game/pro_item.msg	4400	Солдатский жетон	todo	
+item	high	Someone left this backpack full of their stuff here.		game/game/pro_item.msg	31401	Кто-то оставил здесь этот походный рюкзак со всеми его вещами.	todo	
+item	high	Spear		game/game/pro_item.msg	13700	Копье	todo	
+item	high	Spear Fragment		game/game/pro_item.msg	40100	Обломок копья	todo	
+item	high	Spiked Knuckles		game/game/pro_item.msg	12700	Шипованный кастет	todo	
+item	high	Spikes		game/game/pro_item.msg	5800	Шипы	todo	
+item	high	Squire's Dog Tag		game/game/pro_item.msg	11400	Жетон сквайра	todo	
+item	high	Stealth Boy		game/game/pro_item.msg	5400	Стелс-бой	todo	
+item	high	Still		game/game/pro_item.msg	31300	Самогонный аппарат	todo	
+item	high	Stimpak		game/game/pro_item.msg	4000	Стимулятор	todo	
+item	high	Stolen Letters		game/game/pro_item.msg	39500	Утерянные письма	todo	
+item	high	Storage container for all occasions.		game/game/pro_item.msg	1701	Контейнер для хранения вещей на все случаи жизни.	todo	
+item	high	Strings for a five-string guitar.		game/game/pro_item.msg	44801	Струны для пятиструнной гитары.	todo	
+item	high	Strong leather bags. Custom made for your motorcycle.		game/game/pro_item.msg	45601	Прочные кожаные сумки. Специально изготовлены для вашего мотоцикла.	todo	
+item	high	Stuff		game/game/pro_item.msg	22500	Вещи	todo	
+item	high	Stylish Sunglasses		game/game/pro_item.msg	43300	Стильные очки	todo	
+item	high	Super Sledge		game/game/pro_item.msg	14700	Суперкувалда	todo	
+item	high	Super Stimpak		game/game/pro_item.msg	14400	Суперстимулятор	todo	
+item	high	Survival Guide		game/game/pro_item.msg	52300	Руководство по выживанию	todo	
+item	high	Suspicious Package		game/game/pro_item.msg	38800	Сомнительный пакет	todo	
+item	high	Swill		game/game/pro_item.msg	12200	Пойло	todo	
+item	high	T-51b Power Armor		game/game/pro_item.msg	3400	Силовая броня	todo	
+item	high	Table		game/game/pro_item.msg	24400	Стол	todo	
+item	high	Tablet with Notes		game/game/pro_item.msg	46100	Планшет с записями	todo	
+item	high	Tank with Bio-waste		game/game/pro_item.msg	32200	Бак с биомусором	todo	
+item	high	Taser		game/game/pro_item.msg	48400	Тазер	todo	
+item	high	Teeth of the Rat King		game/game/pro_item.msg	42600	Зубы короля крыс	todo	
+item	high	Tejada Machine Gun		game/game/pro_item.msg	18600	Пулемет Техады	todo	
+item	high	Tesla Armor		game/game/pro_item.msg	3100	Броня Тесла	todo	
+item	high	The access codes for the radio station in the Cathedral.		game/game/pro_item.msg	41501	Здесь записаны коды доступа от радиостанции в Соборе.	todo	
+item	high	The advertising on the side of this machine promotes their popular soda.		game/game/pro_item.msg	31501	Реклама на борту этого автомата изображает популярный напиток.	todo	
+item	high	The Atomic Rush Casino Suite Key.		game/game/pro_item.msg	41401	"Ключ от номера люкс в казино ""Атомная лихорадка""."	todo	
+item	high	The body of a malformed mutant.		game/game/pro_item.msg	33701	Тело мерзкого мутанта.	todo	
+item	high	The bone-shrunken corpse of a sergeant. Apparently, he was killed by security robots.		game/game/pro_item.msg	32301	Усохший до костей труп сержанта. Очевидно, его убили охранные роботы.	todo	
+item	high	The frozen corpse of an escaped prisoner.		game/game/pro_item.msg	31601	Окоченевший труп беглого заключенного.	todo	
+item	high	The frozen corpse of one of the expedition's guards. He died from loss of blood.		game/game/pro_item.msg	31901	Окоченевший труп одного из охранников экспедиции. Он умер от потери крови.	todo	
+item	high	The head of yet another Los Panchos boss.		game/game/pro_item.msg	39901	Эта голова когда-то висела на плечах атамана Лос Панчос.	todo	
+item	high	The missing pistol from the Ranger warehouse.		game/game/pro_item.msg	38401	Тот самый пистолет, который был потерян на складе рейнджеров.	todo	
+item	high	The overseer's journal from Vault 24.		game/game/pro_item.msg	35901	Дневник смотрителя из убежища 24.	todo	
+item	high	The Scavenger Cartel would certainly be interested in this piece of ancient technology.		game/game/pro_item.msg	40301	Картель мусорщиков наверняка заинтересуется этим предметом древних технологий.	todo	
+item	high	The severed head of a boss of Los Panchos.		game/game/pro_item.msg	39701	Эта голова когда-то висела на плечах атамана Лос Панчос.	todo	
+item	high	The severed head of a legendary marksman from the Mercenary Guild.		game/game/pro_item.msg	40001	Эта голова когда-то принадлежала легендарному стрелку из гильдии наемников.	todo	
+item	high	The severed head of the leader of the Blue Shields.		game/game/pro_item.msg	39601	Эта голова когда-то держалась на плечах предводителя Синих Щитов.	todo	
+item	high	The severed tail of a radscorpion.		game/game/pro_item.msg	9201	Фрагмент хвоста радскорпиона, в котором содержится немного мяса... и железа с сильным ядом.	todo	
+item	high	The spiked whip is the weapon of truly carnivorous plants.		game/game/pro_item.msg	5801	Шипованный хлыст - оружие по-настоящему хищных растений.	todo	
+item	high	The torn body of a young man. Apparently, he fell into the clutches of the local wildlife.		game/game/pro_item.msg	34301	Разодранное в клочья тело молодого мужчины. Видимо, но попался в лапы местной фауны.	todo	
+item	high	These are Henry Bemis' reading glasses. They are enormous.		game/game/pro_item.msg	38501	Это очки Генри Бимиса для чтения. Они просто огромны.	todo	
+item	high	"These are miscellaneous items, also known as ""stuff""."		game/game/pro_item.msg	22501	"Разнообразные предметы, которые можно назвать одним словом ""вещи""."	todo	
+item	high	These glow-in-the-dark mushrooms grow right in the middle of a toxic puddle.		game/game/pro_item.msg	32601	Эти светящиеся в темноте грибы растут прямо посреди токсичной лужи.	todo	
+item	high	These parts can be used to repair one of the damaged howitzers.		game/game/pro_item.msg	48901	Эти детали можно использовать для починки одной из поврежденных гаубиц.	todo	
+item	high	This box is used to collect donations.		game/game/pro_item.msg	32701	Этот ящик служит для сбора пожертвований.	todo	
+item	high	This dog tag bears a name and identification number.		game/game/pro_item.msg	11301	На этом жетоне можно различить имя и идентификационный номер.	todo	
+item	high	This ground was hastily dug. Bones and bits of fur poke through the dirt.		game/game/pro_item.msg	19501	Эта земля была поспешно вскопана. Из нее торчит несколько костей и клочки шерсти.	todo	
+item	high	This ground was recently disturbed. Could be a treasure or a corpse buried here.		game/game/pro_item.msg	19601	Эта земля была недавно вскопана. Возможно, там зарыли клад. Или труп.	todo	
+item	high	This holotape contains the latest reports from the Greenway Hydroponics laboratory.		game/game/pro_item.msg	37301	"На этом голодиске хранятся последние отчеты из лаборатории ""Гринуэй Гидропоникс""."	todo	
+item	high	This is a border patrol badge. It's covered in an obscenely thick layer of ash and dirt.		game/game/pro_item.msg	45101	Это значок пограничного патрульного. Он покрыт неприлично густым слоем пепла и грязи.	todo	
+item	high	This is a processor unit for T-51b Power Armor.		game/game/pro_item.msg	38001	Перед вами процессор от силовой брони T51b.	todo	
+item	high	This is a rope mop. It just is. Min ST: 1.		game/game/pro_item.msg	18001	Это веревочная швабра. Она и есть. Мин. сила: 1.	todo	
+item	high	This is a shovel for digging ditches and stuff.		game/game/pro_item.msg	8201	Это обыкновенная лопата для копания грунта. Берегите ее.	todo	
+item	high	This is an empty hypodermic. A rare and valuable item for modern medicine.		game/game/pro_item.msg	11201	Это стерильный пустой шприц для подкожных инъекций. Редкий и ценный предмет для современной медицины.	todo	
+item	high	This is an old pool table. No self-respecting billiard connoisseur would play here.		game/game/pro_item.msg	33201	Это старый стол для игры в бильярд. Никакой уважающий себя ценитель бильярда играть здесь не станет.	todo	
+item	high	This is Donovan's body. Donovan is dead.		game/game/pro_item.msg	45001	Это тело Донована. Донован мертв.	todo	
+item	high	This is the cash desk, and there is a cash register on it.		game/game/pro_item.msg	33601	Это кассовый стол. И на нем находится кассовый аппарат.	todo	
+item	high	This is the overseer's post. It hasn't been used for a long time.		game/game/pro_item.msg	32001	Это пост смотрителя. Им давно не пользовались.	todo	
+item	high	This newspaper machine is probably empty... or not.		game/game/pro_item.msg	32401	Этот газетный автомат наверняка пуст... или нет.	todo	
+item	high	This rack is covered with various tools.		game/game/pro_item.msg	27001	На этой доске хранятся разнообразные инструменты.	todo	
+item	high	This robot has been sucked into a toxic quagmire. What a terrible death!		game/game/pro_item.msg	34901	Этого робота засосала токсичная трясина. Какая ужасная смерть!	todo	
+item	high	This table is cluttered with various junk.		game/game/pro_item.msg	45901	Этот столик завален различным мусором.	todo	
+item	high	This table is used for cutting meat. Human flesh.		game/game/pro_item.msg	33301	Этот стол используется для разделки мяса. Человеческого мяса.	todo	
+item	high	This tag is engraved with the name of the fisherman Ferrino.		game/game/pro_item.msg	44501	На этом жетоне выгравирована фамилия рыбака Феррино.	todo	
+item	high	This token is used as the owner wishes.		game/game/pro_item.msg	4601	Этот жетон используется так, как угодно его обладателю.	todo	
+item	high	This weapon uses electromagnetic power to launch metal projectiles. Min ST: 7.		game/game/pro_item.msg	18301	Это оружие использует силу электромагнетизма, чтобы стрелять металлическими предметами. Мин. сила: 7.	todo	
+item	high	This worn dog tag bears a soldier's name and identification number.		game/game/pro_item.msg	4401	На этом затертом жетоне можно различить имя солдата и его идентификационный номер.	todo	
+item	high	Throwing Knife		game/game/pro_item.msg	1900	Метательный нож	todo	
+item	high	Tinsmiths' Goggles		game/game/pro_item.msg	7800	Очки жестянщика	todo	
+item	high	Tire Sandals		game/game/pro_item.msg	10000	Сандалии из шин	todo	
+item	high	Token		game/game/pro_item.msg	4600	Жетон	todo	
+item	high	Tool Rack		game/game/pro_item.msg	27000	Щит с инструментами	todo	
+item	high	Torpedo Key		game/game/pro_item.msg	41300	Торпедный ключ	todo	
+item	high	Totem		game/game/pro_item.msg	33500	Тотем	todo	
+item	high	Tradebox		game/game/pro_item.msg	19300	Товарный ящик	todo	
+item	high	Trash Can		game/game/pro_item.msg	24000	Мусорный бак	todo	
+item	high	Trash Pile		game/game/pro_item.msg	19700	Мусорная куча	todo	
+item	high	Trinitite		game/game/pro_item.msg	9300	Тринитит	todo	
+item	high	Trunk		game/game/pro_item.msg	45500	Багажник	todo	
+item	high	Turbo Plasma Rifle		game/game/pro_item.msg	19100	Турбоплазменная винтовка	todo	
+item	high	Turret Cannon		game/game/pro_item.msg	18900	Турельная пушка	todo	
+item	high	Twin plasma cannon for turret installation.		game/game/pro_item.msg	18901	Спаренная плазменная пушка для турели.	todo	
+item	high	Typically used by merchants for storing their goods.		game/game/pro_item.msg	19301	Такой ящик обычно используют торговцы для хранения своего товара.	todo	
+item	high	Universal container		game/game/pro_item.msg	1700	Универсальный контейнер	todo	
+item	high	Unusual fruit. No preservatives or dyes. Effects: +3 hit points.		game/game/pro_item.msg	6101	Необычный фрукт. Без консервантов и красителей. Эффекты: +3 здоровье.	todo	
+item	high	Useless trash from your pocket. If you find this, you're out of luck.		game/game/pro_item.msg	4501	Бесполезный мусор из кармана. Если вы это нашли, значит, вам крупно не повезло.	todo	
+item	high	Vacuum Tube		game/game/pro_item.msg	46300	Катодная лампа	todo	
+item	high	Valuable Relic		game/game/pro_item.msg	37600	Ценная реликвия	todo	
+item	high	Various letters for recipients in Phoenix.		game/game/pro_item.msg	39501	Различные письма для адресатов в Фениксе.	todo	
+item	high	Various things are frozen in this pile of ice.		game/game/pro_item.msg	34501	В этой ледяной куче замерзли различные вещи.	todo	
+item	high	Vault Diary		game/game/pro_item.msg	35100	Дневник из убежища	todo	
+item	high	Ventilation Block		game/game/pro_item.msg	33400	Вентиляционный блок	todo	
+item	high	Vertibird Schematics		game/game/pro_item.msg	47300	Чертежи винтокрыла	todo	
+item	high	Very durable stationary safe.		game/game/pro_item.msg	24901	Очень прочный стационарный сейф.	todo	
+item	high	Wagon		game/game/pro_item.msg	21900	Повозка	todo	
+item	high	Walkie-Talkie		game/game/pro_item.msg	5500	Рация	todo	
+item	high	Wall Safe		game/game/pro_item.msg	24800	Сейф	todo	
+item	high	Wasteland Gum		game/game/pro_item.msg	9800	Пустошная жвачка	todo	
+item	high	Wasteland Tequila		game/game/pro_item.msg	12500	Пустошная текила	todo	
+item	high	Water Chip		game/game/pro_item.msg	46900	Водяной чип	todo	
+item	high	Wattz 3000 crystal		game/game/pro_item.msg	45300	Кристалл Уоттс 3000	todo	
+item	high	Wedding Pendant		game/game/pro_item.msg	49200	Брачный кулон	todo	
+item	high	Welding Machine		game/game/pro_item.msg	40600	Сварочный аппарат	todo	
+item	high	Well, this is a standard, old, completely ordinary workbench.		game/game/pro_item.msg	26901	Да, это стандартный, старый, совершенно обычный верстак.	todo	
+item	high	Wet Wipes		game/game/pro_item.msg	9700	Влажные салфетки	todo	
+item	high	White Substance		game/game/pro_item.msg	37200	Белое вещество	todo	
+item	high	Winch Handle		game/game/pro_item.msg	40400	Рукоять лебедки	todo	
+item	high	Winchester		game/game/pro_item.msg	17900	Винчестер	todo	
+item	high	Wooden box specifically designed for storing bottles.		game/game/pro_item.msg	25401	Деревянный ящик, рассчитанный под хранение бутылок.	todo	
+item	high	Wooden Figurine		game/game/pro_item.msg	38200	Деревянная фигурка	todo	
+item	high	Wooden shelves in excellent condition.		game/game/pro_item.msg	26101	Деревянный шкаф в отличном состоянии.	todo	
+item	high	Wooden shelves in poor condition.		game/game/pro_item.msg	26201	Деревянный шкаф в аварийном состоянии.	todo	
+item	high	Wooden shelves, or rather, what's left of them.		game/game/pro_item.msg	26301	Деревянный шкаф. Точнее - то, что от него осталось.	todo	
+item	high	Workbench		game/game/pro_item.msg	26900	Верстак	todo	
+item	high	Worn Key		game/game/pro_item.msg	42200	Потертый ключ	todo	
+item	high	Yet another mysterious chemical from the Followers' lab.		game/game/pro_item.msg	37001	Какой-то химикат из лаборатории Последователей.	todo	
+item	high	You are bidding for this brahmin.		game/game/pro_item.msg	36201	Вы торгуетесь за этого брамина.	todo	
+item	high	You see a T-51b Power Armor helmet.		game/game/pro_item.msg	37901	Перед вами шлем от силовой брони T51b.	todo	
+item	high	You see Ed's bones. There are remnants of overalls with the number 13 on them.		game/game/pro_item.msg	34701	Вы видите кости Эда. На них имеются остатки комбинезона с цифрой 13.	todo	
+item	high	Your basic footlocker. Holds stuff, sits at foot of bed, can be locked.		game/game/pro_item.msg	28301	Персональный сундучок. Предназначен для хранения вещей, удобно располагается у кровати, запирается на ключ.	todo	
+item	high	ZAX Access Card		game/game/pro_item.msg	41700	Карта доступа ZAX	todo	
+item	high	ZAX Update		game/game/pro_item.msg	40700	Обновление ZAX	todo	
+item	high	Zip Gun		game/game/pro_item.msg	17500	Пугач	todo	
+item	high	ЎViva Villa!		game/game/pro_item.msg	49900	"""Вива, Вилья!"""	todo	

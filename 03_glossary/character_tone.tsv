@@ -1,0 +1,11 @@
+character_type	vulgarity_intensity	rule
+system_ui	0	No vulgarity. Precise, clear, neutral.
+item_description	0-1	Almost no vulgarity unless item itself is crude joke.
+civilian	0-2	Natural Czech, mostly clean.
+merchant	0-2	Practical, possibly dry humor.
+authority_soldier	1-3	Short, hard, commands; some 'sakra/do prdele'.
+pirate_sailor	2-4	Rough, direct, sea idioms, occasional vulgarity.
+raider_bandit	3-5	Harsh threats, profanity acceptable.
+drunk_junkie	2-5	Chaotic, slangy, vulgar if source supports it.
+villain_abuser	4-5	Can use extreme insults if source is extreme; never sanitize villain too much.
+formal_npc	0-1	No random vulgarity.

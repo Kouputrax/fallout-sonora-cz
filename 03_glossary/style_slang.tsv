@@ -1,0 +1,52 @@
+english_cue	neutral_cz	rough_cz	very_rough_cz	intensity	category	when_to_use
+damn	sakra	do prdele	kurva	1-3	exclamation	Use by rough NPCs; neutral texts milder.
+goddamn	zatraceny	zasrany	zkurveny	3-5	modifier	Only if source is harsh.
+shit	sakra	do hajzlu	do prdele / kurva	2-4	exclamation	Use for panic/anger.
+fuck	do prdele	kurva	do pice	4-5	exclamation	Rare; extreme anger.
+fucking	zatraceny	zasrany	zkurveny	3-5	modifier	Do not overuse.
+bastard	parchant	hajzl	zkurvysyn	3-5	insult_person	Personal insult.
+son of a bitch	parchant	hajzl	zkurvysyn	4-5	insult_person	Strong personal insult.
+piece of shit	kram	srac	zkurveny kram / kus hovna	3-5	insult_person_or_object	Object/person by context.
+scum	spina	verbez	svine	3-5	insult_group	Gang/enemy speech.
+filth	spina	spinava verbez	zasrana verbez	3-5	insult_group	Enemy speech.
+trash	odpad	verbez	smejd	2-4	insult_group	Insult.
+asshole	blbec	hajzl	kreten	3-5	insult_person	Insult.
+jerk	blbec	hajzl	kreten	2-4	insult_person	Milder insult.
+idiot	hlupak	blbec	debil	2-4	insult_person	Insult.
+moron	pitomec	blbec	debil	2-4	insult_person	Insult.
+coward	zbabelec	srab	posranej srab	2-4	insult_person	Conflict.
+traitor	zradce	zradce	zkurveny zradce	2-5	insult_person	Betrayal context.
+we're screwed	jsme v haji	jsme v prdeli	jsme v pici	3-5	crisis	Desperate/rough characters.
+we're fucked	jsme v prdeli	jsme v prdeli	jsme v pici	4-5	crisis	Strong crisis.
+I'm screwed	jsem v haji	jsem v prdeli	jsem v pici	3-5	crisis	Tone-sensitive.
+you're screwed	jsi v haji	jsi v prdeli	jsi v pici	3-5	threat	Rough threat/taunt.
+what the hell	co to sakra	co to do prdele	co to kurva	2-4	exclamation	Surprise/anger.
+who the hell	kdo sakra	kdo do prdele	kdo kurva	2-4	question	Rough authority/bandit.
+where the hell	kde sakra	kde do prdele	kde kurva	2-4	question	Rough speech.
+get lost	zmiz	tahni	tahni do prdele	2-4	dismissal	Hostile dismissal.
+go away	jdi pryc	vypadni	vypadni do prdele	1-4	dismissal	Tone-sensitive.
+shut up	mlc	drz hubu	zavri hubu	2-4	command	Conflict.
+piss off	dej pokoj	tahni	tahni do prdele	3-4	dismissal	Rough character.
+leave me alone	nech me byt	dej mi pokoj	dej mi kurva pokoj	1-4	dismissal	Tone-sensitive.
+you're dead	jsi mrtvy	jsi mrtvej	jsi mrtvej, hajzle	2-5	threat	Threat.
+I'll kill you	zabiju te	oddelam te	zabiju te, hajzle	3-5	threat	Threat.
+I'll gut you	rozparu te	vykucham te	vykucham te jak prase	4-5	threat	Very rough enemy.
+I'll rip you apart	roztrham te	rozervu te	roztrham te na kusy	4-5	threat	Violent threat.
+you're crazy	jsi blazen	ses cvok	ses uplne vymletej	2-4	insult_person	Avoid too modern if serious.
+crazy bastard	sileny parchant	silenej hajzl	silenej zkurvysyn	4-5	insult_person	Rough character.
+old man	starik	dedek	starej dedek	1-3	address	Respect-sensitive.
+kid	kluk / holka	decko	spratku	1-4	address	Context-sensitive.
+friend	priteli	kamarade	brachu	1-3	address	Amigo often keep.
+buddy	kamarade	kamo	kamo, do prdele	1-4	address	Rough friendly NPC.
+boss	sefe	sefe	bossi	1-2	address	Context.
+black mark	cerna znacka	cerne znameni	cerna skvrna	2	term	Pirate/marine context. Not 'cerna znamka'.
+scrape by	nejak prezit	protlouct se	protlouct se touhle dirou	1-3	idiom	Fallout style.
+live or die on your own	jsi v tom sam	bud prezijes, nebo chcipnes	tady bud prezijes, nebo chcipnes	2-4	idiom	Rough NPC.
+dead mountains	mrtve hory	mrtve kopce	mrtve pustiny	1-2	description	Geography.
+poisoned coast	otravene pobrezi	pobrezi je otravene	cele pobrezi je v haji	1-4	description	Tone-sensitive.
+fair winds	stastny vitr	vitr do plachet	at ti vitr preje	1-2	farewell	Marine farewell. Not 'vetrny vitr'.
+whore	devka	kurva	spinava kurva	4-5	gendered_extreme	Use only if source explicitly uses sexual/gendered insult and speaker is meant to sound abusive.
+bitch	mrcha	svine	zasrana mrcha	3-5	gendered_or_general_insult	Can be gendered or general; avoid if source not abusive.
+slut	coura	coura	spinava coura	4-5	gendered_extreme	Use only if source explicitly has misogynistic/sexual insult.
+cunt	svine	kunda	zkurvena kunda	5	gendered_extreme	Extreme; only if original is equally extreme and character is intentionally vile.
+old hag	stara carodejnice	stara mrcha	stara svine	3-5	gendered_extreme	Abusive NPC only.

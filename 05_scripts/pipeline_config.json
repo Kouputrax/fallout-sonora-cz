@@ -1,0 +1,14 @@
+{
+    "provider": "openrouter",
+    "ollama_host": "http://localhost:11434",
+    "ollama_model": "qwen3:8b",
+    "openrouter_model": "anthropic/claude-3-haiku",
+    "openrouter_repair_model": "qwen/qwen3-235b-a22b-2507",
+    "en_root": "01_sources/sonora_en",
+    "ru_root": "01_sources/sonora_ru",
+    "export_file": "02_work/export/sonora_export.jsonl",
+    "translated_file": "02_work/translated/sonora_translated.jsonl",
+    "repaired_file": "02_work/translated/sonora_translated_repaired.jsonl",
+    "glossary_dir": "03_glossary",
+    "output_root": "06_output/czech_text"
+}

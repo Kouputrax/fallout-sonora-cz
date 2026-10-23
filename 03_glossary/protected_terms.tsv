@@ -1,0 +1,48 @@
+source	target	mode	note
+New Reno	New Reno	KEEP	Location/sign. Never translate as Nove Reno.
+Vault	Vault	KEEP	Established Fallout term.
+Vault City	Vault City	KEEP	Location.
+Pip-Boy	Pip-Boy	KEEP	Device name.
+GECK	GECK	KEEP	Technology/item acronym.
+G.E.C.K.	G.E.C.K.	KEEP	Technology/item acronym.
+NCR	NCR	KEEP	Faction acronym.
+New California Republic	Republika Nove Kalifornie	TRANSLATE_TERM	Faction.
+Brotherhood of Steel	Bratrstvo oceli	TRANSLATE_TERM	Faction.
+Brotherhood	Bratrstvo	TRANSLATE_TERM	If Brotherhood of Steel.
+Enclave	Enklava	TRANSLATE_TERM	Faction.
+Wasteland	Pustina	TRANSLATE_TERM	Fallout world term.
+Caps	Zatky	TRANSLATE_TERM	Currency.
+caps	zatky	TRANSLATE_TERM	Currency.
+Stimpak	Stimpak	KEEP	Item.
+RadAway	RadAway	KEEP	Item.
+Rad-X	Rad-X	KEEP	Item.
+Jet	Jet	KEEP	Drug/item.
+Mentats	Mentats	KEEP	Drug/item.
+Nuka-Cola	Nuka-Cola	KEEP	Brand.
+RobCo	RobCo	KEEP	Company.
+West Tek	West Tek	KEEP	Company.
+Poseidon Energy	Poseidon Energy	KEEP	Company.
+Mr. Handy	Mr. Handy	KEEP	Robot.
+Deathclaw	Deathclaw	KEEP_OR_REVIEW	Creature name; keep unless final CZ term says otherwise.
+Super Mutant	supermutant	TRANSLATE_TERM	Creature/person.
+ghoul	ghul	TRANSLATE_TERM	Creature/person.
+raider	najezdnik	TRANSLATE_TERM	Enemy/NPC type.
+slaver	otrokar	TRANSLATE_TERM	NPC type.
+Chosen One	Vyvoleny	TRANSLATE_TERM	Fallout 2 term.
+Arroyo	Arroyo	KEEP	Location.
+Klamath	Klamath	KEEP	Location.
+The Den	Den	KEEP_OR_REVIEW	Location; do not translate as generic brloh if town.
+Redding	Redding	KEEP	Location.
+Modoc	Modoc	KEEP	Location.
+Broken Hills	Broken Hills	KEEP	Location; not Rozbite kopce.
+San Francisco	San Francisco	KEEP	Location.
+Navarro	Navarro	KEEP	Location.
+Fondeport	Fondeport	KEEP	Sonora location.
+Cesareo	Cesareo	KEEP	Name; Czech declension allowed: s Cesareem.
+Hector	Hektor	TRANSLATE_NAME_OPTIONAL	Use consistently if localized.
+amigo	amigo	KEEP	Spanish flavor.
+amiga	amiga	KEEP	Spanish flavor.
+senor	senor	KEEP	Spanish flavor; if encoding allows, señor.
+senora	senora	KEEP	Spanish flavor; if encoding allows, señora.
+gracias	gracias	KEEP	Spanish flavor.
+No hablo ingles	No hablo ingles	KEEP	Do not translate Spanish sentence; fix mojibake if needed.

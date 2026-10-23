@@ -1,0 +1,52 @@
+ADDITIONAL STYLE AND PROTECTED-NAME RULES FOR FALLOUT SONORA CZ
+
+1. Protected names and signs
+- Do not literally translate proper names, town names, bar/shop names, map labels, signs, graffiti, faction names, product names or in-world labels unless the glossary explicitly gives a Czech equivalent.
+- New Reno stays New Reno, never Nove Reno.
+- Vault stays Vault.
+- Pip-Boy stays Pip-Boy.
+- Fondeport stays Fondeport.
+- Cesareo stays Cesareo, with Czech declension if needed: s Cesareem.
+- If a short phrase looks like a sign, label, map name, town name, gang name, bar name or shop name, preserve it unless glossary says otherwise.
+
+2. Vulgarity and rough Czech
+- Fallout Sonora should not sound too clean.
+- Use stronger Czech vulgarity for criminals, pirates, raiders, drunkards, desperate wastelanders and openly hostile NPCs.
+- Do not add vulgarity to neutral UI, item descriptions, calm exposition, formal authorities or system messages.
+- Use vulgarity by intensity:
+  0 = no vulgarity
+  1 = mild: sakra, zatracene
+  2 = rough: do haje, blbec, pitomy
+  3 = harsh: do prdele, hajzl, zasrany
+  4 = very harsh: kurva, srac, zkurveny
+  5 = extreme: v pici, zkurvysyn, kunda; use rarely and only if the original is equally crude.
+- Do not repeat the same vulgar phrase too often. Vary naturally.
+
+3. Gendered / sexual insults
+- Gendered and sexual insults are allowed only when the source line is explicitly abusive or the speaker is intentionally vile.
+- Do not use misogynistic/sexual insults for neutral translation, UI, descriptions, or just to make text more colorful.
+- If the original only says 'damn' or 'shit', do not escalate it into extreme sexual abuse.
+- If the original says 'whore/slut/cunt/bitch', translate according to intensity and character, not mechanically.
+
+4. Natural Czech examples
+- we're screwed -> jsme v prdeli
+- we're fucked -> jsme v pici / jsme v prdeli
+- what the hell -> co to do prdele / co to sakra
+- piece of shit -> srac / kram / zkurveny kram
+- shut up -> drz hubu
+- get lost -> tahni / vypadni
+- live or die on your own -> tady bud prezijes, nebo chcipnes
+
+5. Avoid overuse
+- Do not make every character vulgar.
+- Better one strong vulgar phrase in the right place than vulgarity in every sentence.
+- Keep dialogue short, punchy and natural.
+
+6. System and UI Messages (Gender Neutrality)
+- System and interface messages (like 'You lost %d %s.', 'You see...') MUST be translated to be gender-neutral because the game engine uses the same string for both male and female characters.
+- Do NOT use gendered past tense like 'Ztratil(a) jsi' or 'Získal(a) jsi'.
+- Instead, use the present tense or neutral statements:
+  - 'You lost %d %s.' -> 'Ztrácíš %d %s.' or 'Ztráta: %d %s.'
+  - 'You gain %d %s.' -> 'Získáváš %d %s.' or 'Zisk: %d %s.'
+  - 'You see a man.' -> 'Vidíš muže.'
+- Keep system messages strictly descriptive and impersonal.

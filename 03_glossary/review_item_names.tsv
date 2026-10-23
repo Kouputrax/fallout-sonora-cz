@@ -1,0 +1,373 @@
+﻿category	priority	source_en	target_cs_locked	file	id	ru_context	decision	notes
+item	high	Nuclear Battery		game/game/pro_item.msg	100	Ядерная батарейка	todo	
+item	high	Micro Fusion Cell		game/game/pro_item.msg	200	Микроядерная батарея	todo	
+item	high	.22 Caliber		game/game/pro_item.msg	300	Патрон .22	todo	
+item	high	9mm		game/game/pro_item.msg	400	Патрон 9 мм	todo	
+item	high	10mm		game/game/pro_item.msg	500	Патрон 10 мм	todo	
+item	high	10mm NSP		game/game/pro_item.msg	600	Патрон 10 мм NSP	todo	
+item	high	.44 Caliber		game/game/pro_item.msg	700	Патрон .44	todo	
+item	high	.50 Caliber		game/game/pro_item.msg	800	Патрон .50	todo	
+item	high	5mm		game/game/pro_item.msg	900	Патрон 5 мм	todo	
+item	high	.308 Caliber		game/game/pro_item.msg	1000	Патрон .308	todo	
+item	high	12 ga. Shotgun Shells		game/game/pro_item.msg	1100	Патрон 12 калибра	todo	
+item	high	12 ga. Shotgun Bullet		game/game/pro_item.msg	1200	Патрон 12 кал. пулевой	todo	
+item	high	40mm Grenade		game/game/pro_item.msg	1300	Граната 40 мм	todo	
+item	high	Flare Round		game/game/pro_item.msg	1400	Сигнальный патрон	todo	
+item	high	Modified Flare Round		game/game/pro_item.msg	1500	Сигнальный патрон	todo	
+item	high	Reinforced Flare Round		game/game/pro_item.msg	1600	Сигнальный патрон	todo	
+item	high	Universal container		game/game/pro_item.msg	1700	Универсальный контейнер	todo	
+item	high	Rock		game/game/pro_item.msg	1800	Камень	todo	
+item	high	Throwing Knife		game/game/pro_item.msg	1900	Метательный нож	todo	
+item	high	Grenade (Frag)		game/game/pro_item.msg	2000	Осколочная граната	todo	
+item	high	Grenade (Plasma)		game/game/pro_item.msg	2100	Плазменная граната	todo	
+item	high	Grenade (Pulse)		game/game/pro_item.msg	2200	Импульсная граната	todo	
+item	high	Grenade (Nuclear)		game/game/pro_item.msg	2300	Ядерная граната	todo	
+item	high	Jumpsuit		game/game/pro_item.msg	2400	Комбинезон	todo	
+item	high	Leather Jacket		game/game/pro_item.msg	2500	Кожаная куртка	todo	
+item	high	Combat Leather Jacket		game/game/pro_item.msg	2600	Бронекуртка	todo	
+item	high	Leather Armor		game/game/pro_item.msg	2700	Кожаная броня	todo	
+item	high	Robes		game/game/pro_item.msg	2800	Мантия	todo	
+item	high	Robes with Body Armor		game/game/pro_item.msg	2900	Мантия с бронежилетом	todo	
+item	high	Metal Armor		game/game/pro_item.msg	3000	Металлическая броня	todo	
+item	high	Tesla Armor		game/game/pro_item.msg	3100	Броня Тесла	todo	
+item	high	Combat Armor		game/game/pro_item.msg	3200	Боевая броня	todo	
+item	high	Brotherhood Armor		game/game/pro_item.msg	3300	Боевая броня Братства	todo	
+item	high	T-51b Power Armor		game/game/pro_item.msg	3400	Силовая броня	todo	
+item	high	Road Armor		game/game/pro_item.msg	3600	Дорожная броня	todo	
+item	high	Ranger Duster		game/game/pro_item.msg	3700	Пыльник рейнджера	todo	
+item	high	Fuel Cell Battery		game/game/pro_item.msg	3800	Ядерный блок	todo	
+item	high	!Do not use		game/game/pro_item.msg	3900	!Не использовать	todo	
+item	high	Stimpak		game/game/pro_item.msg	4000	Стимулятор	todo	
+item	high	Bottle caps		game/game/pro_item.msg	4100	Крышки от бутылок	todo	
+item	high	Pre-war money		game/game/pro_item.msg	4200	Довоенные деньги	todo	
+item	high	Casino Chips		game/game/pro_item.msg	4300	Фишки казино	todo	
+item	high	Soldier's Dog Tag		game/game/pro_item.msg	4400	Солдатский жетон	todo	
+item	high	Pocket Trash		game/game/pro_item.msg	4500	Карманный мусор	todo	
+item	high	Token		game/game/pro_item.msg	4600	Жетон	todo	
+item	high	RadAway		game/game/pro_item.msg	4800	Антирадин	todo	
+item	high	Antidote		game/game/pro_item.msg	4900	Противоядие	todo	
+item	high	Doctor's Bag		game/game/pro_item.msg	5000	Докторский чемоданчик	todo	
+item	high	Geiger Counter		game/game/pro_item.msg	5200	Счетчик Гейгера	todo	
+item	high	Mentats		game/game/pro_item.msg	5300	Ментаты	todo	
+item	high	Stealth Boy		game/game/pro_item.msg	5400	Стелс-бой	todo	
+item	high	Walkie-Talkie		game/game/pro_item.msg	5500	Рация	todo	
+item	high	Iguana Trap		game/game/pro_item.msg	5600	Ловушка на игуан	todo	
+item	high	Chestplate		game/game/pro_item.msg	5700	Нагрудный щиток	todo	
+item	high	Spikes		game/game/pro_item.msg	5800	Шипы	todo	
+item	high	Motion Sensor		game/game/pro_item.msg	5900	Сенсор движения	todo	
+item	high	Iguana-on-a-stick		game/game/pro_item.msg	6000	Игуана-на-палочке	todo	
+item	high	Mutfruit		game/game/pro_item.msg	6100	Мутафрукт	todo	
+item	high	Jerky		game/game/pro_item.msg	6200	Вяленое мясо	todo	
+item	high	Box Of Noodles		game/game/pro_item.msg	6300	Довоенная лапша	todo	
+item	high	Small Dusty Box Of Some Sort		game/game/pro_item.msg	6400	Телеужин	todo	
+item	high	Larvae		game/game/pro_item.msg	6500	Личинки	todo	
+item	high	Brahmin Sausages		game/game/pro_item.msg	6600	Браминьи потроха	todo	
+item	high	Rat Soup		game/game/pro_item.msg	6700	Cуп из крысы	todo	
+item	high	MRE		game/game/pro_item.msg	6800	ИРП	todo	
+item	high	Rotten Dish		game/game/pro_item.msg	6900	Протухшее блюдо	todo	
+item	high	Fried Cockroach		game/game/pro_item.msg	7000	Жареный таракан	todo	
+item	high	Chips		game/game/pro_item.msg	7100	Чипсы	todo	
+item	high	Rogue Scavenger Jacket		game/game/pro_item.msg	7200	Амуниция черных старателей	todo	
+item	high	!Reserve book		game/game/pro_item.msg	7300	!Книга-резерв	todo	
+item	high	Lock Picks		game/game/pro_item.msg	7400	Отмычка	todo	
+item	high	Decoder		game/game/pro_item.msg	7500	Декодер	todo	
+item	high	Gas Mask		game/game/pro_item.msg	7700	Противогаз	todo	
+item	high	Tinsmiths' Goggles		game/game/pro_item.msg	7800	Очки жестянщика	todo	
+item	high	Flare		game/game/pro_item.msg	7900	Вспышка	todo	
+item	high	Rubber Boots		game/game/pro_item.msg	8100	Сапоги	todo	
+item	high	Shovel		game/game/pro_item.msg	8200	Лопата	todo	
+item	high	Rope		game/game/pro_item.msg	8300	Веревка	todo	
+item	high	Lighter		game/game/pro_item.msg	8400	Зажигалка	todo	
+item	high	Plastic Explosives		game/game/pro_item.msg	8500	Взрывчатка	todo	
+item	high	Buffout		game/game/pro_item.msg	8700	Баффаут	todo	
+item	high	Scrap Metal		game/game/pro_item.msg	8800	Металлолом	todo	
+item	high	Electronic Parts		game/game/pro_item.msg	8900	Детали электроники	todo	
+item	high	Flammable Mixture		game/game/pro_item.msg	9000	Горючая смесь	todo	
+item	high	Scorpion Tail		game/game/pro_item.msg	9200	Ядовитая железа	todo	
+item	high	Trinitite		game/game/pro_item.msg	9300	Тринитит	todo	
+item	high	Pre-war Book		game/game/pro_item.msg	9400	Уцелевшая книга	todo	
+item	high	Cornmeal		game/game/pro_item.msg	9500	Маисовая мука	todo	
+item	high	Cleaning Agent		game/game/pro_item.msg	9600	Чистящее средство	todo	
+item	high	Wet Wipes		game/game/pro_item.msg	9700	Влажные салфетки	todo	
+item	high	Wasteland Gum		game/game/pro_item.msg	9800	Пустошная жвачка	todo	
+item	high	Coffee		game/game/pro_item.msg	9900	Кофе	todo	
+item	high	Tire Sandals		game/game/pro_item.msg	10000	Сандалии из шин	todo	
+item	high	Ceramics		game/game/pro_item.msg	10100	Керамика	todo	
+item	high	Brahmin Herder's Battle Shield		game/game/pro_item.msg	10300	Боевой щит скотоводов	todo	
+item	high	NMR Combat Armor		game/game/pro_item.msg	10400	Боевая броня НМР	todo	
+item	high	Hip Flask		game/game/pro_item.msg	10500	Походная фляжка	todo	
+item	high	Nuka-Cola		game/game/pro_item.msg	10600	Ядер-кола	todo	
+item	high	Irradiated Nuka Cola		game/game/pro_item.msg	10700	Облученная ядер-кола	todo	
+item	high	Purified Water		game/game/pro_item.msg	10800	Очищенная вода	todo	
+item	high	Rad-X		game/game/pro_item.msg	10900	Рад-X	todo	
+item	high	Psycho		game/game/pro_item.msg	11000	Психо	todo	
+item	high	Rad-Ash		game/game/pro_item.msg	11100	Рад-осадки	todo	
+item	high	Empty Hypodermic		game/game/pro_item.msg	11200	Пустой шприц	todo	
+item	high	Knight's Dog Tag		game/game/pro_item.msg	11300	Жетон рыцаря	todo	
+item	high	Squire's Dog Tag		game/game/pro_item.msg	11400	Жетон сквайра	todo	
+item	high	Mexican Power Armor		game/game/pro_item.msg	11500	Силовая броня Мексики	todo	
+item	high	Acid Spit		game/game/pro_item.msg	11600	Плевок кислотой	todo	
+item	high	Ghoul Combat Armor		game/game/pro_item.msg	11700	Боевая броня гулей	todo	
+item	high	Dixon's Machine Gun		game/game/pro_item.msg	11800	Пулемет Диксона	todo	
+item	high	Shock Spear		game/game/pro_item.msg	11900	Шоковое копье	todo	
+item	high	Pre-War Beer		game/game/pro_item.msg	12000	Довоенное пиво	todo	
+item	high	Agave Syrup		game/game/pro_item.msg	12100	Сироп	todo	
+item	high	Swill		game/game/pro_item.msg	12200	Пойло	todo	
+item	high	Pre-war Whiskey		game/game/pro_item.msg	12300	Довоенный виски	todo	
+item	high	Homemade Beer		game/game/pro_item.msg	12400	Домашнее пиво	todo	
+item	high	Wasteland Tequila		game/game/pro_item.msg	12500	Пустошная текила	todo	
+item	high	Brass Knuckles		game/game/pro_item.msg	12600	Кастет	todo	
+item	high	Spiked Knuckles		game/game/pro_item.msg	12700	Шипованный кастет	todo	
+item	high	Claws		game/game/pro_item.msg	12800	Когти	todo	
+item	high	Pneumatic Fist		game/game/pro_item.msg	12900	Пневмокулак	todo	
+item	high	Shock Glove		game/game/pro_item.msg	13000	Шоковая перчатка	todo	
+item	high	Power Fist		game/game/pro_item.msg	13100	Силовой кулак	todo	
+item	high	Knife		game/game/pro_item.msg	13200	Нож	todo	
+item	high	Combat Knife		game/game/pro_item.msg	13300	Боевой нож	todo	
+item	high	Punch Knife		game/game/pro_item.msg	13400	Ударный нож	todo	
+item	high	Ripper		game/game/pro_item.msg	13500	Потрошитель	todo	
+item	high	Atomic Cutter		game/game/pro_item.msg	13600	Силовая отвертка	todo	
+item	high	Spear		game/game/pro_item.msg	13700	Копье	todo	
+item	high	Pneumatic Spear		game/game/pro_item.msg	13800	Пневмокопье	todo	
+item	high	Electric Spear		game/game/pro_item.msg	13900	Электрокопье	todo	
+item	high	Club		game/game/pro_item.msg	14000	Дубинка	todo	
+item	high	Crowbar		game/game/pro_item.msg	14100	Гвоздодер	todo	
+item	high	Cattle Prod		game/game/pro_item.msg	14200	Погонялка	todo	
+item	high	Reinforced Cattle Prod		game/game/pro_item.msg	14300	Усиленная погонялка	todo	
+item	high	Super Stimpak		game/game/pro_item.msg	14400	Суперстимулятор	todo	
+item	high	Sledgehammer		game/game/pro_item.msg	14500	Кувалда	todo	
+item	high	Hammer		game/game/pro_item.msg	14600	Молот	todo	
+item	high	Super Sledge		game/game/pro_item.msg	14700	Суперкувалда	todo	
+item	high	Old Revolver		game/game/pro_item.msg	14800	Старый револьвер	todo	
+item	high	Police Revolver		game/game/pro_item.msg	14900	Полицейский револьвер	todo	
+item	high	Combat Revolver		game/game/pro_item.msg	15000	Боевой револьвер	todo	
+item	high	Flare Pistol		game/game/pro_item.msg	15100	Ракетница	todo	
+item	high	.22 Submachine Gun		game/game/pro_item.msg	15200	Пистолет-пулемет .22	todo	
+item	high	10mm pistol		game/game/pro_item.msg	15300	Пистолет 10 мм	todo	
+item	high	10mm SMG		game/game/pro_item.msg	15400	Пистолет-пулемет 10 мм	todo	
+item	high	Mexican SMG		game/game/pro_item.msg	15500	Мексиканский ПП	todo	
+item	high	.50 Pistol		game/game/pro_item.msg	15600	Пистолет .50	todo	
+item	high	Hunting Rifle		game/game/pro_item.msg	15700	Охотничья винтовка	todo	
+item	high	Combat Rifle		game/game/pro_item.msg	15800	Боевая винтовка	todo	
+item	high	Molotov Cocktail		game/game/pro_item.msg	15900	Огненная бомба	todo	
+item	high	Sniper Rifle		game/game/pro_item.msg	16000	Снайперская винтовка	todo	
+item	high	Assault Rifle		game/game/pro_item.msg	16100	Штурмовая винтовка	todo	
+item	high	Light Machine Gun		game/game/pro_item.msg	16200	Ручной пулемет	todo	
+item	high	Minigun		game/game/pro_item.msg	16300	Миниган	todo	
+item	high	Shotgun		game/game/pro_item.msg	16400	Дробовик	todo	
+item	high	Combat Shotgun		game/game/pro_item.msg	16500	Боевой дробовик	todo	
+item	high	Assault Shotgun		game/game/pro_item.msg	16600	Штурмовой дробовик	todo	
+item	high	40mm Grenade Launcher		game/game/pro_item.msg	16700	Гранатомет 40 мм	todo	
+item	high	Laser Emitter		game/game/pro_item.msg	16800	Лазерное оружие	todo	
+item	high	Laser Pistol		game/game/pro_item.msg	16900	Лазерный пистолет	todo	
+item	high	Laser Rifle		game/game/pro_item.msg	17000	Лазерная винтовка	todo	
+item	high	Plasma Pistol		game/game/pro_item.msg	17100	Плазменный пистолет	todo	
+item	high	Plasma Rifle		game/game/pro_item.msg	17200	Плазменная винтовка	todo	
+item	high	Radiator Gun		game/game/pro_item.msg	17300	Излучатель	todo	
+item	high	Koa		game/game/pro_item.msg	17400	Коа	todo	
+item	high	Zip Gun		game/game/pro_item.msg	17500	Пугач	todo	
+item	high	Scoped Hunting Rifle		game/game/pro_item.msg	17600	Охотничья винтовка	todo	
+item	high	Winchester		game/game/pro_item.msg	17900	Винчестер	todo	
+item	high	Mop		game/game/pro_item.msg	18000	Моп	todo	
+item	high	.22 pistol		game/game/pro_item.msg	18100	Пистолет .22	todo	
+item	high	Rail Gun		game/game/pro_item.msg	18300	Рельсовая пушка	todo	
+item	high	Flamer		game/game/pro_item.msg	18400	Огнемет	todo	
+item	high	Flamethrower fuel		game/game/pro_item.msg	18500	Топливо для огнемета	todo	
+item	high	Tejada Machine Gun		game/game/pro_item.msg	18600	Пулемет Техады	todo	
+item	high	Blaster		game/game/pro_item.msg	18700	Бластер	todo	
+item	high	Gatling laser		game/game/pro_item.msg	18800	Гатлинг-лазер	todo	
+item	high	Turret Cannon		game/game/pro_item.msg	18900	Турельная пушка	todo	
+item	high	Battle Hatchet		game/game/pro_item.msg	19000	Боевой топорик	todo	
+item	high	Turbo Plasma Rifle		game/game/pro_item.msg	19100	Турбоплазменная винтовка	todo	
+item	high	Ammo Box		game/game/pro_item.msg	19200	Армейский ящик	todo	
+item	high	Tradebox		game/game/pro_item.msg	19300	Товарный ящик	todo	
+item	high	Dog Grave		game/game/pro_item.msg	19500	Собачья могила	todo	
+item	high	Freshly Dug Earth		game/game/pro_item.msg	19600	Свежевскопанная земля	todo	
+item	high	Trash Pile		game/game/pro_item.msg	19700	Мусорная куча	todo	
+item	high	Receiving Crates		game/game/pro_item.msg	19800	Прием посылок	todo	
+item	high	Sending Crates		game/game/pro_item.msg	19900	Отправка посылки	todo	
+item	high	Packages to Flagstaff		game/game/pro_item.msg	20000	Посылка в Флагпул	todo	
+item	high	Packages to Phoenix		game/game/pro_item.msg	20100	Посылка в Феникс	todo	
+item	high	Packages to Two-Sun		game/game/pro_item.msg	20200	Посылка в Ту-Сан	todo	
+item	high	Boarded-up Box		game/game/pro_item.msg	20400	Заколоченный ящик	todo	
+item	high	Grave		game/game/pro_item.msg	21100	Могила	todo	
+item	high	Bones		game/game/pro_item.msg	21800	Кости	todo	
+item	high	Wagon		game/game/pro_item.msg	21900	Повозка	todo	
+item	high	Jug		game/game/pro_item.msg	22100	Кувшин	todo	
+item	high	Pot		game/game/pro_item.msg	22200	Горшок	todo	
+item	high	Box		game/game/pro_item.msg	22400	Ящик	todo	
+item	high	Stuff		game/game/pro_item.msg	22500	Вещи	todo	
+item	high	Safe		game/game/pro_item.msg	22900	Сейф	todo	
+item	high	Chest		game/game/pro_item.msg	23000	Сундук	todo	
+item	high	Shelves		game/game/pro_item.msg	23200	Полки	todo	
+item	high	Trash Can		game/game/pro_item.msg	24000	Мусорный бак	todo	
+item	high	Fridge		game/game/pro_item.msg	24100	Холодильник	todo	
+item	high	Ice Chest		game/game/pro_item.msg	24200	Ледник	todo	
+item	high	Table		game/game/pro_item.msg	24400	Стол	todo	
+item	high	Wall Safe		game/game/pro_item.msg	24800	Сейф	todo	
+item	high	Crates		game/game/pro_item.msg	25000	Ящики	todo	
+item	high	Crate		game/game/pro_item.msg	25200	Ящик	todo	
+item	high	Crate of Bottles		game/game/pro_item.msg	25400	Ящик с бутылками	todo	
+item	high	Chest of Drawers		game/game/pro_item.msg	25500	Комод	todo	
+item	high	Sink		game/game/pro_item.msg	26700	Раковина	todo	
+item	high	Workbench		game/game/pro_item.msg	26900	Верстак	todo	
+item	high	Tool Rack		game/game/pro_item.msg	27000	Щит с инструментами	todo	
+item	high	Locker		game/game/pro_item.msg	27900	Шкафчик	todo	
+item	high	Footlocker		game/game/pro_item.msg	28300	Сундучок	todo	
+item	high	Container		game/game/pro_item.msg	31100	Контейнер	todo	
+item	high	Still		game/game/pro_item.msg	31300	Самогонный аппарат	todo	
+item	high	Backpack		game/game/pro_item.msg	31400	Рюкзак	todo	
+item	high	Nuka-Cola Machine		game/game/pro_item.msg	31500	Автомат с ядер-колой	todo	
+item	high	Prisoner's Corpse		game/game/pro_item.msg	31600	Труп заключенного	todo	
+item	high	Pot of Waste		game/game/pro_item.msg	31700	Горшок с отходами	todo	
+item	high	Destroyed Totem		game/game/pro_item.msg	31800	Разрушенный тотем	todo	
+item	high	Mercenary Body		game/game/pro_item.msg	31900	Тело наемника	todo	
+item	high	Overseer's Post		game/game/pro_item.msg	32000	Пост смотрителя	todo	
+item	high	Metal Shelves		game/game/pro_item.msg	32100	Металлический шкаф	todo	
+item	high	Tank with Bio-waste		game/game/pro_item.msg	32200	Бак с биомусором	todo	
+item	high	Sergeant's Remains		game/game/pro_item.msg	32300	Останки сержанта	todo	
+item	high	Newspaper machine		game/game/pro_item.msg	32400	Газетный автомат	todo	
+item	high	Raider's Stuff		game/game/pro_item.msg	32500	Вещи налетчиков	todo	
+item	high	Mycelium		game/game/pro_item.msg	32600	Грибница	todo	
+item	high	Donation Box		game/game/pro_item.msg	32700	Ящик для пожертвований	todo	
+item	high	Fire Locker		game/game/pro_item.msg	32900	Пожарный шкафчик	todo	
+item	high	Book of Bemis		game/game/pro_item.msg	33100	Книга Бимиса	todo	
+item	high	Pool Table		game/game/pro_item.msg	33200	Бильярдный стол	todo	
+item	high	Butchering Table		game/game/pro_item.msg	33300	Разделочный стол	todo	
+item	high	Ventilation Block		game/game/pro_item.msg	33400	Вентиляционный блок	todo	
+item	high	Totem		game/game/pro_item.msg	33500	Тотем	todo	
+item	high	Cashier		game/game/pro_item.msg	33600	Касса	todo	
+item	high	Mutant Body		game/game/pro_item.msg	33700	Мутант	todo	
+item	high	Scarecrow		game/game/pro_item.msg	34200	Пугало	todo	
+item	high	Marauder's Body		game/game/pro_item.msg	34300	Тело мародера	todo	
+item	high	Sarcophagus		game/game/pro_item.msg	34400	Саркофаг	todo	
+item	high	Ice Pile		game/game/pro_item.msg	34500	Ледяная куча	todo	
+item	high	Ed's Bones		game/game/pro_item.msg	34700	Кости Эда	todo	
+item	high	Mentats Vending Machine		game/game/pro_item.msg	34800	Торгомат с ментатами	todo	
+item	high	Robot Remains		game/game/pro_item.msg	34900	Останки робота	todo	
+item	high	Founder's Notes		game/game/pro_item.msg	35000	Записи Основателя	todo	
+item	high	Vault Diary		game/game/pro_item.msg	35100	Дневник из убежища	todo	
+item	high	Expedition Report		game/game/pro_item.msg	35200	Отчет экспедиции	todo	
+item	high	Mission to Quartz		game/game/pro_item.msg	35300	Миссия в Кварце	todo	
+item	high	McBain's Entry		game/game/pro_item.msg	35400	Запись Макбейна	todo	
+item	high	Mayor's Holodisk		game/game/pro_item.msg	35500	Голодиск мэра	todo	
+item	high	George Crook' Notes		game/game/pro_item.msg	35600	Записи Джорджа Крука	todo	
+item	high	Letter from Vault-Tec		game/game/pro_item.msg	35700	"Письмо из ""Волт-Тек"""	todo	
+item	high	Letter to Shore		game/game/pro_item.msg	35800	Письмо на берег	todo	
+item	high	Luther's Journal		game/game/pro_item.msg	35900	Записи Лютера	todo	
+item	high	Holiday Fireworks		game/game/pro_item.msg	36000	Праздничный салют	todo	
+item	high	Ceremonial Crown		game/game/pro_item.msg	36100	Церемониальный венок	todo	
+item	high	Brahmin		game/game/pro_item.msg	36200	Брамин	todo	
+item	high	Magnetic Key		game/game/pro_item.msg	36300	Магнитный ключ	todo	
+item	high	Radio		game/game/pro_item.msg	36400	Радиоприёмник	todo	
+item	high	Brandley's Personal Effects		game/game/pro_item.msg	36500	Личные вещи Брендли	todo	
+item	high	Lost Package		game/game/pro_item.msg	36600	Утерянная посылка	todo	
+item	high	Madre's Pendant		game/game/pro_item.msg	36700	Кулон мадре	todo	
+item	high	Green Substance		game/game/pro_item.msg	36800	Зеленое вещество	todo	
+item	high	Purple Substance		game/game/pro_item.msg	36900	Фиолетовое вещество	todo	
+item	high	Red Substance		game/game/pro_item.msg	37000	Красное вещество	todo	
+item	high	Library Holodisk		game/game/pro_item.msg	37100	Библиотечный голодиск	todo	
+item	high	White Substance		game/game/pro_item.msg	37200	Белое вещество	todo	
+item	high	Lab Notes		game/game/pro_item.msg	37300	Лабораторные записи	todo	
+item	high	Insecticide		game/game/pro_item.msg	37400	Инсектицид	todo	
+item	high	Raider Map		game/game/pro_item.msg	37500	Карта рейдеров	todo	
+item	high	Valuable Relic		game/game/pro_item.msg	37600	Ценная реликвия	todo	
+item	high	Mutagen		game/game/pro_item.msg	37700	Мутаген	todo	
+item	high	Chemistry Set		game/game/pro_item.msg	37800	Химический набор	todo	
+item	high	Power Armor Helmet		game/game/pro_item.msg	37900	Шлем силовой брони	todo	
+item	high	Power Armor Processor		game/game/pro_item.msg	38000	Процессор силовой брони	todo	
+item	high	Box with Caps		game/game/pro_item.msg	38100	Ящик с крышками	todo	
+item	high	Wooden Figurine		game/game/pro_item.msg	38200	Деревянная фигурка	todo	
+item	high	Lost Pistol		game/game/pro_item.msg	38400	Утерянный пистолет	todo	
+item	high	Bemis Glasses		game/game/pro_item.msg	38500	Очки Бимиса	todo	
+item	high	Neurochip		game/game/pro_item.msg	38600	Нейрочип	todo	
+item	high	Ranger Badge		game/game/pro_item.msg	38700	Значок рейнджера	todo	
+item	high	Suspicious Package		game/game/pro_item.msg	38800	Сомнительный пакет	todo	
+item	high	Faber's Passwords		game/game/pro_item.msg	39100	Пароли Фабера	todo	
+item	high	Eugene's Contract		game/game/pro_item.msg	39200	Контракт Юджина	todo	
+item	high	Hiram's Letter		game/game/pro_item.msg	39300	Письмо Хирама	todo	
+item	high	Advisor's Report		game/game/pro_item.msg	39400	Донесение Советника	todo	
+item	high	Stolen Letters		game/game/pro_item.msg	39500	Утерянные письма	todo	
+item	high	Ben's Head		game/game/pro_item.msg	39600	Голова Бена	todo	
+item	high	Hernando's Head		game/game/pro_item.msg	39700	Голова Эрнандо	todo	
+item	high	Chucho's Head		game/game/pro_item.msg	39800	Голова Чучо	todo	
+item	high	Eydie's Head		game/game/pro_item.msg	39900	Голова Эйди	todo	
+item	high	Gil McCord's Head		game/game/pro_item.msg	40000	Голова Гила МакКорда	todo	
+item	high	Spear Fragment		game/game/pro_item.msg	40100	Обломок копья	todo	
+item	high	Glowing Mushroom		game/game/pro_item.msg	40200	Светящийся гриб	todo	
+item	high	High-Tech Gadget		game/game/pro_item.msg	40300	Деталь	todo	
+item	high	Winch Handle		game/game/pro_item.msg	40400	Рукоять лебедки	todo	
+item	high	Signal Booster		game/game/pro_item.msg	40500	Усилитель сигнала	todo	
+item	high	Welding Machine		game/game/pro_item.msg	40600	Сварочный аппарат	todo	
+item	high	ZAX Update		game/game/pro_item.msg	40700	Обновление ZAX	todo	
+item	high	Generator Fusion Cell		game/game/pro_item.msg	41000	Энергоячейка для генератора	todo	
+item	high	Fuses		game/game/pro_item.msg	41100	Взрыватели	todo	
+item	high	Hold Access Card		game/game/pro_item.msg	41200	Карта доступа в трюм	todo	
+item	high	Torpedo Key		game/game/pro_item.msg	41300	Торпедный ключ	todo	
+item	high	Luxury Key		game/game/pro_item.msg	41400	Ключ от люкса	todo	
+item	high	Cathedral Radio Codes		game/game/pro_item.msg	41500	Коды радиостанции	todo	
+item	high	Access Card		game/game/pro_item.msg	41600	Карта доступа	todo	
+item	high	ZAX Access Card		game/game/pro_item.msg	41700	Карта доступа ZAX	todo	
+item	high	Aaron's Key		game/game/pro_item.msg	42100	Ключ Аарона	todo	
+item	high	Worn Key		game/game/pro_item.msg	42200	Потертый ключ	todo	
+item	high	Jackal Storeroom Keys		game/game/pro_item.msg	42300	Ключи Шакалов	todo	
+item	high	Irradiated Key		game/game/pro_item.msg	42400	Облученный ключ	todo	
+item	high	Rusty Key		game/game/pro_item.msg	42500	Ржавый ключ	todo	
+item	high	Teeth of the Rat King		game/game/pro_item.msg	42600	Зубы короля крыс	todo	
+item	high	Barn Key		game/game/pro_item.msg	42700	Ангарный ключ	todo	
+item	high	Family Heirlooms		game/game/pro_item.msg	42800	Семейные реликвии	todo	
+item	high	Monster Skull		game/game/pro_item.msg	42900	Череп монстра	todo	
+item	high	Motorcycle Key		game/game/pro_item.msg	43000	Ключ от мотоцикла	todo	
+item	high	Necklace		game/game/pro_item.msg	43100	Ожерелье	todo	
+item	high	Halogen Lamp		game/game/pro_item.msg	43200	Галогенная лампа	todo	
+item	high	Stylish Sunglasses		game/game/pro_item.msg	43300	Стильные очки	todo	
+item	high	Ancient Relic		game/game/pro_item.msg	43400	Древняя реликвия	todo	
+item	high	Phoenix Map		game/game/pro_item.msg	44400	Карта Феникса	todo	
+item	high	Fisherman Tag		game/game/pro_item.msg	44500	Жетон пескадора	todo	
+item	high	Map Fragment		game/game/pro_item.msg	44700	Фрагмент карты	todo	
+item	high	Guitar Strings		game/game/pro_item.msg	44800	Струны для гитары	todo	
+item	high	Copper Pipe		game/game/pro_item.msg	44900	Медная труба	todo	
+item	high	Donovan's Body		game/game/pro_item.msg	45000	Тело Донована	todo	
+item	high	Ancient Badge		game/game/pro_item.msg	45100	Древний значок	todo	
+item	high	Wattz 3000 crystal		game/game/pro_item.msg	45300	Кристалл Уоттс 3000	todo	
+item	high	Trunk		game/game/pro_item.msg	45500	Багажник	todo	
+item	high	Bike Bags		game/game/pro_item.msg	45600	Сумки для байка	todo	
+item	high	Bonita Access Card		game/game/pro_item.msg	45700	Карта доступа Бонита	todo	
+item	high	Coffee Table		game/game/pro_item.msg	45900	Кофейный столик	todo	
+item	high	Pulse Generator		game/game/pro_item.msg	46000	Импульсный генератор	todo	
+item	high	Tablet with Notes		game/game/pro_item.msg	46100	Планшет с записями	todo	
+item	high	Gustavo's Holodisk		game/game/pro_item.msg	46200	Голодиск Густаво	todo	
+item	high	Vacuum Tube		game/game/pro_item.msg	46300	Катодная лампа	todo	
+item	high	Dispatcher Module		game/game/pro_item.msg	46400	Диспетчерский модуль	todo	
+item	high	Border Service Codes		game/game/pro_item.msg	46600	Коды пограничной службы	todo	
+item	high	Holographic Emitter		game/game/pro_item.msg	46800	Голографический эмиттер	todo	
+item	high	Water Chip		game/game/pro_item.msg	46900	Водяной чип	todo	
+item	high	Circuit Board		game/game/pro_item.msg	47000	Печатная плата	todo	
+item	high	Diagnostic Board		game/game/pro_item.msg	47100	Диагностическая плата	todo	
+item	high	Fuel Controller		game/game/pro_item.msg	47200	Топливный контроллер	todo	
+item	high	Vertibird Schematics		game/game/pro_item.msg	47300	Чертежи винтокрыла	todo	
+item	high	Battery Vending Machine		game/game/pro_item.msg	47400	Торгомат с батарейками	todo	
+item	high	Data from Hermosillo		game/game/pro_item.msg	47500	Данные из Эрмосильо	todo	
+item	high	Book about San Diego		game/game/pro_item.msg	47600	Книга о Сан-Диего	todo	
+item	high	Medicine Vending Machine		game/game/pro_item.msg	47700	Торгомат с лекарствами	todo	
+item	high	Bar Vending Machine		game/game/pro_item.msg	47800	Торгомат-бар	todo	
+item	high	Machine Oil Dispenser		game/game/pro_item.msg	47900	Дозатор машинного масла	todo	
+item	high	Biogel		game/game/pro_item.msg	48000	Биогель	todo	
+item	high	Microchips		game/game/pro_item.msg	48100	Микросхемы	todo	
+item	high	Coronado Security Codes		game/game/pro_item.msg	48200	Коды безопасности Коронадо	todo	
+item	high	Reinforced Shock Spear		game/game/pro_item.msg	48300	Усиленное шоковое копье	todo	
+item	high	Taser		game/game/pro_item.msg	48400	Тазер	todo	
+item	high	Hotel Manager Program		game/game/pro_item.msg	48500	Программа администратора	todo	
+item	high	"""Deep Throat"""		game/game/pro_item.msg	48600	"""Глубокая глотка"""	todo	
+item	high	Food Processor		game/game/pro_item.msg	48700	Пищевой процессор	todo	
+item	high	Howitzer Shell		game/game/pro_item.msg	48800	Снаряд для гаубицы	todo	
+item	high	Howitzer Parts		game/game/pro_item.msg	48900	Детали от гаубицы	todo	
+item	high	Coronado Pass		game/game/pro_item.msg	49000	Пропуск Коронадо	todo	
+item	high	Wedding Pendant		game/game/pro_item.msg	49200	Брачный кулон	todo	
+item	high	Cleaver		game/game/pro_item.msg	49300	Нож-топорик	todo	
+item	high	Broken Shotgun		game/game/pro_item.msg	49500	Сломанный дробовик	todo	
+item	high	12 Gauge Flare Gun		game/game/pro_item.msg	49700	Ракетница 12 калибра	todo	
+item	high	Laser Emitter (Improved)		game/game/pro_item.msg	49800	Лазерное оружие (улуч.)	todo	
+item	high	ЎViva Villa!		game/game/pro_item.msg	49900	"""Вива, Вилья!"""	todo	
+item	high	Pip-Boy Booster		game/game/pro_item.msg	51600	Усилитель Пип-Боя	todo	
+item	high	Survival Guide		game/game/pro_item.msg	52300	Руководство по выживанию	todo	

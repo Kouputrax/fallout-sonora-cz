@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pip-Boy 3000 - Překlad Fallout: Sonora CZ</title>
+    <!-- Outfit a JetBrains Mono z Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM (Pip-Boy Theme) --- */
+        :root {
+            --bg-color: #070d08;
+            --bg-panel: rgba(14, 28, 17, 0.7);
+            --bg-panel-solid: #0d1a10;
+            --color-primary: #18ff22;
+            --color-primary-dim: #0ea815;
+            --color-primary-dark: #053b08;
+            --color-primary-glow: rgba(24, 255, 34, 0.2);
+            --color-primary-glow-heavy: rgba(24, 255, 34, 0.4);
+
+            --color-warning: #ffb800;
+            --color-warning-glow: rgba(255, 184, 0, 0.2);
+            --color-error: #ff3c3c;
+            --color-error-glow: rgba(255, 60, 60, 0.2);
+
+            --color-masc: #00d2ff;
+            --color-fem: #ff5ebc;
+
+            --border-radius: 6px;
+            --font-sans: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* CRT scanline a flicker efekty */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 3px, 3px 100%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .crt-flicker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(24, 255, 34, 0.003);
+            opacity: 0;
+            z-index: 9998;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+        }
+
+        /* Globální styly */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--color-primary);
+            font-family: var(--font-sans);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-shadow: 0 0 4px var(--color-primary-glow);
+        }
+
+        /* Svítící Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 1px solid var(--color-primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-primary-dim);
+            border-radius: 4px;
+            box-shadow: 0 0 4px var(--color-primary-glow);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-primary);
+        }
+
+        /* Typografie & Společné prvky */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--color-primary-dim);
+            color: var(--color-primary);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: var(--transition);
+            text-shadow: 0 0 3px var(--color-primary-glow);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary-glow);
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: var(--color-primary-dark);
+            border-color: var(--color-primary-dim);
+        }
+
+        button:hover {
+            background-color: var(--color-primary-dim);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 10px var(--color-primary-glow-heavy);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background-color: transparent;
+            border-color: var(--color-primary-dark);
+            color: var(--color-primary-dark);
+        }
+
+        /* --- LAYOUT --- */
+
+        /* Horní lišta */
+        header {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom: 2px solid var(--color-primary);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .header-title-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--color-primary);
+            letter-spacing: 1px;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                text-shadow: 0 0 4px var(--color-primary-glow);
+            }
+
+            100% {
+                text-shadow: 0 0 12px var(--color-primary-glow-heavy);
+            }
+        }
+
+        .header-badge {
+            background-color: var(--color-primary-dark);
+            border: 1px solid var(--color-primary);
+            padding: 2px 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            border-radius: 4px;
+        }
+
+        .badge-category {
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            border: 1px solid currentColor;
+            box-shadow: 0 0 5px currentColor;
+            display: inline-block;
+        }
+
+        .badge-npc {
+            color: var(--color-primary);
+        }
+
+        .badge-scenery {
+            color: var(--color-warning);
+        }
+
+            color: #ff3c3c;
+        }
+
+        .badge-game-monsters {
+            color: #ff5ebc;
+        }
+
+        .badge-game-items {
+            color: #ffb800;
+        }
+
+        .badge-game-mechanics {
+            color: #d100ff;
+        }
+
+        .badge-game-scenery {
+            color: #b4e197;
+        }
+
+        .badge-game-quests {
+            color: #ffff00;
+        }
+
+            color: #888888;
+        }
+
+        .badge-game-char {
+            color: #e8a93a;
+        }
+
+        .badge-game-menus-gui {
+            color: #57c4ff;
+        }
+
+        .badge-game-unknown {
+            color: #bbbbbb;
+        }
+
+        /* Statistiky */
+        .stats-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-item {
+            font-size: 13px;
+        }
+
+        .stat-val {
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .stat-val.translated {
+            color: var(--color-primary);
+        }
+
+        .stat-val.untranslated {
+            color: #888;
+        }
+
+        .stat-val.issues {
+            color: var(--color-error);
+            text-shadow: 0 0 4px var(--color-error-glow);
+        }
+
+        .progress-container {
+            width: 150px;
+            height: 12px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--color-primary-dim);
+            border-radius: 3px;
+            overflow: hidden;
+            display: inline-flex;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary);
+            transition: width 0.4s ease;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Hlavní Grid */
+        main {
+            display: grid;
+            grid-template-columns: 350px 1fr 400px;
+            flex-grow: 1;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 50% 50%, rgba(14, 28, 17, 0.3) 0%, rgba(7, 13, 8, 0) 100%);
+        }
+
+        /* Společný panel */
+        .panel {
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--color-primary-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-primary-dark);
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        /* --- LEVÝ PANEL (Row Browser) --- */
+        #browser-panel {
+            border-right: 1px solid var(--color-primary-dark);
+        }
+
+        .search-filters {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-primary-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .search-filters input {
+            width: 100%;
+        }
+
+        .search-filters select {
+            width: 100%;
+        }
+
+        .filter-loc-help {
+            font-size: 10px;
+            color: var(--color-primary-dim);
+            padding: 2px 0 0 0;
+        }
+
+        .filter-loc-help summary {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filter-loc-help div {
+            margin-top: 6px;
+            line-height: 1.38;
+            color: #8a9689;
+        }
+
+        .row-list {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .row-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(24, 255, 34, 0.08);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .row-item:hover {
+            background-color: rgba(24, 255, 34, 0.05);
+        }
+
+        .row-item.active {
+            background-color: rgba(24, 255, 34, 0.12);
+            border-left: 3px solid var(--color-primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .status-dot.new {
+            background-color: #888;
+        }
+
+        .status-dot.translated {
+            background-color: var(--color-primary);
+            box-shadow: 0 0 6px var(--color-primary);
+        }
+
+        .status-dot.aligned_confirmed {
+            background-color: #00d2ff;
+            box-shadow: 0 0 6px #00d2ff;
+        }
+
+        .status-dot.aligned_review {
+            background-color: var(--color-warning);
+            box-shadow: 0 0 6px var(--color-warning);
+        }
+
+        .status-dot.issue {
+            background-color: var(--color-error);
+            box-shadow: 0 0 6px var(--color-error);
+        }
+
+        .row-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex-grow: 1;
+            min-width: 0;
+            /* Pro ořezání textu */
+        }
+
+        .row-meta-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--color-primary-dim);
+        }
+
+        .row-text-preview {
+            font-size: 13px;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .row-item.active .row-text-preview {
+            color: #fff;
+        }
+
+        /* Stránkování */
+        .pagination {
+            padding: 10px;
+            border-top: 1px solid var(--color-primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+        }
+
+        .pagination span {
+            font-size: 12px;
+            font-family: var(--font-mono);
+        }
+
+        .pagination button {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        /* --- STŘEDNÍ PANEL (Editor) --- */
+        #editor-panel {
+            background-color: rgba(5, 12, 6, 0.5);
+            border-right: 1px solid var(--color-primary-dark);
+        }
+
+        .editor-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+        }
+
+        /* Karty s textem */
+        .text-card {
+            background-color: rgba(0, 0, 0, 0.55);
+            border: 1px solid var(--color-primary-dark);
+            border-radius: var(--border-radius);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--color-primary-dim);
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-content {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #eee;
+            user-select: text;
+        }
+
+        .context-hint-card {
+            background-color: rgba(255, 184, 0, 0.06);
+            border: 1px solid rgba(255, 184, 0, 0.25);
+            border-radius: var(--border-radius);
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .context-hint-card .hint-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--color-warning);
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .context-tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .context-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: rgba(255, 184, 0, 0.12);
+            border: 1px solid rgba(255, 184, 0, 0.35);
+            color: #ffd073;
+        }
+
+        .context-hint-text {
+            font-size: 12px;
+            line-height: 1.45;
+            color: #c9b896;
+        }
+
+        .ru-card .card-content {
+            font-style: italic;
+        }
+
+        /* Barevné označení ruského rodu */
+        .gender-masc {
+            color: var(--color-masc);
+            font-weight: 600;
+            border-bottom: 1px dashed var(--color-masc);
+            cursor: help;
+        }
+
+        .gender-fem {
+            color: var(--color-fem);
+            font-weight: 600;
+            border-bottom: 1px dashed var(--color-fem);
+            cursor: help;
+        }
+
+        .gender-player {
+            color: #50fa7b;
+            font-weight: 600;
+            border-bottom: 1px dashed #50fa7b;
+            cursor: help;
+        }
+
+        /* Editor oblast */
+        .editor-area {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .editor-area textarea {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 120px;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: none;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-color: var(--color-primary-dim);
+            padding: 14px;
+        }
+
+        .editor-area textarea:focus {
+            border-color: var(--color-primary);
+        }
+
+        /* Živé varování QA v editoru */
+        .qa-warnings {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .qa-warning-item {
+            background-color: rgba(255, 60, 60, 0.08);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+            border-radius: var(--border-radius);
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #ff8b8b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: none;
+        }
+
+        .qa-warning-item.warning {
+            background-color: rgba(255, 184, 0, 0.08);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            color: #ffd073;
+        }
+
+        .qa-warning-icon {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Tlačítka editoru */
+        .editor-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-primary-dark);
+        }
+
+        .actions-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-ai {
+            background-color: var(--color-primary-dark);
+        }
+
+        .btn-save {
+            background-color: var(--color-primary);
+            color: #000;
+            text-shadow: none;
+            font-weight: 800;
+            box-shadow: 0 0 10px var(--color-primary-glow);
+        }
+
+        .btn-save:hover {
+            background-color: #fff;
+            box-shadow: 0 0 15px var(--color-primary-glow-heavy);
+        }
+
+        /* --- PRAVÝ PANEL (Glosář & AI Konzole) --- */
+        #tools-panel {
+            border-right: none;
+            background-color: rgba(4, 9, 5, 0.85);
+        }
+
+        /* Glosář Panel */
+        .glossary-section {
+            border-bottom: 1px solid var(--color-primary-dark);
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .glossary-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .glossary-tag {
+            background-color: rgba(24, 255, 34, 0.05);
+            border: 1px solid var(--color-primary-dim);
+            color: var(--color-primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .glossary-tag:hover {
+            background-color: var(--color-primary);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 8px var(--color-primary);
+        }
+
+        .glossary-tag .tag-cat {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            background-color: rgba(24, 255, 34, 0.2);
+            padding: 1px 4px;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .glossary-tag:hover .tag-cat {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        /* Origin Badges */
+        .tag-origin-badge {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid currentColor;
+            display: inline-block;
+            line-height: 1.2;
+            text-shadow: none;
+        }
+
+        .tag-origin-core {
+            color: #d1d1d1;
+            background-color: rgba(200, 200, 200, 0.15);
+        }
+
+        .tag-origin-f2 {
+            color: var(--color-primary);
+            background-color: rgba(24, 255, 34, 0.15);
+        }
+
+        .tag-origin-nevada {
+            color: var(--color-warning);
+            background-color: rgba(255, 184, 0, 0.15);
+        }
+
+        .tag-origin-f1 {
+            color: var(--color-masc);
+            background-color: rgba(0, 210, 255, 0.15);
+        }
+
+        .tag-origin-other {
+            color: #888888;
+            background-color: rgba(136, 136, 136, 0.15);
+        }
+
+        .no-matches-text {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* AI Pipeline Spouštěč */
+        .pipeline-launcher {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pipeline-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .pipeline-buttons button {
+            font-size: 11px;
+            padding: 8px;
+        }
+
+        .pipeline-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-primary-dark);
+        }
+
+        .pipeline-controls label {
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .pipeline-controls input {
+            width: 60px;
+            padding: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Živá konzole logů */
+        .terminal-console {
+            background-color: #020502;
+            border: 1px solid var(--color-primary-dim);
+            border-radius: var(--border-radius);
+            padding: 12px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.4;
+            color: #00ff1e;
+            height: 220px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+            margin-top: 12px;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .terminal-status {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--color-primary);
+            animation: pulse-dot 1s infinite alternate;
+        }
+
+        @keyframes pulse-dot {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* --- MODAL DIALOGS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background-color: var(--bg-panel-solid);
+            border: 2px solid var(--color-primary);
+            box-shadow: 0 0 25px var(--color-primary-glow-heavy);
+            width: 500px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 14px 20px;
+            border-bottom: 2px solid var(--color-primary);
+            background-color: rgba(0, 0, 0, 0.5);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .modal-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .modal-form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-primary-dim);
+            text-transform: uppercase;
+        }
+
+        .modal-form-group input,
+        .modal-form-group select {
+            width: 100%;
+        }
+
+        .modal-footer {
+            padding: 14px 20px;
+            border-top: 1px solid var(--color-primary-dark);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- NOTIFIKACE (Toasts) --- */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: var(--bg-panel-solid);
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px var(--color-primary-glow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slide-in 0.3s forwards;
+            max-width: 350px;
+        }
+
+        @keyframes slide-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast.error {
+            border-color: var(--color-error);
+            color: #ff8b8b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px var(--color-error-glow);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--color-primary-glow);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Retro Dialogue Flow styles */
+        .dialogue-flow-card-container {
+            border: 1px dashed var(--color-primary-dim) !important;
+            background-color: rgba(0, 0, 0, 0.45) !important;
+        }
+
+        .dialogue-flow-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .dialogue-bubble {
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            font-size: 13px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(24, 255, 34, 0.15);
+            background-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .dialogue-bubble:hover {
+            background-color: rgba(24, 255, 34, 0.08);
+            border-color: var(--color-primary-dim);
+            box-shadow: 0 0 6px var(--color-primary-glow);
+        }
+
+        .dialogue-bubble.active-bubble {
+            background-color: rgba(24, 255, 34, 0.16);
+            border: 1px solid var(--color-primary);
+            box-shadow: 0 0 10px var(--color-primary-glow-heavy);
+            cursor: default;
+        }
+
+        .dialogue-bubble-meta {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--color-primary-dim);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(24, 255, 34, 0.08);
+            padding-bottom: 2px;
+        }
+
+        .dialogue-bubble.active-bubble .dialogue-bubble-meta {
+            color: var(--color-primary);
+            font-weight: bold;
+            border-bottom-color: rgba(24, 255, 34, 0.25);
+        }
+
+        .dialogue-bubble-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .dialogue-bubble-en {
+            color: #ddd;
+        }
+
+        .dialogue-bubble-ru {
+            color: #aaa;
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        .dialogue-bubble-cs {
+            color: #fff;
+            font-weight: 600;
+            margin-top: 2px;
+            border-top: 1px dashed rgba(24, 255, 34, 0.15);
+            padding-top: 4px;
+        }
+
+        .dialogue-bubble.active-bubble .dialogue-bubble-cs {
+            color: #fff;
+            text-shadow: 0 0 4px var(--color-primary-glow);
+        }
+    
+        .row-item.flagged {
+            border-left: 4px solid var(--color-error);
+            background: rgba(239, 68, 68, 0.05);
+        }
+        .btn-flag {
+            background: none; border: none; font-size: 16px; cursor: pointer; color: #555;
+            transition: 0.2s; padding: 0 5px;
+        }
+        .btn-flag.active { color: var(--color-error); }
+</style>
+</head>
+
+<body>
+    <div class="crt-overlay"></div>
+    <div class="crt-flicker"></div>
+
+    <!-- HORNÍ LIŠTA -->
+    <header>
+        <div class="header-title-container">
+            <h1 class="header-title">Pip-Boy 3000</h1>
+            <span class="header-badge">Sonora CZ Editor v1.0</span>
+        </div>
+
+        <!-- Statistiky -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                Pokrok překladu: <span class="stat-val translated" id="stat-translated">0</span>/<span class="stat-val"
+                    id="stat-total">0</span>
+                (<span id="stat-percent">0.0</span>%)
+                <div class="progress-container">
+                    <div class="progress-bar" id="stat-progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                Zbývá: <span class="stat-val untranslated" id="stat-untranslated">0</span>
+            </div>
+            <div class="stat-item">
+                QA Chyby: <span class="stat-val issues" id="stat-issues">0</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button onclick="openSettingsModal()" title="Nastavení AI a souborů">⚙ Nastavení</button>
+        </div>
+    </header>
+
+    <!-- HLAVNÍ OBSAH -->
+    <main>
+
+        <!-- LEVÝ PANEL (Row Browser) -->
+        <section class="panel" id="browser-panel">
+            <div class="panel-header">
+                <h3 class="panel-title">🗂 Prohlížeč řádků</h3>
+            </div>
+
+            <div class="search-filters">
+                <input type="text" id="filter-search" placeholder="Hledat text (EN, RU, CS, ID…)"
+                    oninput="debounceSearch()">
+                <select id="filter-category" onchange="loadRows(1)"
+                    title="Typ řádku podle struktury Fallout MSG (Sonora/Nevada)">
+                    <option value="">↯ Všechny typy obsahu</option>
+                    <optgroup label="Dialogy (.msg pod dialog/)">
+                        <option value="dialog">💬 Dialogy + popisy (vše najednou)</option>
+                        <option value="dialog_npc">🗣️ Konverzace NPC (název typu ACAnti.msg)</option>
+                        <option value="dialog_scenery">🏷️ Objekty, vývěsky, prostředí (Z*, OBJ_…)</option>
+                    </optgroup>
+                    <optgroup label="Hra — postava a nabídky">
+                        <option value="game">🎮 Herní řádky (vše z game/*.msg najednou)</option>
+                        <option value="game_character_screen">👤 Tvorba postavy, jména, vstupní obrazovky (EDITOR, Scrname…)</option>
+                        <option value="game_menus_gui">🖼️ Pip‑Boy, menu, nastavení, inventář, load/save</option>
+                        <option value="game_perks_traits_skills">📊 Perky, skilly, vlastnosti (PERK.SKILL…)</option>
+                    </optgroup>
+                    <optgroup label="Hra — boj a vybavení">
+                        <option value="game_combat">⚔️ Bojové hlášky a behaviour AI</option>
+                        <option value="game_items_gear">🎒 Předměty (ITEM / PRO_ITEM)</option>
+                        <option value="game_critters">🐜 Stvoření a databáze potvor (PRO_CRIT)</option>
+                    </optgroup>
+                    <optgroup label="Hra — svět a databáze">
+                        <option value="game_world_proto">🌍 Popisy prototypů („Co je…“ scenery/tile/proto)</option>
+                        <option value="game_world_travel_map">🗺️ Světová mapa a přechody (WORLDMAP / MAP)</option>
+                        <option value="game_quests_journal">📜 Úkoly a deník</option>
+                        <option value="game_engine_strings">🔧 Engine, příkladové hlášky, SCRIPT / DBOX / MISC</option>
+                        <option value="game_unknown">❔ Ostatní herní MSG (nezatříděné)</option>
+                    </optgroup>
+                </select>
+                <select id="filter-location" onchange="loadRows(1)"
+                    title="Filtr jen souborů dialog/XX*.msg podle dvoupísmeného předčísla (bez Z-skriptů)">
+                    <option value="">Všechny oblasti (prefix)</option>
+                </select>
+                <select id="filter-status" onchange="loadRows(1)" title="Stav řádku v překladu">
+                        <option value="all">Všechny řádky</option>
+                        <option value="untranslated">Pouze nepřeložené</option>
+                        <option value="translated">Pouze AI/Manuálně přeložené</option>
+                        <option value="aligned_confirmed">✓ Převzato z F2 (Tier 1)</option>
+                        <option value="aligned_review">👀 Z F2 ke kontrole (Tier 2 a 3)</option>
+                        <option value="tier2">👀 Pouze Tier 2</option>
+                        <option value="tier3">👀 Pouze Tier 3</option>
+                        <option value="issue">Pouze s QA chybou</option>
+                </select>
+                <details class="filter-loc-help">
+                    <summary>Vysvětlení: výběr „oblasti“ podle dvoupísmeného předčísla</summary>
+                    <div>
+                        Oblast = první 2 znaky názvu souboru NPC dialogu
+                        (<code>ACBoss.msg</code> → „AC“). Skripty <code>Z*.msg</code> a <code>OBJ_*</code> nejsou
+                        v přehledu oblastí — použij kategorii <em>Popisy objektů</em> nebo hledání.
+                    </div>
+                </details>
+            </div>
+
+            <!-- Seznam řádků -->
+            <div class="row-list" id="rows-container">
+                <!-- Řádky se načtou dynamicky -->
+            </div>
+
+            <!-- Stránkování -->
+            <div class="pagination">
+                <button id="btn-prev-page" onclick="changePage(-1)">◀ Předchozí</button>
+                <span id="page-indicator">Strana 1 / 1</span>
+                <button id="btn-next-page" onclick="changePage(1)">Další ▶</button>
+            </div>
+        </section>
+
+        <!-- STŘEDNÍ PANEL (Editor) -->
+        <section class="panel" id="editor-panel">
+            <div class="panel-header">
+                <h3 class="panel-title">✏ Překladový Editor</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="active-category-badge" class="badge-category" style="display: none;"></span>
+                    <span class="header-badge" id="active-file-indicator"
+                        style="font-family: var(--font-mono);">dialog/ACAnti.msg</span>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="editor-workspace" id="editor-workspace" style="display: none;">
+
+                    <!-- EN karta -->
+                    <div class="text-card">
+                        <div class="card-header">
+                            <span>Anglický originál (EN)</span>
+                            <button onclick="copyToClipboard('active-en-text')"
+                                style="padding: 2px 6px; font-size: 10px;">Kopírovat</button>
+                        </div>
+                        <div class="card-content" id="active-en-text"></div>
+                        <div class="context-hint-card" id="context-hint-panel" style="display: none;">
+                            <div class="hint-title">Kontext ze struktury hry</div>
+                            <div class="context-tags-row" id="context-tags"></div>
+                            <div class="context-hint-text" id="context-hint-text"></div>
+                        </div>
+                    </div>
+
+                    <!-- RU karta s live rodem -->
+                    <div class="text-card ru-card">
+                        <div class="card-header">
+                            <span>Ruský kontext (RU) – Detekce rodu</span>
+                            <button onclick="copyToClipboard('active-ru-text')"
+                                style="padding: 2px 6px; font-size: 10px;">Kopírovat</button>
+                        </div>
+                        <div class="card-content" id="active-ru-text"></div>
+                    </div>
+
+                    <!-- Bilingvní konverzační kontext (Dialogue Flow) -->
+                    <div class="text-card dialogue-flow-card-container" id="dialogue-flow-container"
+                        style="display: none;">
+                        <div class="card-header">
+                            <span>📟 Konverzační tok (Dialogue Flow)</span>
+                            <span style="font-family: var(--font-mono); font-size: 10px;"
+                                id="dialogue-flow-file-indicator"></span>
+                        </div>
+                        <div class="dialogue-flow-card" id="dialogue-flow-list">
+                            <!-- Repliky se načtou dynamicky -->
+                        </div>
+                    </div>
+
+                    <!-- Editor oblast -->
+                    <div class="editor-area">
+                        <div class="card-header">
+                            <span>Český překlad (CS)</span>
+                            <span id="char-counter" style="font-family: var(--font-mono);">0 znaků</span>
+                        </div>
+                        <textarea id="editor-textarea" placeholder="Zde napište český překlad..."
+                            oninput="onEditorInput()" autofocus></textarea>
+
+                        <!-- Živé QA varování -->
+                        <div class="qa-warnings" id="live-qa-container">
+                            <!-- Varování se zobrazí dynamicky -->
+                        </div>
+                    </div>
+
+                    <!-- Akce editoru -->
+                    <div class="editor-actions">
+                        <div class="actions-left">
+                            <button class="btn-ai" id="btn-ai-translate" onclick="runAITranslateRow()">🤖 Přeložit přes
+                                AI</button>
+                        </div>
+                        <div class="actions-right">
+                            <button onclick="skipRow()">Přeskočit</button>
+                            <button class="btn-save" onclick="saveActiveRow()">Uložit změny (Ctrl+Enter)</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Zástupný text, pokud není vybrán žádný řádek -->
+                <div id="editor-placeholder"
+                    style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #555; text-align: center; gap: 15px;">
+                    <span style="font-size: 48px;">📟</span>
+                    <p>Vyberte řádek z levého panelu nebo vyhledejte konkrétní text pro spuštění editace.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRAVÝ PANEL (Glosář & AI Konzole) -->
+        <section class="panel" id="tools-panel">
+            <div class="panel-header">
+                <h3 class="panel-title">📖 Glosář a Pipeline</h3>
+            </div>
+
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 16px;">
+
+                <!-- Sekce Glosáře -->
+                <div class="glossary-section">
+                    <h4
+                        style="font-size: 13px; border-bottom: 1px solid var(--color-primary-dark); padding-bottom: 4px;">
+                        🎯 Nalezené pojmy z glosáře</h4>
+                    <p style="font-size: 11px; color: #888; margin-top: 4px;">Kliknutím na tag vložíte český ekvivalent
+                        na pozici kurzoru.</p>
+
+                    <div class="glossary-tags-container" id="glossary-matches-container">
+                        <!-- Zde se zobrazí nalezené glosáře -->
+                        <span class="no-matches-text">Žádné pojmy nebyly v anglické větě detekovány.</span>
+                    </div>
+                </div>
+
+                <!-- Sekce AI Pipeline -->
+                <div class="pipeline-launcher">
+                    <h4
+                        style="font-size: 13px; border-bottom: 1px solid var(--color-primary-dark); padding-bottom: 4px;">
+                        ⚡ AI Pipeline nástroje</h4>
+
+                    <div class="pipeline-controls">
+                        <label for="pipeline-limit">Limit řádků:</label>
+                        <input type="number" id="pipeline-limit" value="50" min="0" title="Zadejte 0 pro všechny řádky">
+
+                        <label for="pipeline-batch" style="margin-left: 10px;">Dávka (batch):</label>
+                        <input type="number" id="pipeline-batch" value="10" min="1">
+                    </div>
+
+                    <p style="font-size: 11px; color: #888; margin: 0 0 8px 0; line-height: 1.4;">
+                        Pořadí: export → sync → F2 → tagy → překlad → validace → QA oprava → import do .msg
+                    </p>
+                    <div class="pipeline-buttons">
+                        <button onclick="triggerPipeline('export')"
+                            title="1. Export .msg a sloučení do pracovní databáze (director: export + sync)">1. Export + Sync</button>
+                        <button onclick="triggerPipeline('prepare')"
+                            title="2. Director: sync + F2 + kontextové značky">2. Příprava (F2+tagy)</button>
+                        <button onclick="triggerPipeline('translate')"
+                            title="3. Director: AI překlad nepřeložených řádků">3. AI Překlad</button>
+                        <button onclick="triggerPipeline('validate')"
+                            title="4. Director: QA kontrola (stejná pravidla jako oprava)">4. Validovat</button>
+                        <button onclick="triggerPipeline('repair')"
+                            title="5. Director --fix: tagy → validace → repair → re-validace">5. QA Oprava</button>
+                        <button onclick="triggerPipeline('import')" style="grid-column: span 2;"
+                            title="6. Sestavit finální .msg soubory">6. Export do .msg</button>
+                        <button onclick="openBenchmarkModal()"
+                            style="grid-column: span 1; background-color: var(--color-warning); color: #000; font-weight: bold;"
+                            title="Otestuje různé modely">[B] Benchmark</button>
+                        <button onclick="openDbManagerModal()"
+                            style="grid-column: span 1; background-color: var(--color-error); color: #000; font-weight: bold;"
+                            title="Mazání historie">[X] Správce DB</button>
+                    </div>
+                </div>
+
+                <!-- Konzole logů pipeline -->
+                <div style="flex-grow: 1; display: flex; flex-direction: column;">
+                    <div class="terminal-header">
+                        <div class="terminal-status">
+                            <span>Konzole:</span>
+                            <div class="terminal-status" id="console-status-container">
+                                <div class="status-pulse"></div>
+                                <span style="font-family: var(--font-mono); font-size: 11px;"
+                                    id="console-action-name">Běží...</span>
+                            </div>
+                        </div>
+                        <button onclick="killPipelineProcess()" id="btn-kill-proc"
+                            style="padding: 2px 8px; font-size: 10px; border-color: var(--color-error); color: var(--color-error); background: transparent;"
+                            disabled>Zabít proces</button>
+                    </div>
+
+                    <div class="terminal-console" id="console-logs">Žádný proces zrovna neběží. Zde se zobrazí živé
+                        výpisy spuštěných python scriptů.</div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NASTAVENÍ MODAL -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal">
+            <div class="modal-header">⚙ Nastavení AI a Překladače</div>
+
+            <div class="modal-body">
+                <div class="modal-form-group">
+                    <label for="cfg-provider">Výchozí AI Provider</label>
+                    <select id="cfg-provider" onchange="toggleProviderSettings()">
+                        <option value="ollama">Ollama (Lokální LLM)</option>
+                        <option value="openrouter">OpenRouter (Cloud API)</option>
+                    </select>
+                </div>
+
+                <!-- Ollama nastavení -->
+                <div id="settings-ollama">
+                    <div class="modal-form-group">
+                        <label for="cfg-ollama-host">Ollama Host</label>
+                        <input type="text" id="cfg-ollama-host" placeholder="http://localhost:11434">
+                    </div>
+                    <div class="modal-form-group" style="margin-top: 10px;">
+                        <label for="cfg-ollama-model">Ollama Model</label>
+                        <select id="cfg-ollama-model">
+                            <option value="qwen3:8b">qwen3:8b</option>
+                            <option value="rinex20/translategemma3:12b">rinex20/translategemma3:12b (Gemma 12)</option>
+                            <option value="deepseek-r1:8b">deepseek-r1:8b</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- OpenRouter nastavení -->
+                <div id="settings-openrouter" style="display: none;">
+                    <div class="modal-form-group">
+                        <label for="cfg-openrouter-model">OpenRouter Model (Překlad)</label>
+                        <select id="cfg-openrouter-model">
+                            <option value="anthropic/claude-3-haiku">Claude 3 Haiku (doporučený – levný, stabilní)</option>
+                            <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku (novější)</option>
+                            <option value="anthropic/claude-sonnet-4">Claude Sonnet 4 (kvalitnější, dražší)</option>
+                            <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B (silný, střední cena)</option>
+                            <option value="google/gemini-2.5-flash">Gemini 2.5 Flash (rychlý)</option>
+                            <option value="openai/gpt-4o-mini">GPT-4o Mini (levný)</option>
+                            <option value="openai/gpt-4o">GPT-4o (kvalitnější, dražší)</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group" style="margin-top: 10px;">
+                        <label for="cfg-openrouter-repair">OpenRouter Model (Opravný repair běh)</label>
+                        <select id="cfg-openrouter-repair">
+                            <option value="qwen/qwen3-235b-a22b-2507">Qwen 3 235B (silný pro opravy)</option>
+                            <option value="anthropic/claude-sonnet-4">Claude Sonnet 4</option>
+                            <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+                            <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group" style="margin-top: 10px;">
+                        <label for="cfg-openrouter-key">OpenRouter API Klíč (povinný pro blokový překlad)</label>
+                        <input type="password" id="cfg-openrouter-key"
+                            placeholder="Nezměněno (Zadejte nový klíč sk-or-v1-...)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button onclick="closeSettingsModal()"
+                    style="background: transparent; border-color: #666; color: #ccc;">Zavřít</button>
+                <button class="btn-save" onclick="saveSettings()">Uložit Nastavení</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benchmark Modal -->
+    <div class="modal-overlay" id="benchmark-modal">
+        <div class="modal">
+            <div class="modal-header">Benchmark AI Modelů</div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 10px;">
+                <p style="font-size: 14px; margin-bottom: 10px; color: #ccc;">Vyberte modely, které chcete otestovat.
+                    Tyto modely přeloží 170 náročných řádků a systém vyhodnotí jejich kvalitu.</p>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-owl" value="openrouter/owl-alpha" checked>
+                    <span><strong>Owl Alpha</strong> <span style="color: var(--color-success);">(ZDARMA)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-hy3" value="tencent/hy3-preview" checked>
+                    <span><strong>Tencent Hy3 Preview</strong> <span style="color: var(--color-success);">($0.06 /
+                            M)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-haiku" value="anthropic/claude-3-haiku" checked>
+                    <span><strong>Claude 3 Haiku</strong> <span style="color: var(--color-warning);">($0.25 /
+                            M)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-qwen72" value="qwen/qwen-2.5-72b-instruct" checked>
+                    <span><strong>Qwen 2.5 72B</strong> <span style="color: var(--color-warning);">($0.40 /
+                            M)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-geminiflash" value="google/gemini-3.5-flash" checked>
+                    <span><strong>Gemini 3.5 Flash</strong> <span style="color: var(--color-warning);">($0.04 /
+                            M)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-gpt4omini" value="openai/gpt-4o-mini" checked>
+                    <span><strong>GPT-4o Mini</strong> <span style="color: var(--color-warning);">($0.15 /
+                            M)</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-sonnet" value="anthropic/claude-sonnet-4.6" checked>
+                    <span><strong>Claude 4.6 Sonnet</strong> <span style="color: var(--color-warning);">($3.00 /
+                            M) [TOP TIER]</span></span>
+                </label>
+
+                <label
+                    style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--color-primary-dim);">
+                    <input type="checkbox" id="bench-ollama" value="ollama/default" checked>
+                    <span><strong>Lokální Ollama (z Vašeho nastavení)</strong> <span
+                            style="color: var(--color-success);">(LOKÁLNÍ)</span></span>
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button onclick="openBenchmarkViewerModal()"
+                    style="background-color: var(--color-primary); color: #000; border: none; font-weight: bold; margin-right: auto;">Zobrazit
+                    výsledky</button>
+                <button onclick="closeBenchmarkModal()"
+                    style="background: transparent; border-color: #666; color: #ccc;">Zavřít</button>
+                <button class="btn-save"
+                    style="background-color: var(--color-warning); color: #000; border: none; font-weight: bold;"
+                    onclick="runBenchmarkWithModels()">Spustit Benchmark</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DB Manager Modal -->
+    <div class="modal-overlay" id="db-manager-modal">
+        <div class="modal">
+            <div class="modal-header">Správce databáze (Mazání historie)</div>
+            <div class="modal-body">
+                <p style="font-size: 14px; margin-bottom: 10px; color: #ccc;">Plný reset = záloha + vynulování všeho včetně F2. Částečné resety níže nechají ostatní překlady.</p>
+                <button onclick="triggerDbReset('reset_all')"
+                    style="width: 100%; padding: 15px; margin-bottom: 10px; border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,0.08); font-weight: bold;">0.
+                    PLNÝ RESET (záloha + vše včetně F2)</button>
+                <button onclick="triggerDbReset('reset_ai')"
+                    style="width: 100%; padding: 15px; margin-bottom: 10px; border-color: var(--color-error); color: var(--color-error); background: transparent;">1.
+                    Smazat všechny AI překlady (Ollama, OpenRouter)</button>
+                <button onclick="triggerDbReset('reset_f2')"
+                    style="width: 100%; padding: 15px; border-color: var(--color-error); color: var(--color-error); background: transparent;">2.
+                    Smazat pochybná zarovnání z Fallout 2 (Tier 2 a Tier 3)</button>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeDbManagerModal()"
+                    style="background: transparent; border-color: #666; color: #ccc;">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benchmark Viewer Modal (Full Screen) -->
+    <div class="modal-overlay" id="benchmark-viewer-modal">
+        <div class="modal" style="width: 95vw; height: 90vh; max-width: none;">
+            <div class="modal-header">Srovnávač Benchmarků</div>
+            <div class="modal-body" style="overflow: auto; flex-grow: 1; padding: 0;">
+                <table id="benchmark-table" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                    <thead style="position: sticky; top: 0; background: var(--bg-panel-solid); z-index: 10;">
+                        <tr id="benchmark-table-head">
+                            <th style="padding: 8px; border: 1px solid var(--color-primary-dim); width: 250px;">Originál
+                                (EN)</th>
+                            <!-- Sloupce modelů se vygenerují přes JS -->
+                        </tr>
+                    </thead>
+                    <tbody id="benchmark-table-body">
+                        <!-- Obsah tabulky -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeBenchmarkViewerModal()"
+                    style="background: transparent; border-color: #666; color: #ccc;">Zavřít</button>
+                <button class="btn-save" onclick="loadBenchmarkResults()">Obnovit data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- KONTEJNER PRO TOASTY -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- --- JAVASCRIPT LOGIKA --- -->
+    <script>
+        // Globální stavy
+        let activeRow = null;
+        let activeRowElement = null;
+        let rowsData = [];
+        let glossaryData = [];
+
+        let currentPage = 1;
+        let totalPages = 1;
+
+        let searchDebounceTimer = null;
+        let pipelinePollInterval = null;
+
+        /** Badge v editoru podle hodnoty řádku `file_category` (viz file_categories.py) */
+        const FILE_CATEGORY_BADGE = {
+            dialog_npc: { cls: "badge-npc", text: "[ 🗣️ NPC KONVERZACE ]" },
+            dialog_scenery: { cls: "badge-scenery", text: "[ 🏷️ POPISY / OBJEKTY ]" },
+            game_character_screen: { cls: "badge-game-char", text: "[ 👤 TVORBA POSTAVY • VSTUP OBRAZOVKY ]" },
+            game_menus_gui: { cls: "badge-game-menus-gui", text: "[ 🖼️ MENU • PIP-BOY • INVENTÁŘ • SAVE ]" },
+            game_combat: { cls: "badge-game-combat", text: "[ ⚔️ BOJ ]" },
+            game_items_gear: { cls: "badge-game-items", text: "[ 🎒 PŘEDMĚTY ]" },
+            game_critters: { cls: "badge-game-monsters", text: "[ 🐜 POTVORY (PRO_CRIT) ]" },
+            game_world_proto: { cls: "badge-game-scenery", text: "[ 🌍 DATABÁZE SCENERY / PROTO ]" },
+            game_quests_journal: { cls: "badge-game-quests", text: "[ 📜 ÚKOLY • DENÍK ]" },
+            game_world_travel_map: { cls: "badge-game-worldmap", text: "[ 🗺️ SVĚTOVÁ MAPA ]" },
+            game_perks_traits_skills: { cls: "badge-game-mechanics", text: "[ 📊 PERKY • SKILLY • STAT ]" },
+            game_engine_strings: { cls: "badge-game-misc", text: "[ 🔧 ENGINE • SKRIPTY • HLÁŠKY ]" },
+            game_unknown: { cls: "badge-game-unknown", text: "[ ❔ HERNÍ — NEZTŘÍDĚNO ]" },
+            // Starší zálohy JSONL mohou ještě mít předchozí slugy
+            game_monsters: { cls: "badge-game-monsters", text: "[ 🐜 POTVORY (PRO_CRIT) ]" },
+            game_items: { cls: "badge-game-items", text: "[ 🎒 PŘEDMĚTY ]" },
+            game_mechanics: { cls: "badge-game-mechanics", text: "[ 📊 PERKY • SKILLY • STAT ]" },
+            game_scenery: { cls: "badge-game-scenery", text: "[ 🌍 DATABÁZE SCENERY / PROTO ]" },
+            game_quests: { cls: "badge-game-quests", text: "[ 📜 ÚKOLY • DENÍK ]" },
+            game_worldmap: { cls: "badge-game-worldmap", text: "[ 🗺️ SVĚTOVÁ MAPA ]" },
+            game_interface: { cls: "badge-game-menus-gui", text: "[ 🖼️ MENU • PIP-BOY • INVENTÁŘ • SAVE ]" },
+            game_misc: { cls: "badge-game-misc", text: "[ 🔧 ENGINE • SKRIPTY • HLÁŠKY ]" },
+        };
+
+        // Načtení dat při startu
+        window.addEventListener("DOMContentLoaded", () => {
+            initApp();
+
+            // Naslouchání klávesových zkratek
+            document.addEventListener("keydown", (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                    e.preventDefault();
+                    saveActiveRow();
+                }
+            });
+        });
+
+        async function initApp() {
+            showToast("Inicializace Pip-Boy systému...");
+            await loadStatus();
+            await loadDialogLocations();
+            await loadGlossary();
+            await loadRows(1);
+            startPipelinePolling(); // Spustit průběžné dotazování konzole
+        }
+
+        // --- API SLUŽBY ---
+
+        async function apiFetch(endpoint, options = {}) {
+            try {
+                const url = `/api/${endpoint.replace(/^\//, "")}`;
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    const text = await response.text();
+                    let errObj = {};
+                    try { errObj = JSON.parse(text); } catch (e) { }
+                    throw new Error(errObj.error || `Chyba API: ${response.status} ${response.statusText}`);
+                }
+                return await response.json();
+            } catch (err) {
+                console.error(err);
+                showToast(err.message, "error");
+                throw err;
+            }
+        }
+
+        async function loadStatus() {
+            const stats = await apiFetch("status");
+
+            document.getElementById("stat-total").innerText = stats.total;
+            document.getElementById("stat-translated").innerText = stats.translated;
+            document.getElementById("stat-untranslated").innerText = stats.untranslated;
+            document.getElementById("stat-issues").innerText = stats.issues;
+
+            const percent = stats.total > 0 ? (stats.translated / stats.total * 100) : 0;
+            document.getElementById("stat-percent").innerText = percent.toFixed(1);
+            document.getElementById("stat-progress-bar").style.width = `${percent}%`;
+
+            // Maskované nastavení v UI pro informaci
+            const prov = stats.provider === "ollama" ? `Ollama (${stats.ollama_model})` : `OpenRouter (${stats.openrouter_model})`;
+            console.log(`Aktivní AI provider: ${prov}`);
+        }
+
+        async function loadDialogLocations() {
+            const data = await apiFetch("files");
+            const locSelect = document.getElementById("filter-location");
+            locSelect.innerHTML = '<option value="">Všechny oblasti (prefix)</option>';
+            const locs = data.locations || [];
+            locs.sort();
+            locs.forEach(l => {
+                const opt = document.createElement("option");
+                opt.value = l;
+                opt.textContent = `${l} (prefix XX*)`;
+                locSelect.appendChild(opt);
+            });
+        }
+
+        async function loadGlossary() {
+            const data = await apiFetch("glossary");
+            glossaryData = data.glossary || [];
+            console.log(`Načteno ${glossaryData.length} položek z glosářů.`);
+        }
+
+        async function loadRows(page = 1) {
+            currentPage = page;
+            const search = document.getElementById("filter-search").value;
+            const status = document.getElementById("filter-status").value;
+            const category = document.getElementById("filter-category").value;
+            const location = document.getElementById("filter-location").value;
+
+            const queryParams = new URLSearchParams({
+                page: page,
+                limit: 50,
+                status: status,
+                search: search,
+                category: category,
+                location: location
+            });
+
+            const data = await apiFetch(`rows?${queryParams.toString()}`);
+            rowsData = data.rows || [];
+            totalPages = data.pages || 1;
+
+            renderRowList();
+
+            document.getElementById("page-indicator").innerText = `Strana ${currentPage} / ${totalPages}`;
+            document.getElementById("btn-prev-page").disabled = currentPage <= 1;
+            document.getElementById("btn-next-page").disabled = currentPage >= totalPages;
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                loadRows(newPage);
+            }
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                loadRows(1);
+            }, 300);
+        }
+
+        // --- ZOBRAZENÍ / RENDERING ---
+
+        function renderRowList() {
+            const container = document.getElementById("rows-container");
+            container.innerHTML = "";
+
+            if (rowsData.length === 0) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: #666; font-style: italic;">Nebyly nalezeny žádné řádky.</div>';
+                return;
+            }
+
+            rowsData.forEach(row => {
+                const item = document.createElement("div");
+                item.className = "row-item";
+                if (activeRow && activeRow.file === row.file && activeRow.line_no === row.line_no && activeRow.id === row.id) {
+                    item.className += " active";
+                    activeRowElement = item;
+                }
+
+                // Určení barvy stavu
+                let dotStatus = row.status || "new";
+                if (row.cs && row.cs.trim()) {
+                    if (row.live_issues && row.live_issues.length > 0) {
+                        dotStatus = "issue";
+                    } else if (dotStatus === "new") {
+                        dotStatus = "translated";
+                    }
+                } else {
+                    dotStatus = "new";
+                }
+
+                item.innerHTML = `
+                    <div class="status-dot ${dotStatus}"></div>
+                    <div class="row-meta">
+                        <div class="row-meta-top">
+                            <span>ID: ${row.id}</span>
+                            <span>Řádek: ${row.line_no}</span>
+                        </div>
+                        <div class="row-text-preview">${escapeHtml(row.en)}</div>
+                    </div>
+                `;
+
+                item.addEventListener("click", () => selectRow(row, item));
+                container.appendChild(item);
+            });
+        }
+
+        function selectRow(row, element) {
+            if (activeRowElement) {
+                activeRowElement.classList.remove("active");
+            }
+
+            activeRow = row;
+            activeRowElement = element;
+            element.classList.add("active");
+
+            // Zobrazit category badge
+            const badge = document.getElementById("active-category-badge");
+            const cat = row.file_category;
+            if (cat && FILE_CATEGORY_BADGE[cat]) {
+                const cfg = FILE_CATEGORY_BADGE[cat];
+                badge.style.display = "inline-block";
+                badge.className = "badge-category " + cfg.cls;
+                badge.innerText = cfg.text;
+            } else {
+                badge.style.display = "none";
+            }
+
+            // Zobrazit editor
+            document.getElementById("editor-placeholder").style.display = "none";
+            document.getElementById("editor-workspace").style.display = "flex";
+
+            document.getElementById("active-file-indicator").innerText = row.file;
+            document.getElementById("active-en-text").innerText = row.en;
+
+            renderContextHints(row);
+
+            // RU text s automatickým zvýrazněním rodu
+            const ruContainer = document.getElementById("active-ru-text");
+            if (row.ru) {
+                ruContainer.innerHTML = highlightRussianGender(row.ru);
+            } else {
+                ruContainer.innerHTML = '<span style="color: #666; font-style: italic;">(Ruský kontext není k dispozici)</span>';
+            }
+
+            // Textarea
+            const textarea = document.getElementById("editor-textarea");
+            textarea.value = row.cs || "";
+            textarea.focus();
+
+            onEditorInput();
+            renderGlossarySuggestions(row.en);
+            loadDialogueContext(row);
+        }
+
+        function renderContextHints(row) {
+            const panel = document.getElementById("context-hint-panel");
+            const tagsEl = document.getElementById("context-tags");
+            const hintEl = document.getElementById("context-hint-text");
+            const tags = row.context_tags || [];
+            const hint = (row.hint_cs || "").trim();
+            const ruGuide = (row.ru_guide_cs || "").trim();
+
+            if (!tags.length && !hint && !ruGuide) {
+                panel.style.display = "none";
+                tagsEl.innerHTML = "";
+                hintEl.innerText = "";
+                return;
+            }
+
+            panel.style.display = "flex";
+            tagsEl.innerHTML = tags.map(t =>
+                `<span class="context-tag" title="Kontextová značka">${escapeHtml(t)}</span>`
+            ).join("");
+            hintEl.innerHTML = "";
+            if (hint) {
+                hintEl.innerHTML += escapeHtml(hint);
+            }
+            if (ruGuide) {
+                if (hint) hintEl.innerHTML += "<br><br>";
+                hintEl.innerHTML += `<strong style="color: var(--color-warning);">🇷🇺 Nápověda z ruštiny:</strong> ${escapeHtml(ruGuide)}`;
+            }
+            if (!hint && !ruGuide) hintEl.innerText = "—";
+        }
+
+        async function loadDialogueContext(row) {
+            const container = document.getElementById("dialogue-flow-container");
+            const list = document.getElementById("dialogue-flow-list");
+
+            if (!row.file || !row.file.startsWith("dialog/")) {
+                container.style.display = "none";
+                return;
+            }
+
+            document.getElementById("dialogue-flow-file-indicator").innerText = row.file;
+            list.innerHTML = '<div style="padding: 10px; text-align: center; color: #888;"><div class="spinner"></div> Načítám kontext rozhovoru...</div>';
+            container.style.display = "flex";
+
+            try {
+                const res = await apiFetch(`dialog_context?file=${encodeURIComponent(row.file)}&line_no=${row.line_no}&window=4`);
+                const ctxRows = res.context || [];
+
+                list.innerHTML = "";
+                if (ctxRows.length === 0) {
+                    list.innerHTML = '<div style="padding: 10px; text-align: center; color: #666; font-style: italic;">Žádný okolní kontext rozhovoru nebyl nalezen.</div>';
+                    return;
+                }
+
+                ctxRows.forEach(ctx => {
+                    const bubble = document.createElement("div");
+                    const isActive = ctx.line_no === row.line_no && ctx.id === row.id;
+                    bubble.className = `dialogue-bubble ${isActive ? 'active-bubble' : ''}`;
+
+                    const csTextHtml = ctx.cs && ctx.cs.trim()
+                        ? `<div class="dialogue-bubble-cs">🇨🇿 ${escapeHtml(ctx.cs)}</div>`
+                        : `<div class="dialogue-bubble-cs" style="color: #555; font-style: italic;">(nepřeloženo)</div>`;
+
+                    bubble.innerHTML = `
+                        <div class="dialogue-bubble-meta">
+                            <span>Řádek: ${ctx.line_no} (ID: ${ctx.id}) ${isActive ? '◀ AKTIVNÍ' : ''}</span>
+                        </div>
+                        <div class="dialogue-bubble-content">
+                            <div class="dialogue-bubble-en">🇺🇸 ${escapeHtml(ctx.en)}</div>
+                            <div class="dialogue-bubble-ru">🇷🇺 ${highlightRussianGender(ctx.ru)}</div>
+                            ${csTextHtml}
+                        </div>
+                    `;
+
+                    if (!isActive) {
+                        bubble.addEventListener("click", () => {
+                            // Find the row in rowsData (if on current page) and select it
+                            const localRow = rowsData.find(r => r.file === ctx.file && r.line_no === ctx.line_no && r.id === ctx.id);
+                            if (localRow) {
+                                // Find element
+                                const items = document.querySelectorAll(".row-item");
+                                const idx = rowsData.indexOf(localRow);
+                                if (items[idx]) {
+                                    selectRow(localRow, items[idx]);
+                                    items[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                }
+                            } else {
+                                // If not on the same page, notify and load specifically (or let the user filter manually)
+                                showToast(`Řádek ${ctx.line_no} leží mimo aktuální zobrazenou stránku. Vyhledejte ho nebo změňte filtry.`, "warning");
+                            }
+                        });
+                    }
+
+                    list.appendChild(bubble);
+
+                    // Scroll active bubble into view inside context window
+                    if (isActive) {
+                        setTimeout(() => {
+                            bubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 50);
+                    }
+                });
+            } catch (err) {
+                console.error("Selhalo načtení kontextu dialogu:", err);
+                list.innerHTML = '<div style="padding: 10px; text-align: center; color: var(--color-error);">Selhalo načtení kontextu rozhovoru.</div>';
+            }
+        }
+
+        // --- EDITOR LOGIKA ---
+
+        function onEditorInput() {
+            const textarea = document.getElementById("editor-textarea");
+            const text = textarea.value;
+
+            // Počítadlo znaků
+            document.getElementById("char-counter").innerText = `${text.length} znaků`;
+
+            // Live QA validace
+            checkLiveQA(text);
+        }
+
+        function checkLiveQA(text) {
+            const container = document.getElementById("live-qa-container");
+            container.innerHTML = "";
+
+            if (!text || !text.trim() || !activeRow) return;
+
+            const en = activeRow.en;
+            const issues = [];
+
+            // 1. Ztracený formát MSG řádků
+            if (/\{[0-9]+\}\{/.test(text)) {
+                issues.push({ text: "Obsahuje formát celého MSG řádku ({ID}{SOUND}{TEXT}). Uložte pouze samotný český text.", type: "error" });
+            }
+
+            // 2. Metadata v překladu
+            if (/gender_warning|meaning_warning|glossary_warning|true|false|line_no|notes/i.test(text)) {
+                issues.push({ text: "V textu se nachází metadata nebo boolean hodnoty (např. 'gender_warning' nebo 'true'). Vyčistěte překlad.", type: "error" });
+            }
+
+            // 3. Neuzavřené složené závorky
+            if (text.includes("{") || text.includes("}")) {
+                issues.push({ text: "Text obsahuje znaky složených závorek '{' nebo '}'. Ujistěte se, že jsou v pořádku nebo je odstraňte.", type: "warning" });
+            }
+
+            // 4. Rodové lomítko
+            if (/\b\w+\/\w+\b/.test(text)) {
+                issues.push({ text: "Použito rodové lomítko (např. 'mluvil/a', 'šel/šla'). Ve Falloutu pište věty neutrálně, nebo zvolte jeden rod.", type: "warning" });
+            }
+
+            // 5. Vykání (Vidíte)
+            if (/\bVidíte\b/.test(text)) {
+                issues.push({ text: "Použito formální 'Vidíte' (vykání). Klasický Fallout používá tykání: 'Vidíš Hektora.', 'Vidíš muže.'", type: "warning" });
+            }
+
+            // 6. Bad home port (zbrojna)
+            if (/\bzbrojna\b|\bzbrojnu\b|\bzbrojny\b/i.test(text)) {
+                issues.push({ text: "Detekován překlad 'zbrojna'. Pro 'home port' použijte překlad 'domovský přístav'.", type: "warning" });
+            }
+
+            // 7. Cesareo translation
+            if (/\b(Caesar|Císař|Cesář|Cisar)\b/i.test(text)) {
+                issues.push({ text: "Překlad obsahuje 'Caesar' nebo 'Císař'. Jméno postavy Cesareo se nepřekládá jako Caesar.", type: "error" });
+            }
+
+            // 8. Špatné uvozovky na konci
+            if (/[»“\"]\s*,\s*$/.test(text)) {
+                issues.push({ text: "Špatné uvozovky následované čárkou na konci věty (např. »“ ,).", type: "warning" });
+            }
+
+            // 9. Azbuka (Cyrillic)
+            if (/[\u0400-\u04FF]/.test(text)) {
+                issues.push({ text: "Detekována azbuka v českém překladu. Všechny znaky musí být v latince.", type: "error" });
+            }
+
+            // 10. Bad survive phrase
+            if (/přežiješ, nebo zemřeš sám/i.test(text)) {
+                issues.push({ text: "Detekována zakázaná fráze 'přežiješ, nebo zemřeš sám'. Nahraďte ji přirozenějším obratem.", type: "warning" });
+            }
+
+            // 11. Bad tesno (těsto)
+            if (/\btěsto\b/i.test(text)) {
+                issues.push({ text: "Detekováno slovo 'těsto'. Zkontrolujte, zda nejde o chybu překladu slova 'těsno'.", type: "warning" });
+            }
+
+            // 12. Bad wind (větrný vítr)
+            if (/větrný vítr/i.test(text)) {
+                issues.push({ text: "Detekováno slovní spojení 'větrný vítr'. Nahraďte lepším výrazem.", type: "warning" });
+            }
+
+            // 13. Spanish translated as czech
+            if (en.toLowerCase().includes("spanish") && (text.toLowerCase().includes("česky") || text.toLowerCase().includes("cesky"))) {
+                issues.push({ text: "Výraz 'Spanish' (španělština) byl chybně přeložen jako 'česky' místo 'španělsky'.", type: "error" });
+            }
+
+            // 14. Translated Spanish flavor
+            if (en.includes("No hablo") && text.includes("Nemluv")) {
+                issues.push({ text: "Španělská fráze 'No hablo' byla zbytečně přeložena. Amigo/señor/gracias/no hablo by měly zůstat ve španělštině.", type: "warning" });
+            }
+
+            // 15. Bad Action Points abbreviation
+            if (/\b(AB|AK)\b/.test(text)) {
+                issues.push({ text: "Použita nesprávná zkratka pro akční body (AB/AK). Používejte klasické Fallout AP.", type: "warning" });
+            }
+
+            // 16. Bad Hit Points abbreviation
+            if (/\b(BZ)\b/.test(text)) {
+                issues.push({ text: "Použita nesprávná zkratka pro body života (BZ). Používejte klasické Fallout HP.", type: "warning" });
+            }
+
+            // 17. Bad Experience abbreviation
+            if (/\b(ZB)\b/.test(text)) {
+                issues.push({ text: "Použita nesprávná zkratka pro zkušenostní body (ZB). Používejte klasické Fallout XP.", type: "warning" });
+            }
+
+            // 18. Bad Armor Class abbreviation
+            if (/\b(OČ)\b/.test(text)) {
+                issues.push({ text: "Použita nesprávná zkratka pro obranné číslo (OČ). Používejte klasické Fallout AC.", type: "warning" });
+            }
+
+            
+            // 19. Dash Translated
+            if (en.trim() === "-" && text.trim() !== "-") {
+                issues.push({ text: "Originál obsahuje pouze pomlčku '-', ale překlad obsahuje text. Nepřekládejte technické pomlčky.", type: "error" });
+            }
+            
+            // 20. English Leftovers
+            if (/\b(Library|Base|Cave|Jackals)\b/i.test(text)) {
+                issues.push({ text: "Detekovány zbytky angličtiny (Library, Base, Cave, Jackals). Přeložte je nebo zkontrolujte glosář.", type: "error" });
+            }
+            
+            // 21. Bad Morphology
+            if (/stimpak[úu]|zátk[ui]|záti?ku/i.test(text)) {
+                issues.push({ text: "Detekován špatný tvar slova (např. Stimpakú, zatku, zátiku). Opravte gramatiku.", type: "error" });
+            }
+            
+            // 22. Negation Check
+            if (/\b(don't|not|never|no)\b/i.test(en)) {
+                if (!/\bne[a-z]*\b/i.test(text)) {
+                    issues.push({ text: "Originál obsahuje negaci (don't, no, not, never), ale v češtině chybí předpona 'ne-'. Zkontrolujte, zda nedošlo k převrácení významu.", type: "error" });
+                }
+            }
+
+            // 23. CAPS preservation
+            const enCapsWords = (en.match(/\b[A-Z]{2,}\b/g) || []).filter(w => !['AP','HP','XP','AC','AB','AK','BZ','ZB','OK','ID','PC','NPC','DJ','TV','NCR'].includes(w));
+            if (enCapsWords.length > 0) {
+                const csCapsWords = (text.match(/\b[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]{2,}\b/g) || []).filter(w => !['AP','HP','XP','AC','AB','AK','BZ','ZB','OK','ID','PC','NPC','DJ','TV','NCR'].includes(w));
+                if (csCapsWords.length === 0) {
+                    issues.push({ text: `Originál obsahuje slova VELKÝMI PÍSMENY (${enCapsWords.join(', ')}), ale překlad je bez caps. Zachovejte velká písmena.`, type: "warning" });
+                }
+            }
+
+            // Vykreslení varování
+
+            issues.forEach(issue => {
+                const item = document.createElement("div");
+                item.className = `qa-warning-item ${issue.type}`;
+                item.innerHTML = `
+                    <span class="qa-warning-icon">${issue.type === 'error' ? '❌' : '⚠️'}</span>
+                    <span>${issue.text}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        async function saveActiveRow() {
+            if (!activeRow) return;
+
+            const textarea = document.getElementById("editor-textarea");
+            const csText = textarea.value;
+
+            const body = {
+                file: activeRow.file,
+                line_no: activeRow.line_no,
+                id: activeRow.id,
+                cs: csText
+            };
+
+            const res = await apiFetch("save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+
+            if (res.success) {
+                showToast("Řádek uložen.");
+
+                // Aktualizovat lokální řádek a překreslit stav v prohlížeči
+                activeRow.cs = csText;
+                activeRow.live_issues = []; // Po ručním uložení čistíme live varování
+
+                // Překreslit řádek a statistiky
+                renderRowList();
+                await loadStatus();
+
+                // Automaticky přeskočit na další nepřeložený řádek
+                advanceToNextUntranslated();
+            }
+        }
+
+        function advanceToNextUntranslated() {
+            // Najít v aktuálním seznamu první nepřeložený řádek za tím aktuálním
+            const currentIndex = rowsData.findIndex(r => r.file === activeRow.file && r.line_no === activeRow.line_no && r.id === activeRow.id);
+            if (currentIndex !== -1) {
+                // Hledáme směrem dolů
+                for (let i = currentIndex + 1; i < rowsData.length; i++) {
+                    const row = rowsData[i];
+                    if (!row.cs || !row.cs.trim()) {
+                        // Vybrat řádek z browseru
+                        const elements = document.querySelectorAll(".row-item");
+                        if (elements[i]) {
+                            selectRow(row, elements[i]);
+                            // Scroll do zobrazení
+                            elements[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                        return;
+                    }
+                }
+            }
+            showToast("Všechny řádky na této stránce jsou přeloženy! Přejděte na další stranu.", "warning");
+        }
+
+        function skipRow() {
+            advanceToNextUntranslated();
+        }
+
+        async function runAITranslateRow() {
+            if (!activeRow) return;
+
+            const btn = document.getElementById("btn-ai-translate");
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="spinner"></div> Překládám...';
+            btn.disabled = true;
+
+            try {
+                const res = await apiFetch("translate_row", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        file: activeRow.file,
+                        line_no: activeRow.line_no,
+                        id: activeRow.id
+                    })
+                });
+
+                if (res.success && res.cs) {
+                    const textarea = document.getElementById("editor-textarea");
+                    textarea.value = res.cs;
+                    textarea.focus();
+                    onEditorInput();
+                    showToast("AI překlad dokončen.");
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // --- RUSKÁ DETEKCE RODU ---
+
+        function highlightRussianGender(text) {
+            if (!text) return "";
+
+            // HTML escapování
+            let escaped = escapeHtml(text);
+
+            // Rozdělení textu na slova a interpunkci
+            let words = escaped.split(/(\s+|[,.:!?«»"'\-()]+)/);
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i];
+                // Pouze ruská azbuka
+                if (/^[А-Яа-яёЁ]+$/.test(word)) {
+                    let lower = word.toLowerCase();
+
+                    // Bojové sloveso — kdo byl zasažen
+                    if (lower === "получили") {
+                        words[i] = `<span class="gender-player" title="Hráč (ty) — plurál v ruštině, v češtině ty-forma">${word}👤</span>`;
+                        continue;
+                    }
+                    if (lower === "получил") {
+                        words[i] = `<span class="gender-masc" title="Mužská NPC (on) — 3. osoba">${word}♂</span>`;
+                        continue;
+                    }
+                    if (lower === "получила") {
+                        words[i] = `<span class="gender-fem" title="Ženská NPC (ona) — 3. osoba">${word}♀</span>`;
+                        continue;
+                    }
+
+                    // Indikátory ženského rodu (minulý čas: -ла, -лась)
+                    if (lower.endsWith("ла") || lower.endsWith("лась")) {
+                        words[i] = `<span class="gender-fem" title="Ženský rod (Feminine past tense verb)">${word}♀</span>`;
+                    }
+                    // Indikátory mužského rodu (minulý čas: -л, -лся, vyjma cizích a jiných slov)
+                    else if ((lower.endsWith("л") || lower.endsWith("лся")) &&
+                        !lower.endsWith("алл") &&
+                        !lower.endsWith("илл") &&
+                        lower !== "или" &&
+                        lower !== "если" &&
+                        lower !== "или") {
+                        words[i] = `<span class="gender-masc" title="Mužský rod (Masculine past tense verb)">${word}♂</span>`;
+                    }
+                }
+            }
+            return words.join("");
+        }
+
+        // --- GLOSÁŘ INTEGRACE ---
+
+        function getOriginBadgeHtml(origin) {
+            let className = "tag-origin-other";
+            let label = origin || "unknown";
+
+            const lower = String(origin).toLowerCase();
+            if (lower === "core") {
+                className = "tag-origin-core";
+                label = "Core";
+            } else if (lower === "fallout2_cz" || lower === "fallout_ref_items" || lower === "fallout_ref_locations_quests" || lower === "fallout_ref_perks_skills") {
+                className = "tag-origin-f2";
+                label = "F2";
+            } else if (lower === "nevada_cz") {
+                className = "tag-origin-nevada";
+                label = "F Nevada";
+            } else if (lower === "fallout1_cz") {
+                className = "tag-origin-f1";
+                label = "F1";
+            } else if (lower === "style_slang") {
+                className = "tag-origin-core";
+                label = "Slang";
+            }
+
+            return `<span class="tag-origin-badge ${className}">${escapeHtml(label)}</span>`;
+        }
+
+        function renderGlossarySuggestions(enText) {
+            const container = document.getElementById("glossary-matches-container");
+            container.innerHTML = "";
+
+            if (!enText || glossaryData.length === 0) {
+                container.innerHTML = '<span class="no-matches-text">Žádné pojmy nebyly v anglické větě detekovány.</span>';
+                return;
+            }
+
+            // Seřadit slovník od nejdelších výrazů (abychom chytli "Stimpak" před "pack")
+            const sortedGlossary = [...glossaryData].sort((a, b) => b.en.length - a.en.length);
+            const matchedTerms = [];
+
+            for (const term of sortedGlossary) {
+                if (!term.en || !term.cs) continue;
+
+                // Únik speciálních znaků regulárního výrazu
+                const escapedTerm = term.en.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                // Regex pro celá slova s ignorováním velikosti písmen
+                const regex = new RegExp('\\b' + escapedTerm + '\\b', 'i');
+
+                if (regex.test(enText)) {
+                    matchedTerms.push(term);
+                }
+            }
+
+            if (matchedTerms.length === 0) {
+                container.innerHTML = '<span class="no-matches-text">Žádné pojmy nebyly v anglické větě detekovány.</span>';
+                return;
+            }
+
+            // Seskupení podle anglického termínu a překladu
+            const groups = {};
+            for (const match of matchedTerms) {
+                const key = `${match.en.toLowerCase()}|||${match.cs.toLowerCase()}`;
+                if (!groups[key]) {
+                    groups[key] = {
+                        en: match.en,
+                        cs: match.cs,
+                        category: match.category,
+                        origins: []
+                    };
+                }
+                if (!groups[key].origins.includes(match.origin)) {
+                    groups[key].origins.push(match.origin);
+                }
+            }
+
+            // Vykreslení skupin
+            Object.values(groups).forEach(group => {
+                const tag = document.createElement("span");
+                tag.className = "glossary-tag";
+
+                // Vytvořit origin badges
+                const badgesHtml = group.origins.map(orig => getOriginBadgeHtml(orig)).join(" ");
+
+                tag.innerHTML = `
+                    <strong>${escapeHtml(group.en)}</strong> ➔ ${escapeHtml(group.cs)}
+                    ${badgesHtml}
+                    <span class="tag-cat">${escapeHtml(group.category)}</span>
+                `;
+
+                tag.addEventListener("click", () => {
+                    const textarea = document.getElementById("editor-textarea");
+                    insertTextAtCursor(textarea, group.cs);
+                    showToast(`Vloženo: ${group.cs}`);
+                });
+                container.appendChild(tag);
+            });
+        }
+
+        function insertTextAtCursor(textarea, text) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const currentText = textarea.value;
+
+            textarea.value = currentText.substring(0, start) + text + currentText.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start + text.length;
+            textarea.focus();
+
+            onEditorInput(); // Aktualizovat počítadla a QA
+        }
+
+        // --- PIPELINE OPERACE ---
+
+        async function triggerPipeline(action) {
+            const limit = document.getElementById("pipeline-limit").value || 50;
+            const batchSize = document.getElementById("pipeline-batch").value || 10;
+
+            showToast(`Spouštím pipeline akci: ${action}...`);
+
+            try {
+                const res = await apiFetch("pipeline_run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: action,
+                        limit: parseInt(limit),
+                        batch_size: parseInt(batchSize)
+                    })
+                });
+
+                if (res.success) {
+                    showToast(res.message);
+                    // Rychle aktualizujeme stav konzole
+                    pollPipelineStatus();
+                }
+            } catch (e) { }
+        }
+
+        async function pollPipelineStatus() {
+            try {
+                const data = await fetch("/api/pipeline_status").then(r => r.json());
+                const consoleLogs = document.getElementById("console-logs");
+                const killBtn = document.getElementById("btn-kill-proc");
+                const statusContainer = document.getElementById("console-status-container");
+                const actionLabel = document.getElementById("console-action-name");
+
+                if (data.is_running) {
+                    statusContainer.style.display = "flex";
+                    actionLabel.innerText = `${data.action.toUpperCase()} BĚŽÍ...`;
+                    killBtn.disabled = false;
+
+                    // Aktualizujeme logy
+                    if (data.logs) {
+                        consoleLogs.innerText = data.logs;
+                        // Automatický scroll dolů
+                        consoleLogs.scrollTop = consoleLogs.scrollHeight;
+                    }
+                } else {
+                    statusContainer.style.display = "none";
+                    killBtn.disabled = true;
+
+                    // Pokud logy byly právě dokončeny, aktualizujeme je a načteme data
+                    if (data.logs && consoleLogs.innerText !== data.logs) {
+                        consoleLogs.innerText = data.logs;
+                        consoleLogs.scrollTop = consoleLogs.scrollHeight;
+
+                        // Znovunačtení statistik a seznamu řádků po doběhnutí procesu
+                        showToast("Pipeline proces dokončen. Aktualizuji rozhraní.");
+                        await apiFetch("reload", { method: "POST" });  // vynutí znovunačtení dat z disku
+                        await loadStatus();
+                        await loadRows(currentPage);
+                    }
+                }
+            } catch (err) {
+                console.error("Pollování pipeline selhalo:", err);
+            }
+        }
+
+        function startPipelinePolling() {
+            // Pollovat stav každou vteřinu
+            pollPipelineStatus();
+            clearInterval(pipelinePollInterval);
+            pipelinePollInterval = setInterval(pollPipelineStatus, 1000);
+        }
+
+        async function killPipelineProcess() {
+            showToast("Posílám signál pro zabití procesu...", "warning");
+            try {
+                const res = await apiFetch("pipeline_kill", { method: "POST" });
+                if (res.success) {
+                    showToast(res.message);
+                }
+            } catch (e) { }
+        }
+
+        // --- NASTAVENÍ SYSTÉMU (Modal) ---
+
+        async function openSettingsModal() {
+            const modal = document.getElementById("settings-modal");
+            modal.classList.add("active");
+
+            // Načíst aktuální konfiguraci ze serveru
+            try {
+                const cfg = await apiFetch("config");
+
+                document.getElementById("cfg-provider").value = cfg.provider;
+                document.getElementById("cfg-ollama-host").value = cfg.ollama_host;
+                document.getElementById("cfg-ollama-model").value = cfg.ollama_model;
+                document.getElementById("cfg-openrouter-model").value = cfg.openrouter_model;
+                document.getElementById("cfg-openrouter-repair").value = cfg.openrouter_repair_model;
+
+                // Maskovaný klíč do placeholderu
+                const keyInput = document.getElementById("cfg-openrouter-key");
+                keyInput.value = "";
+                if (cfg.has_openrouter_key) {
+                    keyInput.placeholder = "API klíč je uložen (Zadejte nový pro změnu)";
+                } else {
+                    keyInput.placeholder = "Klíč chybí (sk-or-v1-...)";
+                }
+
+                toggleProviderSettings();
+            } catch (e) { }
+        }
+
+        function closeSettingsModal() {
+            document.getElementById("settings-modal").classList.remove("active");
+        }
+
+        function toggleProviderSettings() {
+            const provider = document.getElementById("cfg-provider").value;
+            if (provider === "ollama") {
+                document.getElementById("settings-ollama").style.display = "block";
+                document.getElementById("settings-openrouter").style.display = "none";
+            } else {
+                document.getElementById("settings-ollama").style.display = "none";
+                document.getElementById("settings-openrouter").style.display = "block";
+            }
+        }
+
+        async function saveSettings() {
+            const provider = document.getElementById("cfg-provider").value;
+            const ollamaHost = document.getElementById("cfg-ollama-host").value;
+            const ollamaModel = document.getElementById("cfg-ollama-model").value;
+            const orModel = document.getElementById("cfg-openrouter-model").value;
+            const orRepairModel = document.getElementById("cfg-openrouter-repair").value;
+            const orKey = document.getElementById("cfg-openrouter-key").value;
+
+            const body = {
+                provider: provider,
+                ollama_host: ollamaHost,
+                ollama_model: ollamaModel,
+                openrouter_model: orModel,
+                openrouter_repair_model: orRepairModel
+            };
+
+            if (orKey.trim()) {
+                body.openrouter_api_key = orKey;
+            } else {
+                body.openrouter_api_key = "KEEP_EXISTING";
+            }
+
+            showToast("Ukládám novou konfiguraci...");
+
+            try {
+                const res = await apiFetch("config", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                if (res.success) {
+                    showToast(res.message);
+                    closeSettingsModal();
+                    await loadStatus(); // Refresh status s novým providerem
+                }
+            } catch (e) { }
+        }
+
+        // --- POMOCNÉ FUNKCE (Utilities) ---
+
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+            toast.innerHTML = `
+                <span>${type === 'error' ? '☣️' : '📟'}</span>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            // Odstranění po 4 sekundách
+            setTimeout(() => {
+                toast.style.animation = "slide-in 0.3s reverse forwards";
+                toast.addEventListener("animationend", () => toast.remove());
+            }, 4000);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Text zkopírován do schránky.");
+            }).catch(err => {
+                showToast("Kopírování selhalo.", "error");
+            });
+        }
+
+        // --- Benchmark Modal Functions ---
+        function openBenchmarkModal() {
+            document.getElementById("benchmark-modal").classList.add("active");
+        }
+
+        function closeBenchmarkModal() {
+            document.getElementById("benchmark-modal").classList.remove("active");
+        }
+
+        // --- DB Manager Modal Functions ---
+        function openDbManagerModal() {
+            document.getElementById("db-manager-modal").classList.add("active");
+        }
+
+        function closeDbManagerModal() {
+            document.getElementById("db-manager-modal").classList.remove("active");
+        }
+
+        async function triggerDbReset(action_type) {
+            const msg = action_type === "reset_all"
+                ? "PLNÝ RESET: vytvoří se záloha a smaže se VŠE — AI překlady, F2 Tier 1–3, tagy, poznámky.\n\nPokračovat?"
+                : "Opravdu chcete smazat zvolenou historii? Tato operace vrátí příslušné řádky do stavu 'new'.";
+            if (!confirm(msg)) return;
+
+            closeDbManagerModal();
+            showToast("Provádím mazání databáze...");
+
+            try {
+                const res = await apiFetch("pipeline_run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: action_type })
+                });
+
+                if (res.success) {
+                    showToast(res.message);
+                    pollPipelineStatus(); // will catch when process ends
+                } else {
+                    showToast(res.error || "Chyba mazání.", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Chyba komunikace.", "error");
+            }
+        }
+
+        // --- Benchmark Viewer Modal Functions ---
+        function openBenchmarkViewerModal() {
+            closeBenchmarkModal(); // Close the other modal first
+            document.getElementById("benchmark-viewer-modal").classList.add("active");
+            loadBenchmarkResults();
+        }
+
+        function closeBenchmarkViewerModal() {
+            document.getElementById("benchmark-viewer-modal").classList.remove("active");
+        }
+
+        async function loadBenchmarkResults() {
+            const tbody = document.getElementById("benchmark-table-body");
+            const thead = document.getElementById("benchmark-table-head");
+            tbody.innerHTML = "<tr><td colspan='10' style='text-align: center; padding: 20px;'>Načítám data ze serveru...</td></tr>";
+
+            try {
+                const res = await apiFetch("benchmark_results");
+                if (res.error || !res.rows) {
+                    tbody.innerHTML = "<tr><td colspan='10' style='text-align: center; padding: 20px; color: var(--color-error);'>Data nenalezena (zkuste nejdřív spustit Benchmark).</td></tr>";
+                    return;
+                }
+
+                // Build Table Header
+                let thHtml = `<th style="padding: 8px; border: 1px solid var(--color-primary-dim); min-width: 250px;">Originál (EN)</th>`;
+                res.models.forEach(m => {
+                    thHtml += `<th style="padding: 8px; border: 1px solid var(--color-primary-dim); min-width: 200px;">${m}</th>`;
+                });
+                thead.innerHTML = thHtml;
+
+                // Build Table Body
+                let tbHtml = "";
+                res.rows.forEach(r => {
+                    tbHtml += `<tr><td style="padding: 8px; border: 1px solid var(--color-primary-dim); color: #ccc;">${escapeHtml(r.en)}</td>`;
+                    res.models.forEach(m => {
+                        let text = r.outputs[m] || "";
+                        let color = text ? "var(--color-primary)" : "#666";
+                        if (text.match(/[\u0400-\u04FF]/)) color = "var(--color-error)"; // cyrillic alert
+                        tbHtml += `<td style="padding: 8px; border: 1px solid var(--color-primary-dim); color: ${color};">${escapeHtml(text)}</td>`;
+                    });
+                    tbHtml += `</tr>`;
+                });
+                tbody.innerHTML = tbHtml;
+
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = "<tr><td colspan='10' style='text-align: center; padding: 20px; color: var(--color-error);'>Chyba spojení ze serverem.</td></tr>";
+            }
+        }
+
+        async function runBenchmarkWithModels() {
+            const checkboxes = [
+                document.getElementById("bench-owl"),
+                document.getElementById("bench-hy3"),
+                document.getElementById("bench-haiku"),
+                document.getElementById("bench-qwen72"),
+                document.getElementById("bench-geminiflash"),
+                document.getElementById("bench-gpt4omini"),
+                document.getElementById("bench-sonnet"),
+                document.getElementById("bench-ollama")
+            ];
+
+            const selectedModels = checkboxes.filter(cb => cb.checked).map(cb => cb.value);
+
+            if (selectedModels.length === 0) {
+                showToast("Vyberte alespoň jeden model pro benchmark!", "error");
+                return;
+            }
+
+            closeBenchmarkModal();
+            showToast("Spouštím Benchmark pro vybrané modely...");
+
+            try {
+                const res = await apiFetch("pipeline_run", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: "benchmark",
+                        models: selectedModels
+                    })
+                });
+
+                if (res.success) {
+                    showToast("Benchmark běží. Sledujte konzoli...");
+                    pollPipelineStatus();
+                } else {
+                    showToast(res.error || "Chyba spuštění.", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Chyba při komunikaci se serverem.", "error");
+            }
+        }
+    </script>
+</body>
+
+</html>

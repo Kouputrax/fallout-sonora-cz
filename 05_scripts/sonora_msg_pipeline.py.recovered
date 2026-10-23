@@ -1,0 +1,1521 @@
+#usrbinenv python3
+# -*- coding: utf-8 -*-
+
+"""
+sonora_msg_pipeline.py
+
+Bezpecny minimalni pipeline pro FalloutSonora .msg soubory:
+- export:    .msg -> JSONL
+- translate: JSONL -> JSONL pres Ollama nebo OpenRouter
+- validate:  kontrola prelozenych zaznamu
+- import:    JSONL -> .msg strom
+
+Format Fallout .msg radku bereme prakticky:
+{ID}{SOUND}{TEXT}
+
+Skript meni pouze treti pole TEXT. ID a SOUND zachovava.
+Radky, ktere parser nepozna, ponechava pri importu beze zmeny.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import sys
+import time
+from pathlib import Path
+from typing import Optional, Dict, Any, List, Tuple
+import csv
+
+import requests
+
+
+MSG_LINE_START_RE = re.compile(r"^\s*\{")
+
+
+def read_text_guess(path: Path) -> str:
+    encodings = ["utf-8-sig", "utf-8", "cp1251", "cp1250", "latin-1"]
+    data = path.read_bytes()
+    for enc in encodings:
+        try:
+            return data.decode(enc)
+        except UnicodeDecodeError:
+            pass
+    return data.decode("latin-1", errors="replace")
+
+
+def write_text_utf8(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8", newline="")
+
+
+def parse_brace_group(line: str, start: int) -> Optional[Tuple[str, int]]:
+    n = len(line)
+    while start < n and line[start].isspace():
+        start += 1
+    if start >= n or line[start] != "{":
+        return None
+
+    i = start + 1
+    chars = []
+    while i < n:
+        ch = line[i]
+        if ch == "}":
+            return "".join(chars), i + 1
+        chars.append(ch)
+        i += 1
+    return None
+
+
+def parse_msg_line(line: str) -> Optional[Dict[str, Any]]:
+    if not MSG_LINE_START_RE.match(line):
+        return None
+
+    line_no_newline = line.rstrip("\r\n")
+    newline = line[len(line_no_newline):]
+
+    idx = 0
+    while idx < len(line_no_newline) and line_no_newline[idx].isspace():
+        idx += 1
+    prefix = line_no_newline[:idx]
+
+    g1 = parse_brace_group(line_no_newline, idx)
+    if not g1:
+        return None
+    msg_id, pos = g1
+
+    g2 = parse_brace_group(line_no_newline, pos)
+    if not g2:
+        return None
+    sound, pos = g2
+
+    g3 = parse_brace_group(line_no_newline, pos)
+    if not g3:
+        return None
+    text, pos = g3
+
+    tail = line_no_newline[pos:]
+    if tail.strip():
+        return None
+
+    return {
+        "id": msg_id,
+        "sound": sound,
+        "text": text,
+        "prefix": prefix,
+        "suffix": newline,
+    }
+
+
+def build_msg_line(parsed: Dict[str, Any], new_text: str) -> str:
+    prefix = parsed.get("prefix", "")
+    suffix = parsed.get("suffix", "\n")
+    return f"{prefix}{{{parsed['id']}}}{{{parsed['sound']}}}{{{new_text}}}{suffix}"
+
+
+def iter_msg_files(root: Path) -> List[Path]:
+    return sorted([p for p in root.rglob("*") if p.is_file() and p.suffix.lower() == ".msg"])
+
+
+def export_cmd(args: argparse.Namespace) -> None:
+    en_root = Path(args.en_root)
+    ru_root = Path(args.ru_root) if args.ru_root else None
+    out = Path(args.out)
+
+    if not en_root.exists():
+        raise SystemExit(f"EN root neexistuje: {en_root}")
+
+    rows = []
+    total_lines = 0
+    parsed_lines = 0
+
+    for en_file in iter_msg_files(en_root):
+        rel = en_file.relative_to(en_root).as_posix()
+        en_lines = read_text_guess(en_file).splitlines(keepends=True)
+
+        ru_lines = []
+        if ru_root:
+            ru_file = ru_root  rel
+            if ru_file.exists():
+                ru_lines = read_text_guess(ru_file).splitlines(keepends=True)
+
+        for line_no, en_line in enumerate(en_lines, start=1):
+            total_lines += 1
+            p_en = parse_msg_line(en_line)
+            if not p_en:
+                continue
+            parsed_lines += 1
+
+            ru_text = ""
+            if ru_lines and line_no <= len(ru_lines):
+                p_ru = parse_msg_line(ru_lines[line_no - 1])
+                if p_ru and p_ru.get("id") == p_en.get("id"):
+                    ru_text = p_ru.get("text", "")
+
+            rows.append({
+                "file": rel,
+                "line_no": line_no,
+                "id": p_en["id"],
+                "sound": p_en["sound"],
+                "en": p_en["text"],
+                "ru": ru_text,
+                "cs": "",
+                "status": "new",
+                "warnings": [],
+                "notes": ""
+            })
+
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", encoding="utf-8", newline="\n") as f:
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+    print(f"Export hotov: {out}")
+    print(f"MSG souboru: {len(iter_msg_files(en_root))}")
+    print(f"Radku celkem: {total_lines}")
+    print(f"Parsovanych MSG radku: {parsed_lines}")
+    print(f"Exportovanych zaznamu: {len(rows)}")
+
+
+def load_jsonl(path: Path) -> List[Dict[str, Any]]:
+    rows = []
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                rows.append(json.loads(line))
+    return rows
+
+
+def save_jsonl(path: Path, rows: List[Dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        for row in rows:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def load_glossary_tsv_file(p: Path) -> List[Tuple[str, str]]:
+    terms = []
+    if not p.exists():
+        return terms
+    try:
+        content = p.read_text(encoding="utf-8", errors="replace")
+        reader = csv.DictReader(content.splitlines(), delimiter="\t")
+        for row in reader:
+            if not row:
+                continue
+            en = (row.get("source_en") or row.get("english_cue") or row.get("source") or "").strip()
+            cz = (row.get("target_cs") or row.get("neutral_cz") or row.get("target") or "").strip()
+            if en and cz:
+                terms.append((en, cz))
+    except Exception:
+        try:
+            for line in content.splitlines():
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                parts = line.split("\t")
+                if len(parts) >= 2:
+                    terms.append((parts[0].strip(), parts[1].strip()))
+        except Exception:
+            pass
+    return terms
+
+def load_all_glossaries(glossary_path: Optional[str]) -> List[Tuple[str, str, str]]:
+    terms = []
+    seen = set()
+    
+    g_dir = Path("03_glossary")
+    if glossary_path:
+        p = Path(glossary_path)
+        if p.is_dir():
+            g_dir = p
+        elif p.is_file():
+            g_dir = p.parent
+            
+    # 1. Načtení base  protected terms (core)
+    core_files = ["protected_terms.tsv", "base_terms.tsv"]
+    for f_name in core_files:
+        p = g_dir  f_name
+        for en, cz in load_glossary_tsv_file(p):
+            if en.lower() not in seen:
+                seen.add(en.lower())
+                terms.append((en, cz, "core"))
+                
+    # 2. Načtení referenčních a doplňkových glosářů (lazy matched)
+    ref_files = [
+        "fallout_ref_perks_skills.tsv",
+        "fallout_ref_items.tsv",
+        "fallout_ref_locations_quests.tsv",
+        "style_slang.tsv"
+    ]
+    for f_name in ref_files:
+        p = g_dir  f_name
+        for en, cz in load_glossary_tsv_file(p):
+            if en.lower() not in seen:
+                seen.add(en.lower())
+                terms.append((en, cz, p.stem))
+                
+    return terms
+
+
+def load_glossary_tsv_file_extended(p: Path) -> List[Dict[str, Any]]:
+    terms = []
+    if not p.exists():
+        return terms
+    try:
+        content = p.read_text(encoding="utf-8", errors="replace")
+        reader = csv.DictReader(content.splitlines(), delimiter="\t")
+        for row in reader:
+            if not row:
+                continue
+            en = (row.get("source_en") or row.get("english_cue") or row.get("source") or "").strip()
+            cz = (row.get("target_cs") or row.get("neutral_cz") or row.get("target") or "").strip()
+            if en and cz:
+                origin = row.get("origin", "").strip()
+                category = row.get("category", "").strip()
+                
+                # Fallback pro origin
+                if not origin:
+                    if p.stem in ["protected_terms", "base_terms"]:
+                        origin = "core"
+                    elif "nevada" in p.stem:
+                        origin = "nevada_cz"
+                    elif "fallout2" in p.stem:
+                        origin = "fallout2_cz"
+                    elif "fallout1" in p.stem:
+                        origin = "fallout1_cz"
+                    else:
+                        origin = p.stem
+                
+                # Fallback pro category
+                if not category:
+                    if "item" in p.stem:
+                        category = "item"
+                    elif "location" in p.stem or "quest" in p.stem:
+                        category = "location_quest"
+                    elif "perk" in p.stem or "skill" in p.stem:
+                        category = "perk_skill"
+                    else:
+                        category = "general"
+                        
+                terms.append({
+                    "en": en,
+                    "cs": cz,
+                    "origin": origin,
+                    "category": category
+                })
+    except Exception:
+        try:
+            for line in content.splitlines():
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                parts = line.split("\t")
+                if len(parts) >= 2:
+                    en = parts[0].strip()
+                    cz = parts[1].strip()
+                    origin = parts[2].strip() if len(parts) > 2 else ""
+                    category = parts[3].strip() if len(parts) > 3 else ""
+                    
+                    if not origin:
+                        if p.stem in ["protected_terms", "base_terms"]:
+                            origin = "core"
+                        else:
+                            origin = p.stem
+                    if not category:
+                        category = "general"
+                        
+                    terms.append({
+                        "en": en,
+                        "cs": cz,
+                        "origin": origin,
+                        "category": category
+                    })
+        except Exception:
+            pass
+    return terms
+
+
+def load_all_glossaries_extended(glossary_path: Optional[str]) -> List[Dict[str, Any]]:
+    terms = []
+    
+    g_dir = Path("03_glossary")
+    if glossary_path:
+        p = Path(glossary_path)
+        if p.is_dir():
+            g_dir = p
+        elif p.is_file():
+            g_dir = p.parent
+            
+    # 1. Načtení base  protected terms (core)
+    core_files = ["protected_terms.tsv", "base_terms.tsv"]
+    for f_name in core_files:
+        p = g_dir  f_name
+        for item in load_glossary_tsv_file_extended(p):
+            terms.append(item)
+                
+    # 2. Načtení referenčních a doplňkových glosářů
+    ref_files = [
+        "fallout_ref_perks_skills.tsv",
+        "fallout_ref_items.tsv",
+        "fallout_ref_locations_quests.tsv",
+        "style_slang.tsv"
+    ]
+    for f_name in ref_files:
+        p = g_dir  f_name
+        for item in load_glossary_tsv_file_extended(p):
+            terms.append(item)
+                
+    return terms
+
+
+def get_glossary_for_batch(batch: List[Dict[str, Any]], all_terms: List[Tuple[str, str, str]]) -> str:
+    batch_terms = []
+    combined_texts = " ".join([r.get("en", "") for r in batch]).lower()
+    
+    for en, cz, category in all_terms:
+        if category == "core":
+            batch_terms.append((en, cz, category))
+        else:
+            if en.lower() in combined_texts:
+                batch_terms.append((en, cz, category))
+                
+    lines = ["source\ttarget\tcategory"]
+    for en, cz, cat in batch_terms:
+        lines.append(f"{en}\t{cz}\t{cat}")
+    return "\n".join(lines)
+
+
+def get_translation_schema() -> Dict[str, Any]:
+    return {
+        "type": "object",
+        "properties": {
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "file": {"type": "string"},
+                        "line_no": {"type": "integer"},
+                        "id": {"type": "string"},
+                        "cs": {"type": "string"},
+                        "gender_warning": {"type": "boolean"},
+                        "meaning_warning": {"type": "boolean"},
+                        "glossary_warning": {"type": "boolean"},
+                        "notes": {"type": "string"}
+                    },
+                    "required": ["file", "line_no", "id", "cs", "gender_warning", "meaning_warning", "glossary_warning", "notes"]
+                }
+            }
+        },
+        "required": ["items"]
+    }
+
+
+def get_file_category(file_name: str, file_rows: List[Dict[str, Any]]) -> str:
+    if not file_name:
+        return "dialog_scenery"
+    if file_name.lower().startswith("game"):
+        base = os.path.basename(file_name).upper()
+        if base in ("COMBAT.MSG", "COMBATAI.MSG"):
+            return "game_combat"
+        elif base in ("PRO_CRIT.MSG",):
+            return "game_monsters"
+        elif base in ("PRO_ITEM.MSG", "ITEM.MSG"):
+            return "game_items"
+        elif base in ("PERK.MSG", "SKILL.MSG", "STAT.MSG", "TRAIT.MSG", "SKILLDEX.MSG"):
+            return "game_mechanics"
+        elif base in ("PRO_SCEN.MSG", "PRO_TILE.MSG", "PRO_WALL.MSG", "PRO_MISC.MSG", "PROTO.MSG"):
+            return "game_scenery"
+        elif base in ("QUESTS.MSG",):
+            return "game_quests"
+        elif base in ("WORLDMAP.MSG", "MAP.MSG"):
+            return "game_worldmap"
+        elif base in ("EDITOR.MSG", "OPTIONS.MSG", "PIPBOY.MSG", "LSGAME.MSG", "INTRFACE.MSG", "INVENTRY.MSG"):
+            return "game_interface"
+        else:
+            return "game_misc"
+    
+    base_name = os.path.basename(file_name).upper()
+    if len(base_name) > 1:
+        second_char = base_name[1]
+        if second_char in ('S', 'T', 'I') or base_name.startswith('OBJ_'):
+            return "dialog_scenery"
+        if second_char == 'C':
+            return "dialog_npc"
+    
+    for r in file_rows:
+        if r.get("id") in ("100", "101"):
+            en = r.get("en", "").lower()
+            ru = r.get("ru", "")
+            if any(x in en for x in ("you see", "you look")) or any(x in ru for x in ("Вы видите", "Вы смотрите", "Перед вами")):
+                return "dialog_npc"
+    return "dialog_scenery"
+
+
+def build_messages(batch: List[Dict[str, Any]], glossary: str, schema: Dict[str, Any]) -> List[Dict[str, str]]:
+    addon_path = Path(__file__).resolve().parent.parent  "03_glossary"  "style_rules_prompt_addon.txt"
+    style_addon = ""
+    if addon_path.exists():
+        style_addon = "\n\n" + addon_path.read_text(encoding="utf-8", errors="replace")
+
+    first_row = batch[0]
+    category = first_row.get("file_category")
+    if not category:
+        category = get_file_category(first_row.get("file", ""), batch)
+
+    if category == "game" or category.startswith("game_"):
+        system = (
+            "You are a professional Czech localization translator for Fallout: Sonora. "
+            "Translate game interface, mechanics, item descriptions, and perksskills into Czech. Use English as the current working text and Russian as meaning reference. "
+            "Return ONLY valid JSON matching the provided schema. "
+
+            "ABSOLUTE FIELD RULES: "
+            "The field 'cs' must contain ONLY the final Czech in-game text. "
+            "Never put metadata into 'cs'. "
+            "Never put these strings into 'cs': gender_warning, meaning_warning, glossary_warning, true, false, notes, JSON, id, line_no. "
+            "Warnings belong only in boolean fields. Notes belong only in 'notes'. "
+
+            "STYLE AND TONALITY RULES: "
+            "Use natural, concise Czech suitable for classic Fallout 12 game interface. "
+            "Avoid dialogue-style second-person address or informal speech. Keep the tone descriptive, objective, and neutral. "
+            "Do not touch placeholder indices or brackets like {100}{}{}, %d, or %s. "
+            
+            "CRITICAL COMBAT AND SYSTEM MESSAGE GENDER NEUTRALITY: "
+            "Combat messages, hit reports, and system strings (e.g. 'hit yourself', 'You missed') MUST BE 100% GENDER-NEUTRAL "
+            "NEVER assume the player is male or female. DO NOT use past-tense verbs with gender suffixes like 'zasáhl' or 'zasáhla'. "
+            "Use present tense or infinitives instead (e.g. 'Zasáhl jsi sám sebe' -> 'Zasahuješ sám sebe' or 'Zásah do vlastních řad'). "
+
+            "FALLOUT MECHANICS TERMINOLOGY AND ABBREVIATIONS: "
+            "You MUST strictly enforce classic Fallout Czech localization standards for abbreviations and mechanics: "
+            "- Action Points -> Akční body (Abbreviated as: AP, NEVER AB, AK or ak). "
+            "- Hit Points -> Body života (Abbreviated as: HP, NEVER BZ or bz). "
+            "- Experience  Experience Points -> Zkušenosti  Zkušenostní body (Abbreviated as: XP, NEVER ZB or zb). "
+            "- Armor Class -> Obranné číslo (Abbreviated as: AC, NEVER OČ or oč). "
+            "- Carry Weight -> Nosnost (NEVER carry weight literal translation). "
+            "- SPECIAL Attributes MUST use strict classic Fallout abbreviations in Czech: "
+            "  * Strength (Síla) -> SÍ "
+            "  * Perception (Vnímání) -> VN "
+            "  * Endurance (Odolnost) -> OD "
+            "  * Charisma (Charisma) -> CH "
+            "  * Intelligence (Inteligence) -> IN "
+            "  * Agility (Obratnost) -> OB "
+            "  * Luck (Štěstí) -> ŠT "
+
+            "GLOSSARY ENFORCEMENT: "
+            "You MUST strictly follow and enforce the provided glossary_tsv mapping. "
+            "If a source English string contains any term listed under 'source' in the glossary_tsv, "
+            "you MUST translate it to the corresponding 'target' term in Czech in your 'cs' output. "
+            "Never invent your own translations for these terms under any circumstances. "
+
+            "OUTPUT RULES: "
+            "Keep file, line_no and id unchanged. "
+            "Preserve quotation marks style if possible. "
+            "Do not add commentary outside JSON. "
+            "Do not add explanations into translated text."
+            + style_addon
+        )
+        examples = (
+            "- EN: Action Points -> CS: Akční body\n"
+            "- EN: You gain +2 AP and +10 HP. -> CS: Získáváš +2 AP a +10 HP.\n"
+            "- EN: Strength -> CS: Síla\n"
+            "- EN: Strength: %d, Perception: %d -> CS: Síla: %d, Vnímání: %d\n"
+        )
+    elif category == "dialog_scenery":
+        system = (
+            "You are a professional Czech localization translator for Fallout: Sonora. "
+            "Translate game scenery descriptions, item examinations, terminal logs, objects, and environmental texts into Czech. Use English as the current working text and Russian as meaning reference. "
+            "Return ONLY valid JSON matching the provided schema. "
+
+            "ABSOLUTE FIELD RULES: "
+            "The field 'cs' must contain ONLY the final Czech in-game text. "
+            "Never put metadata into 'cs'. "
+            "Never put these strings into 'cs': gender_warning, meaning_warning, glossary_warning, true, false, notes, JSON, id, line_no. "
+            "Warnings belong only in boolean fields. Notes belong only in 'notes'. "
+
+            "STYLE AND TONALITY RULES: "
+            "Use natural, descriptive Czech suitable for scenery in classic Fallout 12. "
+            "TONE AND PERSPECTIVE: Translate in an objective, neutral, passive-voice or third-person narrator style (e.g. 'Tento generátor je nefunkční.' or 'V dálce vidíš starou lampu.'). "
+            "NO INFORMAL ADDRESS: Avoid dialogue-style second-person address or informal player speech (do not use informal you address 'Mluvil jsi', 'Udělal jsi', or 'Vidíš' unless it is clearly an internal monologue). "
+            "Never use gendered player-directed verbs or pronouns in general scenery descriptions. "
+            "Do not touch placeholder indices or brackets like {100}{}{}, %d, or %s. "
+
+            "GLOSSARY ENFORCEMENT: "
+            "You MUST strictly follow and enforce the provided glossary_tsv mapping. "
+            "If a source English string contains any term listed under 'source' in the glossary_tsv, "
+            "you MUST translate it to the corresponding 'target' term in Czech in your 'cs' output. "
+            "Never invent your own translations for these terms under any circumstances. "
+
+            "OUTPUT RULES: "
+            "Keep file, line_no and id unchanged. "
+            "Preserve quotation marks style if possible. "
+            "Do not add commentary outside JSON. "
+            "Do not add explanations into translated text."
+            + style_addon
+        )
+        examples = (
+            "- EN: You see a terminal. -> CS: Vidíš terminál. (or 'Před tebou stojí terminál.')\n"
+            "- EN: The door is locked. -> CS: Dveře jsou zamčené.\n"
+            "- EN: A rusty lamp hangs from the ceiling. -> CS: Ze stropu visí rezavá lampa.\n"
+        )
+    else:
+        system = (
+            "You are a professional Czech localization translator for Fallout: Sonora. "
+            "Translate game dialogue into Czech. Use English as the current working text and Russian as meaninggender reference. "
+            "Return ONLY valid JSON matching the provided schema. "
+
+            "ABSOLUTE FIELD RULES: "
+            "The field 'cs' must contain ONLY the final Czech in-game text. "
+            "Never put metadata into 'cs'. "
+            "Never put these strings into 'cs': gender_warning, meaning_warning, glossary_warning, true, false, notes, JSON, id, line_no. "
+            "Warnings belong only in boolean fields. Notes belong only in 'notes'. "
+
+            "STYLE RULES: "
+            "Use natural Czech suitable for classic Fallout 12: concise, dry, rough, post-apocalyptic. "
+            "Do not use modern internet slang. "
+            "Use informal second person singular when the player is addressed: Vidíš, Mluvil jsi, Mluvila jsi, not Vidíte. "
+            "Avoid stiff literal translation. "
+            "Never use combined gender forms like mluvila, udělala, šelšla. "
+
+            "GENDER RULES: "
+            "Use Russian to detect gender. "
+            "If RU contains 'говорил', use masculine Czech: Mluvil jsi. "
+            "If RU contains 'говорила', use feminine Czech: Mluvila jsi. "
+            "If RU clearly indicates gender, do not set gender_warning. "
+            "Set gender_warning=true only if gender is genuinely unclear and cannot be solved naturally. "
+            "Do not set gender_warning just because English 'I' has no gender. "
+            "Set gender_warning only when Czech translation must choose player gender, e.g. 'Mluvil jsiMluvila jsi', 'Udelal jsiUdelala jsi'. "
+            "If the sentence can be translated naturally without gender, do so and set gender_warning=false. "
+            "Do not write long explanations into notes. Notes must be short. "
+
+            "SPANISH RULES: "
+            "Do not translate Spanish flavor text. "
+            "No hablo ingles  No hablo inglés must stay as No hablo inglés. "
+            "amigo, señor, gracias and similar Spanish flavor words should usually stay Spanish. "
+            "If source text contains mojibake such as inglйs or inglђs, silently fix it to inglés. "
+            "Never output Cyrillic mojibake characters such as Ў in Czech text. "
+            "If Spanish inverted punctuation is corrupted, use normal punctuation instead. "
+            "Example: ЎBuen trabajo -> Buen trabajo or ¡Buen trabajo "
+
+            "NAMES AND TERMS: "
+            "Do not translate character names. "
+            "Cesareo stays Cesareo; in Czech cases use natural form, e.g. s Cesareem. "
+            "Do not translate Cesareo as Caesar, Císař, Cesář, or anything similar. "
+            "Hector may become Hektor only if it sounds natural in Czech Fallout style. "
+
+            "GLOSSARY ENFORCEMENT: "
+            "You MUST strictly follow and enforce the provided glossary_tsv mapping. "
+            "If a source English string contains any term listed under 'source' in the glossary_tsv, "
+            "you MUST translate it to the corresponding 'target' term in Czech in your 'cs' output. "
+            "Never invent your own translations for these terms under any circumstances. "
+
+            "MEANING RULES: "
+            "Never change the language being discussed. Spanish means španělsky, never česky. "
+            "home port = domovský přístav. Never translate it as zbrojna. "
+            "settle this bay = usadit se v tétotéhle zátoce. "
+            "lousy idea = pitomý nápad, blbý nápad, pitomá záležitost, or hrozná kravina depending on tone. "
+            "rough canvas shirt = hrubá plátěná košile. "
+            "red bandana = červený šátek or červená bandana. "
+
+            "OUTPUT RULES: "
+            "Keep file, line_no and id unchanged. "
+            "Preserve quotation marks style if possible. "
+            "Do not add commentary outside JSON. "
+            "Do not add explanations into translated text.\n\n"
+            "DIALOGUE CONTEXT (FLOW) INSTRUCTIONS:\n"
+            "If the rows payload contains a 'dialogue_context' array for a row, it represents preceding and succeeding lines from the same dialogue file. "
+            "Use this context to ensure continuity in tone, character voice, social distance (tykánívykání), and gender. "
+            "Pay close attention to already translated Czech strings ('cs') in the surrounding context - match their style and gender choice where applicable (e.g. if the player has been addressed as malefemale or informallyformally in preceding lines)."
+            + style_addon
+        )
+        examples = (
+            "- EN: You see Hector. -> CS: Vidíš Hektora.\n"
+            "- EN: No hablo inglйs. -> CS: No hablo inglés.\n"
+            "- EN: You speak Spanish? -> CS: Mluvíš španělsky?\n"
+            "- RU masculine 'говорил' -> CS: Mluvil jsi.\n"
+            "- RU feminine 'говорила' -> CS: Mluvila jsi.\n"
+            "- EN: Have you talked to Cesareo yet? -> CS: Mluvil jsi už s Cesareem?  Mluvila jsi už s Cesareem?\n"
+        )
+
+    rows_payload = []
+    for r in batch:
+        row_data = {
+            "file": r["file"],
+            "line_no": r["line_no"],
+            "id": r["id"],
+            "en": r.get("en", ""),
+            "ru": r.get("ru", ""),
+        }
+        if "dialogue_context" in r and r["dialogue_context"]:
+            ctx_formatted = []
+            for ctx in r["dialogue_context"]:
+                # Indicate if this is the line we are actively translating
+                marker = "ACTIVE_LINE_TO_TRANSLATE" if ctx.get("line_no") == r["line_no"] else "CONTEXT_LINE"
+                ctx_formatted.append({
+                    "role": marker,
+                    "line_no": ctx.get("line_no"),
+                    "en": ctx.get("en", ""),
+                    "ru": ctx.get("ru", ""),
+                    "cs": ctx.get("cs", "") or "(not translated yet)"
+                })
+            row_data["dialogue_context"] = ctx_formatted
+        rows_payload.append(row_data)
+
+    user_payload = {
+        "glossary_tsv": glossary,
+        "rows": rows_payload
+    }
+
+    prompt = (
+        "Translate the following Fallout: Sonora localization rows into Czech.\n"
+        "Return JSON only.\n"
+        "Do not change file, line_no, or id.\n"
+        "The 'cs' field must contain only the final Czech in-game text, nothing else.\n"
+        "Do not put warning labels or boolean values into 'cs'.\n\n"
+        "Important examples:\n"
+        + examples + "\n"
+        "JSON schema:\n"
+        + json.dumps(schema, ensure_ascii=False)
+        + "\n\nDATA:\n"
+        + json.dumps(user_payload, ensure_ascii=False)
+    )
+
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": prompt}
+    ]
+
+
+def parse_json_response_text(content: str) -> Dict[str, Any]:
+    text = content.strip()
+
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?\s*", "", text, flags=re.IGNORECASE)
+        text = re.sub(r"\s*```$", "", text)
+
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start != -1 and end != -1 and end > start:
+            return json.loads(text[start:end + 1])
+        raise
+
+
+def ollama_translate_batch(batch: List[Dict[str, Any]], model: str, glossary: str, host: str) -> Dict[str, Any]:
+    schema = get_translation_schema()
+    messages = build_messages(batch, glossary, schema)
+
+    url = host.rstrip("") + "apichat"
+    payload = {
+        "model": model,
+        "messages": messages,
+        "stream": False,
+        "format": schema,
+        "options": {
+            "temperature": 0,
+            "top_p": 0.9,
+            "repeat_penalty": 1.1
+        },
+        "think": False
+    }
+
+    resp = requests.post(url, json=payload, timeout=300)
+    resp.raise_for_status()
+    data = resp.json()
+    content = data.get("message", {}).get("content", "")
+    if not content:
+        raise RuntimeError(f"Ollama vratila prazdnou odpoved: {data}")
+
+    return parse_json_response_text(content)
+
+
+def openrouter_translate_batch(
+    batch: List[Dict[str, Any]],
+    model: str,
+    glossary: str,
+    api_key: str,
+    timeout: int,
+    site_url: Optional[str] = None,
+    app_name: Optional[str] = None,
+) -> Dict[str, Any]:
+    schema = get_translation_schema()
+    messages = build_messages(batch, glossary, schema)
+
+    url = "https:openrouter.aiapiv1chatcompletions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "applicationjson",
+    }
+
+    if site_url:
+        headers["HTTP-Referer"] = site_url
+    if app_name:
+        headers["X-Title"] = app_name
+
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": 0,
+        "top_p": 0.9
+    }
+
+    resp = requests.post(url, headers=headers, json=payload, timeout=timeout)
+
+    if resp.status_code >= 400:
+        raise RuntimeError(f"OpenRouter chyba {resp.status_code}: {resp.text[:1000]}")
+
+    data = resp.json()
+    choices = data.get("choices") or []
+    if not choices:
+        raise RuntimeError(f"OpenRouter nevratil choices: {data}")
+
+    content = choices[0].get("message", {}).get("content", "")
+    if not content:
+        raise RuntimeError(f"OpenRouter vratil prazdnou odpoved: {data}")
+
+    result = parse_json_response_text(content)
+    usage = data.get("usage") or {}
+    if usage:
+        result["_usage"] = usage
+    return result
+
+    
+def postprocess_cs(text: str) -> str:
+    if not text:
+        return text
+
+    replacements = {
+        "zemřeš sám za sebe": "chcípneš",
+        "Popутnýho větru. Sbohem.": "Vítr do plachet. Sbohem.",
+        "Popутnýho větru": "Vítr do plachet",
+        "крышками": "zátkami",
+        "compaсeras": "compañeras",
+        "compaсero": "compañero",
+        "compaсera": "compañera",
+        "Ў": "¡",
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+
+    return text
+
+def translate_cmd(args: argparse.Namespace) -> None:
+    input_path = Path(args.input)
+    out_path = Path(args.out)
+    rows = load_jsonl(input_path)
+    all_terms = load_all_glossaries(args.glossary)
+
+    # Seskupení pro kategorizaci souborů
+    by_file = {}
+    for r in rows:
+        f_name = r.get("file", "")
+        if f_name not in by_file:
+            by_file[f_name] = []
+        by_file[f_name].append(r)
+
+    file_categories = {}
+    for f_name, f_rows in by_file.items():
+        file_categories[f_name] = get_file_category(f_name, f_rows)
+
+    for r in rows:
+        r["file_category"] = file_categories.get(r.get("file", ""), "dialog_scenery")
+
+    candidates = [r for r in rows if not r.get("cs") and r.get("en", "").strip()]
+    
+    if getattr(args, 'category', None):
+        candidates = [r for r in candidates if r.get("file_category") == args.category or r.get("file_category").startswith(args.category)]
+        
+    if args.limit:
+        candidates = candidates[:args.limit]
+
+    print(f"Provider: {args.provider}")
+    print(f"Model: {args.model}")
+    print(f"Zaznamu k prekladu v teto davce: {len(candidates)}")
+
+    key_to_row = {(r["file"], r["line_no"], r["id"]): r for r in rows}
+
+    batch_size = args.batch_size
+    done = 0
+    prompt_tokens_total = 0
+    completion_tokens_total = 0
+    total_tokens_total = 0
+
+    api_key = None
+    if args.provider == "openrouter":
+        api_key = args.api_key or os.environ.get("OPENROUTER_API_KEY")
+        if not api_key:
+            raise SystemExit(
+                "Chybi OpenRouter API key. Nastav ho napr.:\n"
+                '$env:OPENROUTER_API_KEY="sk-or-v1-..."\n'
+                "nebo pouzij --api-key."
+            )
+
+    for i in range(0, len(candidates), batch_size):
+        batch = [r.copy() for r in candidates[i:i + batch_size]] # Copy rows to avoid polluting the core database in-memory with temp context fields
+        print(f"Preklad batch {i  batch_size + 1}: {len(batch)} zaznamu")
+        
+        # Obohatit dialogove radky v batchi o kontext okolnich radku
+        for r in batch:
+            if r.get("file", "").startswith("dialog"):
+                file_name = r["file"]
+                line_no = r["line_no"]
+                file_rows = [x for x in rows if x.get("file") == file_name]
+                file_rows.sort(key=lambda x: x.get("line_no", 0))
+                try:
+                    target_idx = next(idx for idx, x in enumerate(file_rows) if x.get("line_no") == line_no)
+                    start_idx = max(0, target_idx - 4)
+                    end_idx = min(len(file_rows), target_idx + 4 + 1)
+                    # Create clean copies of context rows to avoid reference circles
+                    r["dialogue_context"] = [
+                        {
+                            "file": x["file"],
+                            "line_no": x["line_no"],
+                            "id": x["id"],
+                            "en": x.get("en", ""),
+                            "ru": x.get("ru", ""),
+                            "cs": x.get("cs", "")
+                        }
+                        for x in file_rows[start_idx:end_idx]
+                    ]
+                except StopIteration:
+                    pass
+
+        glossary = get_glossary_for_batch(batch, all_terms)
+        try:
+            if args.provider == "ollama":
+                result = ollama_translate_batch(batch, args.model, glossary, args.host)
+            elif args.provider == "openrouter":
+                result = openrouter_translate_batch(
+                    batch=batch,
+                    model=args.model,
+                    glossary=glossary,
+                    api_key=api_key or "",
+                    timeout=args.timeout,
+                    site_url=args.site_url,
+                    app_name=args.app_name,
+                )
+            else:
+                raise RuntimeError(f"Neznamy provider: {args.provider}")
+        except Exception as e:
+            print(f"CHYBA v batchi: {e}", file=sys.stderr)
+            if args.stop_on_error:
+                raise
+            continue
+
+        usage = result.get("_usage") or {}
+        if usage:
+            prompt_tokens_total += int(usage.get("prompt_tokens") or 0)
+            completion_tokens_total += int(usage.get("completion_tokens") or 0)
+            total_tokens_total += int(usage.get("total_tokens") or 0)
+
+        for item in result.get("items", []):
+            key = (item.get("file"), item.get("line_no"), item.get("id"))
+            row = key_to_row.get(key)
+            if not row:
+                continue
+
+            row["cs"] = postprocess_cs(item.get("cs", ""))
+            row["status"] = "translated"
+
+            # Model warnings are too noisy.
+            # We keep translation only; local validate_cmd decides what needs review.
+            row["warnings"] = []
+            row["notes"] = ""
+
+            done += 1
+
+        save_jsonl(out_path, rows)
+        time.sleep(args.sleep)
+
+    print(f"Prelozenoaktualizovano: {done}")
+    print(f"Vystup: {out_path}")
+
+    if prompt_tokens_total or completion_tokens_total or total_tokens_total:
+        print("Token usage podle API:")
+        print(f"  prompt_tokens:     {prompt_tokens_total}")
+        print(f"  completion_tokens: {completion_tokens_total}")
+        print(f"  total_tokens:      {total_tokens_total}")
+
+        if args.input_price_per_m or args.output_price_per_m:
+            estimated_usd = (
+                prompt_tokens_total  1_000_000 * args.input_price_per_m
+                + completion_tokens_total  1_000_000 * args.output_price_per_m
+            )
+            print(f"Odhad ceny pro tento beh: ${estimated_usd:.6f}")
+
+
+
+
+
+def detect_repair_issues(row: Dict[str, Any]) -> List[str]:
+    cs = row.get("cs", "") or ""
+    en = row.get("en", "") or ""
+    
+    if not cs or not cs.strip():
+        return []
+    issues = []
+    
+    # Zakázané vzory (Forbidden)
+    if re.search(r"\{[0-9]+\}\{", cs):
+        issues.append("forbidden_brace_format")
+    if re.search(r"gender_warning|meaning_warning|glossary_warning|\btrue\b|\bfalse\b|\bline_no\b|\bnotes\b", cs, re.IGNORECASE):
+        issues.append("metadata_in_cs")
+    if "{" in cs or "}" in cs:
+        issues.append("brace_in_cs")
+        
+    # QA varování (Warnings)
+    if re.search(r"\b\w+\w+\b", cs):
+        issues.append("combined_gender_form")
+    if re.search(r"\bVidíte\b", cs):
+        issues.append("formal_you_vidite")
+    if re.search(r"\bzbrojna\b|\bzbrojnu\b|\bzbrojny\b", cs, re.IGNORECASE):
+        issues.append("bad_home_port_zbrojna")
+    if re.search(r"\b(Caesar|Císař|Cesář|Cisar)\b", cs, re.IGNORECASE):
+        issues.append("bad_cesareo_translation")
+    if re.search(r"[»“\"]\s*,\s*$", cs):
+        issues.append("trailing_comma_after_quote")
+    if re.search(r"[\u0400-\u04FF]", cs):
+        issues.append("cyrillic_in_cs")
+
+    # Haiku Hard Brakes
+    if en.strip() == "-" and cs.strip() = "-":
+        issues.append("dash_translated")
+    if re.search(r"\b(Library|Base|Cave|Jackals)\b", cs, re.IGNORECASE):
+        issues.append("english_leftovers")
+    if re.search(r"(?i)stimpak[úu]|zátk[ui]|záti?ku", cs):
+        issues.append("bad_morphology")
+    
+    # Negation check
+    if re.search(r"\b(don't|not|never|no)\b", en, re.IGNORECASE):
+        if not re.search(r"\bne[a-z]+\b", cs, re.IGNORECASE) and not re.search(r"\bne\b", cs, re.IGNORECASE):
+            issues.append("missing_negation")
+
+    if re.search(r"\bpřežiješ, nebo zemřeš sám\b", cs, re.IGNORECASE):
+        issues.append("bad_survive_phrase")
+    if re.search(r"\btěsto\b", cs, re.IGNORECASE):
+        issues.append("bad_tesno_testo")
+    if re.search(r"větrný vítr", cs, re.IGNORECASE):
+        issues.append("bad_wind_phrase")
+        
+    # False Friends (ChatGPT návrhy)
+    if "on fire" in en.lower() and re.search(r"\bpalbě\b|\bpalbu\b", cs, re.IGNORECASE):
+        issues.append("bad_on_fire_translation")
+    if "gold" in en.lower() and re.search(r"\bgoldem\b", cs, re.IGNORECASE):
+        issues.append("bad_goldem_translation")
+    if re.search(r"\bkryštkami\b|\bkryštky\b", cs, re.IGNORECASE):
+        issues.append("bad_krystky_translation")
+    if "fair winds" in en.lower() and "fair winds" in cs.lower():
+        issues.append("bad_fair_winds")
+        
+    # Spanish pravidla
+    if "Spanish" in en and re.search(r"\bčesky\b|\bcesky\b", cs, re.IGNORECASE):
+        issues.append("spanish_as_czech")
+    if "No hablo" in en and "Nemluv" in cs:
+        issues.append("translated_spanish_flavor")
+        
+    # Fallout mechanics abbreviations
+    if re.search(r"\b(AB|AK)\b", cs):
+        issues.append("bad_ap_ab_abbreviation")
+    if re.search(r"\b(BZ)\b", cs):
+        issues.append("bad_hp_bz_abbreviation")
+    if re.search(r"\b(ZB)\b", cs):
+        issues.append("bad_xp_zb_abbreviation")
+    if re.search(r"\b(OČ)\b", cs):
+        issues.append("bad_ac_oc_abbreviation")
+        
+    return sorted(set(issues))
+
+
+def build_repair_messages(batch: List[Dict[str, Any]], glossary: str, schema: Dict[str, Any]) -> List[Dict[str, str]]:
+    is_game = any("game" in r.get("file", "").lower() for r in batch)
+
+    if is_game:
+        system = (
+            "You are a senior Czech localization editor for Fallout: Sonora. "
+            "Your task is NOT to retranslate everything freely. "
+            "Repair only the Czech translation in the cs field for game interface, mechanics, items, and perks. "
+            "Use EN as source text and RU as context reference. "
+            "Return ONLY valid JSON matching the provided schema. "
+            "Keep file, line_no and id unchanged. "
+            "The cs field must contain only final Czech in-game text. "
+            "Never add notes, metadata, JSON labels or explanations into cs. "
+            "Never output Cyrillic characters in Czech text. "
+            "Preserve placeholders like %s, %d, %% exactly. "
+            "Preserve Fallout names and protected terms unless glossary says otherwise. "
+            "Enforce strict classic Fallout Czech abbreviations in repairs: "
+            "AP (Akční body, never AB or AK), HP (Body života, never BZ), XP (Zkušenosti, never ZB), AC (Obranné číslo, never OČ). "
+            "Use strict SPECIAL Czech abbreviations: SÍ, VN, OD, CH, IN, OB, ŠT."
+        )
+    else:
+        system = (
+            "You are a senior Czech localization editor for Fallout: Sonora. "
+            "Your task is NOT to retranslate everything freely. "
+            "Repair only the Czech translation in the cs field. "
+            "Use EN as source text and RU as contextgender reference. "
+            "Return ONLY valid JSON matching the provided schema. "
+            "Keep file, line_no and id unchanged. "
+            "The cs field must contain only final Czech in-game text. "
+            "Never add notes, metadata, JSON labels or explanations into cs. "
+            "Never output Cyrillic characters in Czech text. "
+            "Preserve placeholders like %s, %d, %% exactly. "
+            "Preserve Fallout names and protected terms unless glossary says otherwise. "
+            "New Reno stays New Reno, never Nové Reno. "
+            "No hablo inglés stays No hablo inglés. "
+            "amigo, amiga, compañero and similar Spanish flavor words may stay Spanish. "
+            "Fix mojibake such as Ў, Cyrillic c in compañero, or Russian words inside Czech text. "
+            "Avoid bad phrases: 'zemřeš sám za sebe', 'černá známka', 'větrný vítr'. "
+        )
+
+    rows = []
+    for r in batch:
+        rows.append({
+            "file": r["file"],
+            "line_no": r["line_no"],
+            "id": r["id"],
+            "en": r.get("en", ""),
+            "ru": r.get("ru", ""),
+            "current_cs": r.get("cs", ""),
+            "issues": detect_repair_issues(r),
+        })
+
+    payload = {
+        "glossary_tsv": glossary,
+        "rows": rows,
+    }
+
+    prompt = (
+        "Repair the following Czech Fallout: Sonora localization rows.\n"
+        "Only fix the Czech cs translation. Do not change file, line_no, or id.\n"
+        "Return JSON only.\n\n"
+        "JSON schema:\n"
+        + json.dumps(schema, ensure_ascii=False)
+        + "\n\nDATA:\n"
+        + json.dumps(payload, ensure_ascii=False)
+    )
+
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": prompt},
+    ]
+
+
+def openrouter_repair_batch(
+    batch: List[Dict[str, Any]],
+    model: str,
+    glossary: str,
+    api_key: str,
+    timeout: int,
+    site_url: Optional[str] = None,
+    app_name: Optional[str] = None,
+) -> Dict[str, Any]:
+    schema = get_translation_schema()
+    messages = build_repair_messages(batch, glossary, schema)
+
+    url = "https:openrouter.aiapiv1chatcompletions"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "applicationjson",
+    }
+
+    if site_url:
+        headers["HTTP-Referer"] = site_url
+    if app_name:
+        headers["X-Title"] = app_name
+
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": 0,
+        "top_p": 0.9
+    }
+
+    resp = requests.post(url, headers=headers, json=payload, timeout=timeout)
+
+    if resp.status_code >= 400:
+        raise RuntimeError(f"OpenRouter chyba {resp.status_code}: {resp.text[:1000]}")
+
+    data = resp.json()
+    choices = data.get("choices") or []
+    if not choices:
+        raise RuntimeError(f"OpenRouter nevratil choices: {data}")
+
+    content = choices[0].get("message", {}).get("content", "")
+    if not content:
+        raise RuntimeError(f"OpenRouter vratil prazdnou odpoved: {data}")
+
+    result = parse_json_response_text(content)
+    usage = data.get("usage") or {}
+    if usage:
+        result["_usage"] = usage
+    return result
+
+
+def repair_cmd(args: argparse.Namespace) -> None:
+    input_path = Path(args.input)
+    out_path = Path(args.out)
+    rows = load_jsonl(input_path)
+    all_terms = load_all_glossaries(args.glossary)
+
+    candidates = [
+        r for r in rows
+        if r.get("status") == "translated"
+        and r.get("cs", "").strip()
+        and detect_repair_issues(r)
+    ]
+
+    if args.limit:
+        candidates = candidates[:args.limit]
+
+    print(f"Provider: openrouter")
+    print(f"Model: {args.model}")
+    print(f"Radku k oprave: {len(candidates)}")
+
+    if not candidates:
+        save_jsonl(out_path, rows)
+        print(f"Nic k oprave. Vystup zkopirovan: {out_path}")
+        return
+
+    api_key = args.api_key or os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise SystemExit(
+            "Chybi OpenRouter API key. Nastav ho napr.:\\n"
+            '$env:OPENROUTER_API_KEY="sk-or-v1-..."\\n'
+            "nebo pouzij --api-key."
+        )
+
+    key_to_row = {(r["file"], r["line_no"], r["id"]): r for r in rows}
+
+    done = 0
+    prompt_tokens_total = 0
+    completion_tokens_total = 0
+    total_tokens_total = 0
+
+    for i in range(0, len(candidates), args.batch_size):
+        batch = candidates[i:i + args.batch_size]
+        print(f"Repair batch {i  args.batch_size + 1}: {len(batch)} zaznamu")
+
+        glossary = get_glossary_for_batch(batch, all_terms)
+        try:
+            result = openrouter_repair_batch(
+                batch=batch,
+                model=args.model,
+                glossary=glossary,
+                api_key=api_key,
+                timeout=args.timeout,
+                site_url=args.site_url,
+                app_name=args.app_name,
+            )
+        except Exception as e:
+            print(f"CHYBA v repair batchi: {e}", file=sys.stderr)
+            if args.stop_on_error:
+                raise
+            continue
+
+        usage = result.get("_usage") or {}
+        if usage:
+            prompt_tokens_total += int(usage.get("prompt_tokens") or 0)
+            completion_tokens_total += int(usage.get("completion_tokens") or 0)
+            total_tokens_total += int(usage.get("total_tokens") or 0)
+
+        for item in result.get("items", []):
+            key = (item.get("file"), item.get("line_no"), item.get("id"))
+            row = key_to_row.get(key)
+            if not row:
+                continue
+
+            new_cs = item.get("cs", "")
+            pp = globals().get("postprocess_cs")
+            if callable(pp):
+                new_cs = pp(new_cs)
+
+            row["cs"] = new_cs
+            row["status"] = "translated"
+            row["warnings"] = []
+            row["notes"] = ""
+            done += 1
+
+        save_jsonl(out_path, rows)
+        time.sleep(args.sleep)
+
+    print(f"Opravenoaktualizovano: {done}")
+    print(f"Vystup: {out_path}")
+
+    if prompt_tokens_total or completion_tokens_total or total_tokens_total:
+        print("Token usage podle API:")
+        print(f"  prompt_tokens:     {prompt_tokens_total}")
+        print(f"  completion_tokens: {completion_tokens_total}")
+        print(f"  total_tokens:      {total_tokens_total}")
+
+        if args.input_price_per_m or args.output_price_per_m:
+            estimated_usd = (
+                prompt_tokens_total  1_000_000 * args.input_price_per_m
+                + completion_tokens_total  1_000_000 * args.output_price_per_m
+            )
+            print(f"Odhad ceny pro tento repair beh: ${estimated_usd:.6f}")
+
+def validate_cmd(args: argparse.Namespace) -> None:
+    rows = load_jsonl(Path(args.input))
+    errors = 0
+    warnings = 0
+
+    forbidden_patterns = [
+        re.compile(r"\{[0-9]+\}\{"),
+        re.compile(r"gender_warning", re.IGNORECASE),
+        re.compile(r"meaning_warning", re.IGNORECASE),
+        re.compile(r"glossary_warning", re.IGNORECASE),
+        re.compile(r"\btrue\b", re.IGNORECASE),
+        re.compile(r"\bfalse\b", re.IGNORECASE),
+        re.compile(r"\bline_no\b", re.IGNORECASE),
+        re.compile(r"\bnotes\b", re.IGNORECASE),
+    ]
+
+    qa_warning_patterns = [
+        ("combined_gender_form", re.compile(r"\b\w+\w+\b", re.IGNORECASE)),
+        ("formal_you_vidite", re.compile(r"\bVidíte\b")),
+        ("bad_home_port_zbrojna", re.compile(r"\bzbrojna\b|\bzbrojnu\b|\bzbrojny\b", re.IGNORECASE)),
+        ("bad_cesareo_translation", re.compile(r"\b(Caesar|Císař|Cesář|Cisar)\b", re.IGNORECASE)),
+        ("trailing_comma_after_quote", re.compile(r"[»“\"]\s*,\s*$")),
+        ("cyrillic_in_cs", re.compile(r"[\u0400-\u04FF]")),
+        ("bad_survive_phrase", re.compile(r"\bpřežiješ, nebo zemřeš sám\b", re.IGNORECASE)),
+        ("bad_tesno_testo", re.compile(r"\btěsto\b", re.IGNORECASE)),
+        ("bad_wind_phrase", re.compile(r"větrný vítr", re.IGNORECASE)),
+        ("bad_ap_ab_abbreviation", re.compile(r"\b(AB|AK)\b")),
+        ("bad_hp_bz_abbreviation", re.compile(r"\b(BZ)\b")),
+        ("bad_xp_zb_abbreviation", re.compile(r"\b(ZB)\b")),
+        ("bad_ac_oc_abbreviation", re.compile(r"\b(OČ)\b")),
+    ]
+
+    for r in rows:
+        cs = r.get("cs", "")
+        en = r.get("en", "")
+        if r.get("status") = "translated":
+            continue
+
+        if any(p.search(cs) for p in forbidden_patterns):
+            print(f"ERROR: {r['file']}:{r['line_no']} id={r['id']} podezrely obsah v cs poli: {cs}")
+            errors += 1
+
+        if "{" in cs or "}" in cs:
+            print(f"WARN: {r['file']}:{r['line_no']} id={r['id']} obsahuje zavorky v prekladu: {cs}")
+            warnings += 1
+
+        for label, pattern in qa_warning_patterns:
+            if pattern.search(cs):
+                print(f"WARN: {r['file']}:{r['line_no']} id={r['id']} qa={label}: {cs}")
+                warnings += 1
+
+        if "Spanish" in en and re.search(r"\bčesky\b|\bcesky\b", cs, re.IGNORECASE):
+            print(f"ERROR: {r['file']}:{r['line_no']} id={r['id']} Spanish bylo prelozeno jako cesky: {cs}")
+            errors += 1
+
+        if "No hablo" in en and "Nemluv" in cs:
+            print(f"WARN: {r['file']}:{r['line_no']} id={r['id']} spanelska veta byla prelozena misto ponechani: {cs}")
+            warnings += 1
+
+        if r.get("warnings"):
+            print(f"REVIEW: {r['file']}:{r['line_no']} id={r['id']} warnings={r.get('warnings')} notes={r.get('notes')}")
+            warnings += 1
+
+    print(f"Validace hotova. Errors={errors}, warningsreview={warnings}")
+    if errors:
+        sys.exit(1)
+
+
+def import_cmd(args: argparse.Namespace) -> None:
+    source_root = Path(args.source_root)
+    translated_path = Path(args.translated)
+    out_root = Path(args.out_root)
+
+    rows = load_jsonl(translated_path)
+
+    trans_by_file_line = {}
+    for r in rows:
+        if r.get("cs"):
+            trans_by_file_line[(r["file"], r["line_no"], r["id"])] = r["cs"]
+
+    changed_files = 0
+    changed_lines = 0
+
+    for src_file in iter_msg_files(source_root):
+        rel = src_file.relative_to(source_root).as_posix()
+        lines = read_text_guess(src_file).splitlines(keepends=True)
+        new_lines = []
+        file_changed = False
+
+        for line_no, line in enumerate(lines, start=1):
+            parsed = parse_msg_line(line)
+            if not parsed:
+                new_lines.append(line)
+                continue
+
+            key = (rel, line_no, parsed["id"])
+            if key in trans_by_file_line:
+                new_lines.append(build_msg_line(parsed, trans_by_file_line[key]))
+                file_changed = True
+                changed_lines += 1
+            else:
+                new_lines.append(line)
+
+        out_file = out_root  rel
+        write_text_utf8(out_file, "".join(new_lines))
+        if file_changed:
+            changed_files += 1
+
+    print(f"Import hotov: {out_root}")
+    print(f"Zmenenych souboru: {changed_files}")
+    print(f"Zmenenych radku: {changed_lines}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Fallout Sonora .msg AI localization helper")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p = sub.add_parser("export", help=".msg -> JSONL")
+    p.add_argument("--en-root", required=True)
+    p.add_argument("--ru-root", required=False)
+    p.add_argument("--out", required=True)
+    p.set_defaults(func=export_cmd)
+
+    p = sub.add_parser("translate", help="Translate JSONL with Ollama or OpenRouter")
+    p.add_argument("--input", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--glossary", required=False)
+    p.add_argument("--category", required=False, help="Filter by category (e.g. game_combat)")
+
+    p.add_argument("--provider", choices=["ollama", "openrouter"], default="ollama")
+    p.add_argument("--model", default="deepseek-r1:8b")
+
+    p.add_argument("--host", default="http:localhost:11434")
+
+    p.add_argument("--api-key", default=None)
+    p.add_argument("--timeout", type=int, default=300)
+    p.add_argument("--site-url", default=None)
+    p.add_argument("--app-name", default="Fallout Sonora CZ Translator")
+
+    p.add_argument("--input-price-per-m", type=float, default=0.0)
+    p.add_argument("--output-price-per-m", type=float, default=0.0)
+
+    p.add_argument("--limit", type=int, default=20)
+    p.add_argument("--batch-size", type=int, default=10)
+    p.add_argument("--sleep", type=float, default=0.5)
+    p.add_argument("--stop-on-error", action="store_true")
+    p.set_defaults(func=translate_cmd)
+
+
+    p = sub.add_parser("repair", help="Repair rows flagged by local QA validation")
+    p.add_argument("--input", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--glossary", required=False)
+    p.add_argument("--model", default="qwenqwen3-235b-a22b-2507")
+    p.add_argument("--api-key", default=None)
+    p.add_argument("--timeout", type=int, default=300)
+    p.add_argument("--site-url", default=None)
+    p.add_argument("--app-name", default="Fallout Sonora CZ Repair")
+    p.add_argument("--input-price-per-m", type=float, default=0.0)
+    p.add_argument("--output-price-per-m", type=float, default=0.0)
+    p.add_argument("--limit", type=int, default=0)
+    p.add_argument("--batch-size", type=int, default=10)
+    p.add_argument("--sleep", type=float, default=0.5)
+    p.add_argument("--stop-on-error", action="store_true")
+    p.set_defaults(func=repair_cmd)
+
+    p = sub.add_parser("validate", help="Validate translated JSONL")
+    p.add_argument("--input", required=True)
+    p.set_defaults(func=validate_cmd)
+
+    p = sub.add_parser("import", help="JSONL -> .msg tree")
+    p.add_argument("--source-root", required=True)
+    p.add_argument("--translated", required=True)
+    p.add_argument("--out-root", required=True)
+    p.set_defaults(func=import_cmd)
+
+    args = parser.parse_args()
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()
+
+
+def detect_repair_issues(row: Dict[str, Any]) -> List[str]:
+    cs = row.get("cs", "") or ""
+    en = row.get("en", "") or ""
+    
+    if not cs or not cs.strip():
+        return []
+    issues = []
+    
+    # Zakázané vzory (Forbidden)
+    if re.search(r"\{[0-9]+\}\{", cs):
+        issues.append("forbidden_brace_format")
+    if re.search(r"gender_warning|meaning_warning|glossary_warning|\btrue\b|\bfalse\b|\bline_no\b|\bnotes\b", cs, re.IGNORECASE):
+        issues.append("metadata_in_cs")
+    if "{" in cs or "}" in cs:
+        issues.append("brace_in_cs")
+        
+    # QA varování (Warnings)
+    if re.search(r"\b\w+/\w+\b", cs):
+        issues.append("combined_gender_form")
+    if re.search(r"\bVidíte\b", cs):
+        issues.append("formal_you_vidite")
+    if re.search(r"\bzbrojna\b|\bzbrojnu\b|\bzbrojny\b", cs, re.IGNORECASE):
+        issues.append("bad_home_port_zbrojna")
+    if re.search(r"\b(Caesar|Císař|Cesář|Cisar)\b", cs, re.IGNORECASE):
+        issues.append("bad_cesareo_translation")
+    if re.search(r"[»“\"]\s*,\s*$", cs):
+        issues.append("trailing_comma_after_quote")
+    if re.search(r"[\u0400-\u04FF]", cs):
+        issues.append("cyrillic_in_cs")
+
+    # Haiku Hard Brakes
+    if en.strip() == "-" and cs.strip() != "-":
+        issues.append("dash_translated")
+    if re.search(r"\b(Library|Base|Cave|Jackals)\b", cs, re.IGNORECASE):
+        issues.append("english_leftovers")
+    if re.search(r"(?i)stimpak[úu]|zátk[ui]|záti?ku", cs):
+        issues.append("bad_morphology")
+    
+    # Negation check
+    if re.search(r"\b(don't|not|never|no)\b", en, re.IGNORECASE):
+        if not re.search(r"\bne[a-z]+\b", cs, re.IGNORECASE) and not re.search(r"\bne\b", cs, re.IGNORECASE):
+            issues.append("missing_negation")
+
+    if re.search(r"\bpřežiješ, nebo zemřeš sám\b", cs, re.IGNORECASE):
+        issues.append("bad_survive_phrase")
+    if re.search(r"\btěsto\b", cs, re.IGNORECASE):
+        issues.append("bad_tesno_testo")
+    if re.search(r"větrný vítr", cs, re.IGNORECASE):
+        issues.append("bad_wind_phrase")
+        
+    # False Friends (ChatGPT návrhy)
+    if "on fire" in en.lower() and re.search(r"\bpalbě\b|\bpalbu\b", cs, re.IGNORECASE):
+        issues.append("bad_on_fire_translation")
+    if "gold" in en.lower() and re.search(r"\bgoldem\b", cs, re.IGNORECASE):
+        issues.append("bad_goldem_translation")
+    if re.search(r"\bkryštkami\b|\bkryštky\b", cs, re.IGNORECASE):
+        issues.append("bad_krystky_translation")
+    if "fair winds" in en.lower() and "fair winds" in cs.lower():
+        issues.append("bad_fair_winds")
+        
+    # Spanish pravidla
+    if "Spanish" in en and re.search(r"\bčesky\b|\bcesky\b", cs, re.IGNORECASE):
+        issues.append("spanish_as_czech")
+    if "No hablo" in en and "Nemluv" in cs:
+        issues.append("translated_spanish_flavor")
+        
+    # Fallout mechanics abbreviations
+    if re.search(r"\b(AB|AK)\b", cs):
+        issues.append("bad_ap_ab_abbreviation")
+    if re.search(r"\b(BZ)\b", cs):
+        issues.append("bad_hp_bz_abbreviation")
+    if re.search(r"\b(ZB)\b", cs):
+        issues.append("bad_xp_zb_abbreviation")
+    if re.search(r"\b(OČ)\b", cs):
+        issues.append("bad_ac_oc_abbreviation")
+        
+    return sorted(set(issues))
+
+
