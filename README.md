@@ -36,6 +36,17 @@ flowchart TD
 
 ---
 
+## 🏛️ Preservation of Classic Fallout 1 & 2 Czech Translations
+
+A fundamental guiding principle of this project was **deep respect for the legacy of the original Czech fan translators of Fallout 1 and Fallout 2**. 
+
+Rather than re-inventing terms or relying on generic modern machine vocabulary, our pipeline actively prioritized:
+* **Canonical Terminology:** Strictly aligning names of weapons, armor, items, perks, skills, traits, and SPECIAL stats with the classic Czech translations established in Fallout 1 and 2.
+* **Atmospheric Slang & Tone:** Preserving the dry, gritty, dark, and post-apocalyptic humor and phrasing characteristic of the original Czech localizations.
+* **Consistency:** Forcing the AI models to adhere to pre-compiled TSV dictionaries extracted directly from the original Czech Fallout 1/2 dialogue and game files.
+
+---
+
 ## 🛠️ Key System Components
 
 ### 1. Pip-Boy Web GUI (`translation_server.py` + `05_scripts/gui/index.html`)
@@ -124,6 +135,7 @@ Automatically scans translated lines for typical AI translation artifacts:
 ---
 
 ## 🤝 Credits & Acknowledgments
+* **Original Czech Translators of Fallout 1 & 2** for creating the iconic, atmospheric Czech terminology and post-apocalyptic slang that we all grew up with.
 * **Nevada Band Studio** for creating the amazing *Fallout: Sonora* mod.
 * **RetroGameplay CZ** for completing and releasing the full Czech translation on [Lokalizace.net](https://lokalizace.net).
 * Released under the MIT / Public Domain license for the classic Fallout modding community.

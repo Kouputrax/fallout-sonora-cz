@@ -36,6 +36,17 @@ flowchart TD
 
 ---
 
+## 🏛️ Zachování odkazu původních překladů Falloutu 1 a 2
+
+Zásadním pilířem celého projektu byla **maximální úcta a snaha o zachování práce původních překladatelů klasických dílů Fallout 1 a 2 do češtiny**.
+
+Místo vymýšlení nových pojmů nebo spoléhání se na generický moderní slovník náš systém aktivně dbal na:
+* **Kanonickou terminologii:** Striktní sjednocení názvů zbraní, brnění, předmětů, perků, dovedností, vlastností a SPECIAL statistik podle legendárních českých překladů Falloutu 1 a 2.
+* **Atmosférický slang a tón:** Zachování suchého, drsného, černého a postapokalyptického humoru a mluvy, které jsou pro klasickou českou lokalizaci typické.
+* **Konzistenci:** Vymáhání předem sestavených TSV glosářů vytěžených přímo z původních českých herních databází a dialogů.
+
+---
+
 ## 🛠️ Klíčové komponenty systému
 
 ### 1. Pip-Boy Webové rozhraní (`translation_server.py` + `05_scripts/gui/index.html`)
@@ -126,6 +137,7 @@ Kontroluje text na desítky specifických chyb, které AI generuje:
 ---
 
 ## 🤝 Poděkování a licence
-* Vývojářům modu **Fallout: Sonora** (Nevada Band) za fantastickou hru.
-* Skupině **RetroGameplay CZ** za dokončení a vydání plné české lokalizace na [Lokalizace.net](https://lokalizace.net).
+* **Původním českým překladatelům Falloutu 1 a 2** za vytvoření ikonického názvosloví a nezaměnitelného postapokalyptického slangu, na kterém celá česká komunita vyrostla.
+* **Vývojářům modu Fallout: Sonora** (Nevada Band) za fantastickou hru.
+* **Skupině RetroGameplay CZ** za dokončení a vydání plné české lokalizace na [Lokalizace.net](https://lokalizace.net).
 * Kód a nástroje v tomto repozitáři jsou volně k dispozici pod licencí MIT / Public Domain komunitě fanoušků klasického Falloutu.
